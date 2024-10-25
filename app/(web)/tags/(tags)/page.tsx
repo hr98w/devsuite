@@ -55,7 +55,7 @@ export default async function Tags({ searchParams }: PageProps) {
         <IntroDescription>{description}</IntroDescription>
       </Intro>
 
-      <Grid>
+      <Grid className="md:gap-8">
         {tags.map(tag => (
           <TagCard key={tag.id} tag={tag} />
         ))}

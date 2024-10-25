@@ -17,7 +17,7 @@ export default function Loading() {
         </IntroDescription>
       </Intro>
 
-      <Grid>
+      <Grid className="md:gap-8">
         {[...Array(24)].map((_, index) => (
           <TagSkeleton key={index} />
         ))}
