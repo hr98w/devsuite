@@ -11,7 +11,6 @@ type Events = {
   "tool.scheduled": { data: ToolEventData }
   "tool.published": { data: ToolEventData }
   "tool.deleted": { data: ToolEventData }
-  "newsletter.subscribed": { data: NewsletterEventData }
 }
 
 export const inngest = new Inngest({

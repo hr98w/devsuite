@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { Suspense } from "react"
 import { DataTableSkeleton } from "~/components/admin/data-table/data-table-skeleton"
 import { searchParamsSchema } from "~/schema/search-params"
@@ -5,7 +6,15 @@ import type { SearchParams } from "~/types"
 import { CollectionsTable } from "./_components/collections-table"
 import { getCollections } from "./_lib/queries"
 
-export default async function CollectionsPage({ searchParams }: { searchParams: SearchParams }) {
+type PageProps = {
+  searchParams: SearchParams
+}
+
+export const metadata: Metadata = {
+  title: "Collections",
+}
+
+export default async function CollectionsPage({ searchParams }: PageProps) {
   const search = searchParamsSchema.parse(await searchParams)
   const collectionsPromise = getCollections(search)
 

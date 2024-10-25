@@ -1,6 +1,8 @@
 import { getUrlHostname } from "@curiousleaf/utils"
 import { formatDistanceToNowStrict } from "date-fns"
 import { ArrowUpRightIcon, DollarSignIcon, HashIcon, SparkleIcon } from "lucide-react"
+import type { Metadata } from "next"
+import type { OpenGraph } from "next/dist/lib/metadata/types/opengraph-types"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { Suspense } from "react"
@@ -18,15 +20,40 @@ import { FaviconImage } from "~/components/web/ui/favicon"
 import { Gallery } from "~/components/web/ui/gallery"
 import { IntroDescription } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
+import { parseMetadata } from "~/utils/metadata"
 
-type Params = Promise<{ slug: string }>
+type PageProps = {
+  params: Promise<{ slug: string }>
+}
 
-export async function generateStaticParams() {
+export const generateStaticParams = async () => {
   const tools = await findToolSlugs({})
   return tools.map(({ slug }) => ({ slug }))
 }
 
-export default async function ToolPage({ params }: { params: Params }) {
+export const generateMetadata = async ({ params }: PageProps): Promise<Metadata | undefined> => {
+  const { slug } = await params
+  const tool = await findUniqueTool({ where: { slug } })
+  const url = `/tools/${slug}`
+
+  if (!tool) {
+    return
+  }
+
+  const title = `${tool.name}: ${tool.tagline}`
+  const description = tool.description || ""
+  const images: OpenGraph["images"] = [{ url: `${url}.png`, width: 1200, height: 630 }]
+
+  return parseMetadata({
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: { url, images },
+    twitter: { images },
+  })
+}
+
+export default async function ToolPage({ params }: PageProps) {
   const { slug } = await params
   const tool = await findUniqueTool({ where: { slug } })
 
@@ -62,7 +89,11 @@ export default async function ToolPage({ params }: { params: Params }) {
           <Stack size="lg" className="relative w-full justify-between">
             <Stack size="lg">
               {tool.faviconUrl && (
-                <FaviconImage src={tool.faviconUrl} className="size-10 rounded-md" />
+                <FaviconImage
+                  src={tool.faviconUrl}
+                  title={tool.name}
+                  className="size-10 rounded-md"
+                />
               )}
 
               <H2 as="h1" className="!leading-snug -my-1.5">
@@ -112,7 +143,11 @@ export default async function ToolPage({ params }: { params: Params }) {
           )} */}
         </div>
 
-        {tool.screenshotUrl && <Gallery images={[tool.screenshotUrl]} />}
+        {tool.screenshotUrl && (
+          <Gallery
+            images={[{ url: tool.screenshotUrl, alt: `Screenshot of ${tool.name} website` }]}
+          />
+        )}
 
         {tool.content && <Markdown>{tool.content}</Markdown>}
 

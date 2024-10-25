@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { ToolActions } from "~/app/admin/(dashboard)/tools/_components/tool-actions"
 import { ToolForm } from "~/app/admin/(dashboard)/tools/_components/tool-form"
@@ -6,13 +7,25 @@ import {
   getCollections,
   getTags,
   getToolBySlug,
+  getToolSlugs,
 } from "~/app/admin/(dashboard)/tools/_lib/queries"
 import { Wrapper } from "~/components/admin/ui/wrapper"
 import { H4 } from "~/components/common/heading"
 
-type Params = Promise<{ slug: string }>
+type PageProps = {
+  params: Promise<{ slug: string }>
+}
 
-export default async function UpdateToolPage({ params }: { params: Params }) {
+export const generateStaticParams = async () => {
+  const tools = await getToolSlugs()
+  return tools.map(({ slug }) => ({ slug }))
+}
+
+export const metadata: Metadata = {
+  title: "Update tool",
+}
+
+export default async function UpdateToolPage({ params }: PageProps) {
   const { slug } = await params
 
   const [tool, categories, collections, tags] = await Promise.all([

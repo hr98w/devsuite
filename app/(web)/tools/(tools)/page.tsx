@@ -1,4 +1,6 @@
 import type { Prisma } from "@prisma/client"
+import type { Metadata } from "next"
+import { cache } from "react"
 import { countTools, findTools } from "~/api/tools/queries"
 import { ToolFilters } from "~/app/(web)/tools/(tools)/filters"
 import { ToolCard } from "~/components/web/cards/tool-card"
@@ -9,8 +11,30 @@ import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
 import { toolSearchParamsCache } from "~/lib/search-params"
 import type { SearchParams } from "~/types"
+import { parseMetadata } from "~/utils/metadata"
 
-export default async function ToolsPage({ searchParams }: { searchParams: SearchParams }) {
+type PageProps = {
+  searchParams: SearchParams
+}
+
+const getMetadata = cache(
+  (metadata?: Metadata): Metadata => ({
+    ...metadata,
+    title: "Browse Top Developer Tools",
+    description:
+      "Browse top developer tools. Stop wasting time and money by developing tools that already exist.",
+  }),
+)
+
+export const metadata = parseMetadata(
+  getMetadata({
+    alternates: { canonical: "/tools" },
+    openGraph: { url: "/tools" },
+  }),
+)
+
+export default async function ToolsPage({ searchParams }: PageProps) {
+  const { title, description } = getMetadata()
   const { q, page, sort, perPage } = toolSearchParamsCache.parse(await searchParams)
 
   const skip = (page - 1) * perPage
@@ -44,12 +68,8 @@ export default async function ToolsPage({ searchParams }: { searchParams: Search
   return (
     <Wrapper>
       <Intro alignment="center" className="max-w-2xl mx-auto text-pretty">
-        <IntroTitle className="!leading-none">Browse Top Developer Tools</IntroTitle>
-
-        <IntroDescription>
-          Browse top developer tools. Stop wasting time and money by developing tools that already
-          exist.
-        </IntroDescription>
+        <IntroTitle>{title?.toString()}</IntroTitle>
+        <IntroDescription>{description}</IntroDescription>
       </Intro>
 
       <div className="flex flex-col gap-6 lg:gap-8">

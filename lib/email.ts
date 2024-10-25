@@ -10,7 +10,7 @@ export type EmailParams = {
   react: ReactElement
 }
 
-export async function sendEmails(emails: EmailParams | EmailParams[]) {
+export const sendEmails = async (emails: EmailParams | EmailParams[]) => {
   const emailArray = Array.isArray(emails) ? emails : [emails]
 
   const emailPromises = emailArray.map(async ({ to, subject, react }) => ({

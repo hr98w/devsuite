@@ -25,7 +25,7 @@ export default async function Home() {
   return (
     <>
       <Intro alignment="center" className="mb-[2.5vh] text-pretty">
-        <IntroTitle className="max-w-2xl">{config.site.tagline}</IntroTitle>
+        <IntroTitle className="max-w-2xl">{config.site.tagline} 🚀</IntroTitle>
         <IntroDescription>{config.site.description}</IntroDescription>
 
         <NewsletterForm

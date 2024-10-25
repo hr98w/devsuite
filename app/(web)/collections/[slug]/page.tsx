@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { findCollectionSlugs, findUniqueCollection } from "~/api/collections/queries"
 import { findTools } from "~/api/tools/queries"
@@ -6,15 +7,34 @@ import { EmptyList } from "~/components/web/empty-list"
 import { Grid } from "~/components/web/ui/grid"
 import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
+import { parseMetadata } from "~/utils/metadata"
 
-type Params = Promise<{ slug: string }>
+type PageProps = {
+  params: Promise<{ slug: string }>
+}
 
-export async function generateStaticParams() {
+export const generateStaticParams = async () => {
   const collections = await findCollectionSlugs({})
   return collections.map(({ slug }) => ({ slug }))
 }
 
-export default async function CollectionPage({ params }: { params: Params }) {
+export const generateMetadata = async ({ params }: PageProps): Promise<Metadata | undefined> => {
+  const { slug } = await params
+  const collection = await findUniqueCollection({ where: { slug } })
+  const url = `/collections/${slug}`
+
+  if (!collection) {
+    return
+  }
+
+  return parseMetadata({
+    title: collection.name,
+    alternates: { canonical: url },
+    openGraph: { url },
+  })
+}
+
+export default async function CollectionPage({ params }: PageProps) {
   const { slug } = await params
 
   const [collection, tools] = await Promise.all([

@@ -58,6 +58,15 @@ export async function getCategories(input: GetCategoriesSchema) {
   }
 }
 
+export async function getCategorySlugs() {
+  noStore()
+  try {
+    return await prisma.category.findMany({ select: { slug: true } })
+  } catch (err) {
+    return []
+  }
+}
+
 export async function getTools() {
   noStore()
   try {

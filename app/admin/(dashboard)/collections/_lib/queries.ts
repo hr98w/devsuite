@@ -58,6 +58,15 @@ export async function getCollections(input: GetCollectionsSchema) {
   }
 }
 
+export async function getCollectionSlugs() {
+  noStore()
+  try {
+    return await prisma.collection.findMany({ select: { slug: true } })
+  } catch (err) {
+    return []
+  }
+}
+
 export async function getTools() {
   noStore()
   try {

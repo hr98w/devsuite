@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import type { PropsWithChildren } from "react"
 import { Footer } from "~/components/web/footer"
 import { Header } from "~/components/web/header"
@@ -6,8 +7,15 @@ import { Container } from "~/components/web/ui/container"
 import { Stars } from "~/components/web/ui/stars"
 import { Toaster } from "~/components/web/ui/toaster"
 import { Wrapper } from "~/components/web/ui/wrapper"
+import { config } from "~/config"
+import { parseMetadata } from "~/utils/metadata"
 
 import "./styles.css"
+
+export const metadata: Metadata = {
+  metadataBase: new URL(config.site.url),
+  ...parseMetadata({}),
+}
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (

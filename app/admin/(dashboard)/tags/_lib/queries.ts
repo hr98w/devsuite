@@ -58,6 +58,15 @@ export async function getTags(input: GetTagsSchema) {
   }
 }
 
+export async function getTagSlugs() {
+  noStore()
+  try {
+    return await prisma.tag.findMany({ select: { slug: true } })
+  } catch (err) {
+    return []
+  }
+}
+
 export async function getTools() {
   noStore()
   try {

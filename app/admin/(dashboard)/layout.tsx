@@ -1,10 +1,20 @@
+import type { Metadata } from "next"
 import { cookies } from "next/headers"
 import type { PropsWithChildren } from "react"
 import { CommandMenu } from "~/components/admin/command-menu"
 import { Shell } from "~/components/admin/shell"
 import { Toaster } from "~/components/admin/ui/toaster"
+import { config } from "~/config"
 import { prisma } from "~/services/prisma"
 import { Providers } from "./providers"
+
+export const metadata: Metadata = {
+  metadataBase: new URL(`${config.site.url}/admin`),
+  title: {
+    default: `${config.site.name} Admin`,
+    template: `%s | ${config.site.name} Admin`,
+  },
+}
 
 export default async function DashboardLayout({ children }: PropsWithChildren) {
   const cookieStore = await cookies()

@@ -35,7 +35,7 @@ export const toolSchema = z.object({
   xHandle: z.string().optional(),
   submitterName: z.string().optional(),
   submitterEmail: z.string().email("Invalid email").optional(),
-  publishedAt: z.date().nullable(),
+  publishedAt: z.date().optional(),
   categories: z.array(z.string()).optional(),
   collections: z.array(z.string()).optional(),
   tags: z.array(z.string()).optional(),

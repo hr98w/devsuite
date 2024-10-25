@@ -113,6 +113,10 @@ export const uploadScreenshot = async (url: string, s3Key: string): Promise<stri
     cache: "true",
     cache_ttl: "2592000",
 
+    // Emulations
+    dark_mode: "true",
+    reduced_motion: "true",
+
     // Blockers
     delay: "3",
     block_ads: "true",

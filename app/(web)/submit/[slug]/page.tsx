@@ -1,7 +1,9 @@
+import type { Tool } from "@prisma/client"
 import { GiftIcon } from "lucide-react"
+import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { Suspense } from "react"
+import { Suspense, cache } from "react"
 import { findUniqueTool } from "~/api/tools/queries"
 import { SubmitProducts } from "~/app/(web)/submit/[slug]/products"
 import { Prose } from "~/components/common/prose"
@@ -12,42 +14,60 @@ import { Ping } from "~/components/web/ui/ping"
 import { Wrapper } from "~/components/web/ui/wrapper"
 import { config } from "~/config"
 import { isToolPublished } from "~/lib/tools"
+import { parseMetadata } from "~/utils/metadata"
 
-type Params = Promise<{ slug: string }>
+type PageProps = {
+  params: Promise<{ slug: string }>
+}
 
-export default async function SubmitPackages({ params }: { params: Params }) {
+const getMetadata = cache((tool: Tool, metadata?: Metadata): Metadata => {
+  if (isToolPublished(tool)) {
+    return {
+      ...metadata,
+      title: `Boost ${tool.name}'s Visibility`,
+      description: `You can upgrade ${tool.name}'s listing on ${config.site.name} to benefit from a featured badge, a prominent placement, and a do-follow link.`,
+    }
+  }
+
+  return {
+    ...metadata,
+    title: "Choose a submission package",
+    description: `Maximize ${tool.name}'s impact from day one. Select a package that suits your goals - from free listing to premium features.`,
+  }
+})
+
+export const generateMetadata = async ({ params }: PageProps): Promise<Metadata | undefined> => {
   const { slug } = await params
+  const tool = await findUniqueTool({ where: { slug, publishedAt: undefined, isFeatured: false } })
+  const url = `/submit/${slug}`
 
-  const tool = await findUniqueTool({
-    where: { slug, publishedAt: undefined, isFeatured: false },
-  })
+  if (!tool) {
+    return
+  }
+
+  return parseMetadata(
+    getMetadata(tool, {
+      alternates: { canonical: url },
+      openGraph: { url },
+    }),
+  )
+}
+
+export default async function SubmitPackages({ params }: PageProps) {
+  const { slug } = await params
+  const tool = await findUniqueTool({ where: { slug, publishedAt: undefined, isFeatured: false } })
 
   if (!tool) {
     notFound()
   }
 
+  const { title, description } = getMetadata(tool)
+
   return (
     <Wrapper>
       <Intro alignment="center">
-        {isToolPublished(tool) ? (
-          <>
-            <IntroTitle>Boost {tool.name}'s Visibility</IntroTitle>
-
-            <IntroDescription>
-              You can upgrade {tool.name}'s listing on {config.site.name} to benefit from a featured
-              badge, a prominent placement, and a do-follow link.
-            </IntroDescription>
-          </>
-        ) : (
-          <>
-            <IntroTitle>Choose a submission package</IntroTitle>
-
-            <IntroDescription>
-              Maximize {tool.name}'s impact from day one. Select a package that suits your goals -
-              from free listing to premium features.
-            </IntroDescription>
-          </>
-        )}
+        <IntroTitle>{title?.toString()}</IntroTitle>
+        <IntroDescription>{description}</IntroDescription>
 
         <Badge
           size="lg"

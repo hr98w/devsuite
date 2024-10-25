@@ -1,5 +1,10 @@
-import { type HTMLAttributes, forwardRef } from "react"
-import { H3 } from "~/components/common/heading"
+import {
+  type ComponentPropsWithoutRef,
+  type ElementRef,
+  type HTMLAttributes,
+  forwardRef,
+} from "react"
+import { Heading } from "~/components/common/heading"
 import { cx } from "~/utils/cva"
 
 const Card = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
@@ -20,8 +25,8 @@ const CardHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
 )
 CardHeader.displayName = "CardHeader"
 
-const CardTitle = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLHeadingElement>>(
-  ({ ...props }, ref) => <H3 ref={ref} {...props} />,
+const CardTitle = forwardRef<ElementRef<typeof Heading>, ComponentPropsWithoutRef<typeof Heading>>(
+  ({ size = "h3", ...props }, ref) => <Heading ref={ref} size={size} {...props} />,
 )
 CardTitle.displayName = "CardTitle"
 

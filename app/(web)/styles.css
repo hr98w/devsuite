@@ -81,7 +81,6 @@
 
 * {
   @apply border-foreground/15;
-  @apply min-w-0;
 }
 
 a,

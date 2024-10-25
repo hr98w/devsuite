@@ -34,7 +34,7 @@ export const ToolCard = ({ tool, ...props }: ToolCardProps) => {
 
         <div className="w-full flex gap-3 items-center justify-between">
           <H4>{tool.name}</H4>
-          {tool.faviconUrl && <Favicon src={tool.faviconUrl} />}
+          {tool.faviconUrl && <Favicon src={tool.faviconUrl} title={tool.name} />}
         </div>
 
         {tool.tagline && <CardDescription>{tool.tagline}</CardDescription>}

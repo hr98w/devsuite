@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { Suspense } from "react"
 import { DataTableSkeleton } from "~/components/admin/data-table/data-table-skeleton"
 import { searchParamsSchema } from "~/schema/search-params"
@@ -5,7 +6,15 @@ import type { SearchParams } from "~/types"
 import { ToolsTable } from "./_components/tools-table"
 import { getTools } from "./_lib/queries"
 
-export default async function ToolsPage({ searchParams }: { searchParams: SearchParams }) {
+type PageProps = {
+  searchParams: SearchParams
+}
+
+export const metadata: Metadata = {
+  title: "Tools",
+}
+
+export default async function ToolsPage({ searchParams }: PageProps) {
   const search = searchParamsSchema.parse(await searchParams)
   const toolsPromise = getTools(search)
 

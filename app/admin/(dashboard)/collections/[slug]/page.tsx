@@ -1,13 +1,29 @@
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { CollectionActions } from "~/app/admin/(dashboard)/collections/_components/collection-actions"
 import { CollectionForm } from "~/app/admin/(dashboard)/collections/_components/collection-form"
-import { getCollectionBySlug, getTools } from "~/app/admin/(dashboard)/collections/_lib/queries"
+import {
+  getCollectionBySlug,
+  getCollectionSlugs,
+  getTools,
+} from "~/app/admin/(dashboard)/collections/_lib/queries"
 import { Wrapper } from "~/components/admin/ui/wrapper"
 import { H4 } from "~/components/common/heading"
 
-type Params = Promise<{ slug: string }>
+type PageProps = {
+  params: Promise<{ slug: string }>
+}
 
-export default async function UpdateCollectionPage({ params }: { params: Params }) {
+export const metadata: Metadata = {
+  title: "Update collection",
+}
+
+export const generateStaticParams = async () => {
+  const collections = await getCollectionSlugs()
+  return collections.map(({ slug }) => ({ slug }))
+}
+
+export default async function UpdateCollectionPage({ params }: PageProps) {
   const { slug } = await params
   const [collection, tools] = await Promise.all([getCollectionBySlug(slug), getTools()])
 

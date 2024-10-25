@@ -1,5 +1,4 @@
 import { serve } from "inngest/next"
-import { newsletterSubscribed } from "~/functions/newsletter-subscribed"
 import { toolDeleted } from "~/functions/tool-deleted"
 import { toolExpedited } from "~/functions/tool-expedited"
 import { toolFeatured } from "~/functions/tool-featured"
@@ -17,6 +16,5 @@ export const { GET, POST, PUT } = serve({
     toolSubmitted,
     toolExpedited,
     toolFeatured,
-    newsletterSubscribed,
   ],
 })

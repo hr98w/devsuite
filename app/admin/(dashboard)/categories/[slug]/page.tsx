@@ -1,13 +1,29 @@
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { CategoryActions } from "~/app/admin/(dashboard)/categories/_components/category-actions"
 import { CategoryForm } from "~/app/admin/(dashboard)/categories/_components/category-form"
-import { getCategoryBySlug, getTools } from "~/app/admin/(dashboard)/categories/_lib/queries"
+import {
+  getCategoryBySlug,
+  getCategorySlugs,
+  getTools,
+} from "~/app/admin/(dashboard)/categories/_lib/queries"
 import { Wrapper } from "~/components/admin/ui/wrapper"
 import { H4 } from "~/components/common/heading"
 
-type Params = Promise<{ slug: string }>
+type PageProps = {
+  params: Promise<{ slug: string }>
+}
 
-export default async function UpdateCategoryPage({ params }: { params: Params }) {
+export const metadata: Metadata = {
+  title: "Update category",
+}
+
+export const generateStaticParams = async () => {
+  const categories = await getCategorySlugs()
+  return categories.map(({ slug }) => ({ slug }))
+}
+
+export default async function UpdateCategoryPage({ params }: PageProps) {
   const { slug } = await params
   const [category, tools] = await Promise.all([getCategoryBySlug(slug), getTools()])
 
