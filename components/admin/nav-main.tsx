@@ -4,17 +4,18 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import type { ComponentProps, ReactNode } from "react"
 import { Badge } from "~/components/admin/ui/badge"
-import { Button } from "~/components/admin/ui/button"
+import { Button, type ButtonProps } from "~/components/admin/ui/button"
 import { Tooltip, TooltipContent, TooltipTrigger } from "~/components/admin/ui/tooltip"
 
-interface NavMainProps extends ComponentProps<"nav"> {
+type NavMainLink = ButtonProps & {
+  title: string
+  href: string
+  label?: ReactNode
+}
+
+type NavMainProps = ComponentProps<"nav"> & {
   isCollapsed: boolean
-  links: {
-    title: string
-    href: string
-    label?: ReactNode
-    icon: ReactNode
-  }[]
+  links: NavMainLink[]
 }
 
 export const NavMain = ({ className, links, isCollapsed, ...props }: NavMainProps) => {
@@ -34,16 +35,16 @@ export const NavMain = ({ className, links, isCollapsed, ...props }: NavMainProp
 
   return (
     <>
-      {links.map(({ href, title, icon, label }, index) =>
+      {links.map(({ href, title, label, ...props }, index) =>
         isCollapsed ? (
           <Tooltip key={index}>
             <TooltipTrigger asChild>
               <Button
                 size="sm"
                 variant={getButtonVariant(href)}
-                prefix={icon}
                 aria-label={title}
                 asChild
+                {...props}
               >
                 <Link href={href} />
               </Button>
@@ -58,7 +59,6 @@ export const NavMain = ({ className, links, isCollapsed, ...props }: NavMainProp
           <Button
             key={index}
             variant={getButtonVariant(href)}
-            prefix={icon}
             suffix={
               label && (
                 <Badge variant="outline" className="ml-auto px-1.5 size-auto">
@@ -68,6 +68,7 @@ export const NavMain = ({ className, links, isCollapsed, ...props }: NavMainProp
             }
             className="justify-start"
             asChild
+            {...props}
           >
             <Link href={href}>{title}</Link>
           </Button>

@@ -29,8 +29,8 @@ export default auth(req => {
     }
   }
 
-  if (!req.auth && pathname.includes("/admin") && !pathname.includes("/login")) {
-    return NextResponse.redirect(new URL("/admin/login", req.url))
+  if (!req.auth && pathname.includes("/admin")) {
+    return NextResponse.redirect(new URL("/login", req.url))
   }
 
   return NextResponse.next()

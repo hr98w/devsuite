@@ -9,6 +9,7 @@ import {
   ShapesIcon,
   TagIcon,
 } from "lucide-react"
+import { signOut } from "next-auth/react"
 import * as React from "react"
 import { Nav } from "~/components/admin/nav"
 import { NavMain } from "~/components/admin/nav-main"
@@ -74,7 +75,7 @@ export function Shell({
               {
                 title: "Dashboard",
                 href: "/admin",
-                icon: <LayoutDashboardIcon />,
+                prefix: <LayoutDashboardIcon />,
               },
             ]}
           />
@@ -90,25 +91,25 @@ export function Shell({
                 title: "Tools",
                 href: "/admin/tools",
                 label: stats[0].toString(),
-                icon: <GemIcon />,
+                prefix: <GemIcon />,
               },
               {
                 title: "Categories",
                 href: "/admin/categories",
                 label: stats[1].toString(),
-                icon: <ShapesIcon />,
+                prefix: <ShapesIcon />,
               },
               {
                 title: "Collections",
                 href: "/admin/collections",
                 label: stats[2].toString(),
-                icon: <LibraryIcon />,
+                prefix: <LibraryIcon />,
               },
               {
                 title: "Tags",
                 href: "/admin/tags",
                 label: stats[3].toString(),
-                icon: <TagIcon />,
+                prefix: <TagIcon />,
               },
             ]}
           />
@@ -121,12 +122,13 @@ export function Shell({
               {
                 title: "Visit Site",
                 href: siteConfig.url,
-                icon: <GlobeIcon />,
+                prefix: <GlobeIcon />,
               },
               {
                 title: "Sign Out",
-                href: "/admin/sign-out",
-                icon: <LogOutIcon />,
+                href: "#",
+                onClick: () => signOut(),
+                prefix: <LogOutIcon />,
               },
             ]}
           />
