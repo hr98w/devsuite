@@ -8,8 +8,8 @@ import { Pagination } from "~/components/web/pagination"
 import { Grid } from "~/components/web/ui/grid"
 import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
-import { searchParamsCache } from "~/lib/search-params"
 import { parseMetadata } from "~/utils/metadata"
+import { searchParamsCache } from "./search-params"
 
 type PageProps = {
   searchParams: Promise<SearchParams>

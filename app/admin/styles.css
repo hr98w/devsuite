@@ -91,6 +91,7 @@
 
   * {
     @apply border-border;
+    @apply break-words;
   }
 
   body {

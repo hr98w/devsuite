@@ -2,15 +2,16 @@
 
 import { LoaderIcon, SearchIcon } from "lucide-react"
 import { type Values, useQueryStates } from "nuqs"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useTransition } from "react"
 import { Stack } from "~/components/common/stack"
 import { Input } from "~/components/web/ui/input"
 import { Select } from "~/components/web/ui/select"
 import { useDebounce } from "~/hooks/use-debounce"
-import { searchParams } from "~/lib/search-params"
+import { searchParams } from "./search-params"
 
 export const ToolFilters = () => {
-  const [filters, setFilters] = useQueryStates(searchParams, { shallow: false })
+  const [isLoading, startTransition] = useTransition()
+  const [filters, setFilters] = useQueryStates(searchParams, { shallow: false, startTransition })
   const [inputValue, setInputValue] = useState(filters.q || "")
   const q = useDebounce(inputValue, 300)
 
@@ -19,9 +20,11 @@ export const ToolFilters = () => {
   }
 
   useEffect(() => {
-    if (filters.q !== q) {
-      updateFilters({ q: q || null })
-    }
+    setFilters(prev => ({
+      ...prev,
+      q: q || null,
+      page: q && q !== prev.q ? null : prev.page,
+    }))
   }, [q])
 
   const sortOptions = [
@@ -32,45 +35,39 @@ export const ToolFilters = () => {
   ]
 
   return (
-    <Stack className="w-full flex-nowrap" asChild>
-      <form method="get" action="/tools">
-        <div className="relative w-full">
-          <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/50 pointer-events-none" />
-
-          <Input
-            name="q"
-            size="lg"
-            value={inputValue}
-            onChange={e => setInputValue(e.target.value)}
-            placeholder="Search tools..."
-            className="w-full px-10"
-          />
-
-          {inputValue !== q && (
-            <div className="absolute right-4 top-1/2 -translate-y-1/2">
-              <LoaderIcon className="opacity-50 animate-spin" />
-            </div>
-          )}
+    <Stack className="w-full flex-nowrap">
+      <div className="relative w-full min-w-0">
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 opacity-50 pointer-events-none">
+          {isLoading ? <LoaderIcon className="animate-spin" /> : <SearchIcon />}
         </div>
 
-        <Select
-          name="sort"
+        <Input
+          name="q"
           size="lg"
-          className="min-w-36"
-          value={filters.sort}
-          onChange={e => updateFilters({ sort: e.target.value })}
-        >
-          <option value="" disabled>
-            Order by
-          </option>
+          value={inputValue}
+          onChange={e => setInputValue(e.target.value)}
+          placeholder="Search tools..."
+          className="w-full truncate pl-10"
+        />
+      </div>
 
-          {sortOptions.map(option => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </Select>
-      </form>
+      <Select
+        name="sort"
+        size="lg"
+        className="min-w-36"
+        value={filters.sort}
+        onChange={e => updateFilters({ sort: e.target.value })}
+      >
+        <option value="" disabled>
+          Order by
+        </option>
+
+        {sortOptions.map(option => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </Select>
     </Stack>
   )
 }
