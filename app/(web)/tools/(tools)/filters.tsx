@@ -7,14 +7,14 @@ import { Stack } from "~/components/common/stack"
 import { Input } from "~/components/web/ui/input"
 import { Select } from "~/components/web/ui/select"
 import { useDebounce } from "~/hooks/use-debounce"
-import { toolSearchParams } from "~/lib/search-params"
+import { searchParams } from "~/lib/search-params"
 
 export const ToolFilters = () => {
-  const [filters, setFilters] = useQueryStates(toolSearchParams, { shallow: false })
+  const [filters, setFilters] = useQueryStates(searchParams, { shallow: false })
   const [inputValue, setInputValue] = useState(filters.q || "")
   const q = useDebounce(inputValue, 300)
 
-  const updateFilters = (values: Partial<Values<typeof toolSearchParams>>) => {
+  const updateFilters = (values: Partial<Values<typeof searchParams>>) => {
     setFilters({ ...values, page: null })
   }
 

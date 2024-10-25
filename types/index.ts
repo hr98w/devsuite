@@ -1,7 +1,3 @@
-export type SearchParams = Promise<{
-  [key: string]: string | string[] | undefined
-}>
-
 export type Option = {
   label: string
   value: string

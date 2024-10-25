@@ -1,13 +1,13 @@
 import type { Metadata } from "next"
+import type { SearchParams } from "nuqs/server"
 import { Suspense } from "react"
 import { DataTableSkeleton } from "~/components/admin/data-table/data-table-skeleton"
 import { searchParamsSchema } from "~/schema/search-params"
-import type { SearchParams } from "~/types"
 import { CollectionsTable } from "./_components/collections-table"
 import { getCollections } from "./_lib/queries"
 
 type PageProps = {
-  searchParams: SearchParams
+  searchParams: Promise<SearchParams>
 }
 
 export const metadata: Metadata = {

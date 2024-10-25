@@ -1,5 +1,6 @@
 import type { Prisma } from "@prisma/client"
 import type { Metadata } from "next"
+import type { SearchParams } from "nuqs/server"
 import { cache } from "react"
 import { countTools, findTools } from "~/api/tools/queries"
 import { ToolFilters } from "~/app/(web)/tools/(tools)/filters"
@@ -9,12 +10,11 @@ import { Pagination } from "~/components/web/pagination"
 import { Grid } from "~/components/web/ui/grid"
 import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
-import { toolSearchParamsCache } from "~/lib/search-params"
-import type { SearchParams } from "~/types"
+import { searchParamsCache } from "~/lib/search-params"
 import { parseMetadata } from "~/utils/metadata"
 
 type PageProps = {
-  searchParams: SearchParams
+  searchParams: Promise<SearchParams>
 }
 
 const getMetadata = cache(
@@ -35,7 +35,7 @@ export const metadata = parseMetadata(
 
 export default async function ToolsPage({ searchParams }: PageProps) {
   const { title, description } = getMetadata()
-  const { q, page, sort, perPage } = toolSearchParamsCache.parse(await searchParams)
+  const { q, page, sort, perPage } = searchParamsCache.parse(await searchParams)
 
   const skip = (page - 1) * perPage
   const take = perPage
