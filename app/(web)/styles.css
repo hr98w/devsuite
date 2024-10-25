@@ -126,3 +126,4 @@ select:not([size]) {
   @apply bg-[length:1.25em_1.25em];
   @apply pr-10;
 }
+
