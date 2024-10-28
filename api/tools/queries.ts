@@ -1,6 +1,50 @@
 import type { Prisma } from "@prisma/client"
+import type { SearchParams } from "nuqs/server"
 import { toolManyPayload, toolOnePayload } from "~/api/tools/payloads"
+import { searchParamsCache } from "~/api/tools/search-params"
 import { prisma } from "~/services/prisma"
+
+export const searchTools = async (
+  searchParams: SearchParams,
+  { where, ...args }: Prisma.ToolFindManyArgs,
+) => {
+  const { q, page, sort, perPage } = searchParamsCache.parse(searchParams)
+
+  // Values to paginate the results
+  const skip = (page - 1) * perPage
+  const take = perPage
+
+  // Column and order to sort by
+  // Spliting the sort string by "." to get the column and order
+  // Example: "title.desc" => ["title", "desc"]
+  const [sortBy, sortOrder] = sort.split(".")
+
+  const whereQuery: Prisma.ToolWhereInput = q
+    ? {
+        OR: [
+          { name: { contains: q, mode: "insensitive" } },
+          { description: { contains: q, mode: "insensitive" } },
+        ],
+      }
+    : {}
+
+  const [tools, totalCount] = await prisma.$transaction([
+    prisma.tool.findMany({
+      ...args,
+      orderBy: { [sortBy]: sortOrder },
+      where: { publishedAt: { lte: new Date() }, ...whereQuery, ...where },
+      include: toolManyPayload,
+      take,
+      skip,
+    }),
+
+    prisma.tool.count({
+      where: { publishedAt: { lte: new Date() }, ...whereQuery, ...where },
+    }),
+  ])
+
+  return { tools, totalCount }
+}
 
 export const findTools = async ({ where, ...args }: Prisma.ToolFindManyArgs) => {
   return await prisma.tool.findMany({

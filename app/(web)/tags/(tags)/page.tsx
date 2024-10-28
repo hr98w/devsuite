@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import type { SearchParams } from "nuqs/server"
 import { cache } from "react"
 import { countTags, findTags } from "~/api/tags/queries"
+import { searchParamsCache } from "~/api/tags/search-params"
 import { TagCard } from "~/components/web/cards/tag-card"
 import { EmptyList } from "~/components/web/empty-list"
 import { Pagination } from "~/components/web/pagination"
@@ -9,7 +10,6 @@ import { Grid } from "~/components/web/ui/grid"
 import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
 import { parseMetadata } from "~/utils/metadata"
-import { searchParamsCache } from "./search-params"
 
 type PageProps = {
   searchParams: Promise<SearchParams>

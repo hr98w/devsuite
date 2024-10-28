@@ -1,16 +1,16 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
+import type { SearchParams } from "nuqs/server"
 import { findTagSlugs, findUniqueTag } from "~/api/tags/queries"
-import { findTools } from "~/api/tools/queries"
-import { ToolCard } from "~/components/web/cards/tool-card"
-import { EmptyList } from "~/components/web/empty-list"
-import { Grid } from "~/components/web/ui/grid"
+import { searchTools } from "~/api/tools/queries"
+import { ToolList } from "~/components/web/tool-list"
 import { Intro, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
 import { parseMetadata } from "~/utils/metadata"
 
 type PageProps = {
   params: Promise<{ slug: string }>
+  searchParams: Promise<SearchParams>
 }
 
 export const generateStaticParams = async () => {
@@ -34,12 +34,12 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata 
   })
 }
 
-export default async function TagPage({ params }: PageProps) {
+export default async function TagPage({ params, searchParams }: PageProps) {
   const { slug } = await params
 
-  const [tag, tools] = await Promise.all([
+  const [tag, { tools, totalCount }] = await Promise.all([
     findUniqueTag({ where: { slug } }),
-    findTools({ where: { tags: { some: { slug } } } }),
+    searchTools(await searchParams, { where: { tags: { some: { slug } } } }),
   ])
 
   if (!tag) {
@@ -52,13 +52,7 @@ export default async function TagPage({ params }: PageProps) {
         <IntroTitle className="!leading-none">{tag.name}</IntroTitle>
       </Intro>
 
-      <Grid>
-        {tools.map(tool => (
-          <ToolCard key={tool.id} tool={tool} />
-        ))}
-
-        {!tools.length && <EmptyList>No tools found in the tag.</EmptyList>}
-      </Grid>
+      <ToolList tools={tools} totalCount={totalCount} />
     </Wrapper>
   )
 }

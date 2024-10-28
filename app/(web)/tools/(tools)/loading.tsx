@@ -1,7 +1,5 @@
-import { Box } from "~/components/common/box"
 import { Skeleton } from "~/components/common/skeleton"
-import { ToolSkeleton } from "~/components/web/cards/tool-skeleton"
-import { Grid } from "~/components/web/ui/grid"
+import { ToolListSkeleton } from "~/components/web/tool-list-skeleton"
 import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
 
@@ -18,17 +16,7 @@ export default function Loading() {
         </IntroDescription>
       </Intro>
 
-      <div className="flex flex-col gap-6 lg:gap-8">
-        <Box className="px-4 py-2.5 text-sm/normal rounded-lg w-full">
-          <span>&nbsp;</span>
-        </Box>
-
-        <Grid>
-          {[...Array(6)].map((_, index) => (
-            <ToolSkeleton key={index} />
-          ))}
-        </Grid>
-      </div>
+      <ToolListSkeleton />
     </Wrapper>
   )
 }

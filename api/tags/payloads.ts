@@ -1,10 +1,7 @@
 import { Prisma } from "@prisma/client"
 
 export const tagOnePayload = Prisma.validator<Prisma.TagInclude>()({
-  tools: {
-    where: { publishedAt: { lte: new Date() } },
-    orderBy: [{ isFeatured: "desc" }, { name: "desc" }],
-  },
+  _count: { select: { tools: { where: { publishedAt: { lte: new Date() } } } } },
 })
 
 export const tagManyPayload = Prisma.validator<Prisma.TagInclude>()({

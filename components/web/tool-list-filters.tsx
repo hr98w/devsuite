@@ -7,9 +7,9 @@ import { Stack } from "~/components/common/stack"
 import { Input } from "~/components/web/ui/input"
 import { Select } from "~/components/web/ui/select"
 import { useDebounce } from "~/hooks/use-debounce"
-import { searchParams } from "./search-params"
+import { searchParams } from "../../api/tools/search-params"
 
-export const ToolFilters = () => {
+export const ToolListFilters = () => {
   const [isLoading, startTransition] = useTransition()
   const [filters, setFilters] = useQueryStates(searchParams, { shallow: false, startTransition })
   const [inputValue, setInputValue] = useState(filters.q || "")
@@ -28,10 +28,10 @@ export const ToolFilters = () => {
   }, [q])
 
   const sortOptions = [
-    { value: "publishedAt_desc", label: "Newest" },
-    { value: "publishedAt_asc", label: "Oldest" },
-    { value: "name_asc", label: "Name A-Z" },
-    { value: "name_desc", label: "Name Z-A" },
+    { value: "publishedAt.desc", label: "Newest" },
+    { value: "publishedAt.asc", label: "Oldest" },
+    { value: "name.asc", label: "Name A-Z" },
+    { value: "name.desc", label: "Name Z-A" },
   ]
 
   return (
