@@ -2,6 +2,7 @@ import type { Prisma } from "@prisma/client"
 import type { SearchParams } from "nuqs/server"
 import { toolManyPayload, toolOnePayload } from "~/api/tools/payloads"
 import { searchParamsCache } from "~/api/tools/search-params"
+import { auth } from "~/lib/auth"
 import { prisma } from "~/services/prisma"
 
 export const searchTools = async (
@@ -78,9 +79,11 @@ export const countUpcomingTools = async ({ where, ...args }: Prisma.ToolCountArg
 }
 
 export const findUniqueTool = async ({ where, ...args }: Prisma.ToolFindUniqueArgs) => {
+  const session = await auth()
+
   return await prisma.tool.findUnique({
     ...args,
-    where: { publishedAt: { lte: new Date() }, ...where },
+    where: { publishedAt: session?.user ? undefined : { lte: new Date() }, ...where },
     include: toolOnePayload,
   })
 }

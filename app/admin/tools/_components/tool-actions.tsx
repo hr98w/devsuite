@@ -5,7 +5,8 @@ import type { Row } from "@tanstack/react-table"
 import { EllipsisIcon } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import React from "react"
+import type React from "react"
+import { useState } from "react"
 import { toast } from "sonner"
 import { useServerAction } from "zsa-react"
 import { ToolsDeleteDialog } from "~/app/admin/tools/_components/tools-delete-dialog"
@@ -20,7 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/admin/ui/dropdown-menu"
-import { siteConfig } from "~/config/site"
+import { config } from "~/config"
 import { cx } from "~/utils/cva"
 
 interface ToolActionsProps extends React.ComponentPropsWithoutRef<typeof Button> {
@@ -30,8 +31,7 @@ interface ToolActionsProps extends React.ComponentPropsWithoutRef<typeof Button>
 
 export const ToolActions = ({ tool, row, className, ...props }: ToolActionsProps) => {
   const router = useRouter()
-  const [showToolsDeleteDialog, setShowToolsDeleteDialog] = React.useState(false)
-  const [showToolsScheduleDialog, setShowToolsScheduleDialog] = React.useState(false)
+  const [dialog, setDialog] = useState<"delete" | "schedule" | null>(null)
 
   const { execute: reuploadAssetsAction } = useServerAction(reuploadToolAssets, {
     onSuccess: () => {
@@ -43,21 +43,28 @@ export const ToolActions = ({ tool, row, className, ...props }: ToolActionsProps
     },
   })
 
+  const handleDialogSuccess = () => {
+    setDialog(null)
+    row?.toggleSelected(false)
+    router.push("/admin/tools")
+  }
+
   return (
     <>
       <ToolsDeleteDialog
-        open={showToolsDeleteDialog}
-        onOpenChange={setShowToolsDeleteDialog}
+        open={dialog === "delete"}
+        onOpenChange={open => setDialog(open ? "delete" : null)}
         tools={[tool]}
         showTrigger={false}
-        onSuccess={() => row?.toggleSelected(false) || router.push("/admin/tools")}
+        onSuccess={handleDialogSuccess}
       />
 
       <ToolsScheduleDialog
-        open={showToolsScheduleDialog}
-        onOpenChange={setShowToolsScheduleDialog}
+        open={dialog === "schedule"}
+        onOpenChange={open => setDialog(open ? "schedule" : null)}
         tools={[tool]}
         showTrigger={false}
+        onSuccess={handleDialogSuccess}
       />
 
       <DropdownMenu>
@@ -77,20 +84,15 @@ export const ToolActions = ({ tool, row, className, ...props }: ToolActionsProps
             <Link href={`/admin/tools/${tool.slug}`}>Edit</Link>
           </DropdownMenuItem>
 
-          {!tool.publishedAt && (
-            <DropdownMenuItem
-              onSelect={() => setShowToolsScheduleDialog(true)}
-              className="text-green-600 dark:text-green-400"
-            >
-              Schedule
-            </DropdownMenuItem>
-          )}
+          <DropdownMenuItem asChild>
+            <Link href={`${config.site.url}/tools/${tool.slug}?preview=${tool.id}`} target="_blank">
+              View
+            </Link>
+          </DropdownMenuItem>
 
-          {tool.publishedAt && tool.publishedAt <= new Date() && (
-            <DropdownMenuItem asChild>
-              <Link href={`${siteConfig.url}/tools/${tool.slug}`} target="_blank">
-                View
-              </Link>
+          {!tool.publishedAt && (
+            <DropdownMenuItem onSelect={() => setDialog("schedule")} className="text-green-600">
+              Schedule
             </DropdownMenuItem>
           )}
 
@@ -108,10 +110,7 @@ export const ToolActions = ({ tool, row, className, ...props }: ToolActionsProps
 
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem
-            onSelect={() => setShowToolsDeleteDialog(true)}
-            className="text-red-500"
-          >
+          <DropdownMenuItem onSelect={() => setDialog("delete")} className="text-destructive">
             Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
