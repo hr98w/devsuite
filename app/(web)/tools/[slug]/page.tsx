@@ -40,7 +40,7 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata 
     return
   }
 
-  const title = `${tool.name}: ${tool.tagline}`
+  const title = `${tool.name}${tool.tagline ? `: ${tool.tagline}` : ""}`
   const description = tool.description || ""
   const images: OpenGraph["images"] = [{ url: `${url}.png`, width: 1200, height: 630 }]
 

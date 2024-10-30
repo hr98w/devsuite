@@ -32,7 +32,6 @@ export const TagsDeleteDialog = ({
 }: TagsDeleteDialogProps) => {
   const { execute, isPending } = useServerAction(deleteTags, {
     onSuccess: () => {
-      props.onOpenChange?.(false)
       toast.success("Tags deleted")
       onSuccess?.()
     },

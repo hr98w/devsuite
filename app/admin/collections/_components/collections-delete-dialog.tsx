@@ -32,7 +32,6 @@ export const CollectionsDeleteDialog = ({
 }: CollectionsDeleteDialogProps) => {
   const { execute, isPending } = useServerAction(deleteCollections, {
     onSuccess: () => {
-      props.onOpenChange?.(false)
       toast.success("Collections deleted")
       onSuccess?.()
     },
