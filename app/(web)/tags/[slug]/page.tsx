@@ -48,11 +48,11 @@ export default async function TagPage({ params, searchParams }: PageProps) {
 
   return (
     <Wrapper>
-      <Intro alignment="center" className="max-w-2xl mx-auto text-pretty">
-        <IntroTitle className="!leading-none">{tag.name}</IntroTitle>
+      <Intro alignment="center">
+        <IntroTitle>{tag.name}</IntroTitle>
       </Intro>
 
-      <ToolList tools={tools} totalCount={totalCount} />
+      <ToolList tools={tools} totalCount={totalCount} placeholder={`Search in "${tag.name}"`} />
     </Wrapper>
   )
 }

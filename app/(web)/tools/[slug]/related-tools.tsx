@@ -27,6 +27,10 @@ export const RelatedTools = async ({ tool }: { tool: ToolOne }) => {
     orderBy: { [orderBy]: orderDir },
   })
 
+  if (!tools.length) {
+    return null
+  }
+
   return (
     <div className="flex flex-col items-center gap-6 lg:gap-8">
       <H4 as="h3" className="text-center">

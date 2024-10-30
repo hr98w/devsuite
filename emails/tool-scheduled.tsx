@@ -1,6 +1,6 @@
 import type { Tool } from "@prisma/client"
 import { Text } from "@react-email/components"
-import { differenceInDays, formatDistanceToNowStrict } from "date-fns"
+import { differenceInDays, format, formatDistanceToNowStrict } from "date-fns"
 import type { Jsonify } from "inngest/helpers/jsonify"
 import { config } from "~/config"
 import { EmailButton } from "~/emails/_components/button"
@@ -13,8 +13,9 @@ export type EmailToolScheduledProps = EmailWrapperProps & {
 
 const EmailToolScheduled = ({ tool, ...props }: EmailToolScheduledProps) => {
   const publishedAt = tool?.publishedAt || new Date()
-  const isLongQueue = differenceInDays(new Date(), publishedAt) > 1
-  const timeUntilPublished = formatDistanceToNowStrict(publishedAt, { addSuffix: true })
+  const isLongQueue = differenceInDays(publishedAt, new Date()) > 7
+  const dateRelative = formatDistanceToNowStrict(publishedAt, { addSuffix: true })
+  const dateFormatted = format(publishedAt, "MMMM do, yyyy")
 
   return (
     <EmailWrapper {...props}>
@@ -29,7 +30,7 @@ const EmailToolScheduled = ({ tool, ...props }: EmailToolScheduledProps) => {
         <>
           <Text>
             Due to the high volume of submissions we're currently receiving, there's a bit of a
-            queue. {tool?.name} is scheduled to be added <strong>{timeUntilPublished}</strong>.
+            queue. {tool?.name} is scheduled to be added on <strong>{dateFormatted}</strong>.
             However, if you'd like to fast-track your submission, you have the option to skip the
             queue.
           </Text>
@@ -40,7 +41,7 @@ const EmailToolScheduled = ({ tool, ...props }: EmailToolScheduledProps) => {
         </>
       ) : (
         <Text>
-          {tool?.name} is scheduled to be added <strong>{timeUntilPublished}</strong>.
+          {tool?.name} is scheduled to be added <strong>{dateRelative}</strong>.
         </Text>
       )}
 

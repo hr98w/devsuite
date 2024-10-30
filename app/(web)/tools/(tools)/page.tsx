@@ -33,7 +33,7 @@ export default async function ToolsPage({ searchParams }: PageProps) {
 
   return (
     <Wrapper>
-      <Intro alignment="center" className="max-w-2xl mx-auto text-pretty">
+      <Intro alignment="center">
         <IntroTitle>{title?.toString()}</IntroTitle>
         <IntroDescription>{description}</IntroDescription>
       </Intro>

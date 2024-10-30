@@ -1,16 +1,16 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
+import type { SearchParams } from "nuqs/server"
 import { findCollectionSlugs, findUniqueCollection } from "~/api/collections/queries"
-import { findTools } from "~/api/tools/queries"
-import { ToolCard } from "~/components/web/cards/tool-card"
-import { EmptyList } from "~/components/web/empty-list"
-import { Grid } from "~/components/web/ui/grid"
+import { searchTools } from "~/api/tools/queries"
+import { ToolList } from "~/components/web/tool-list"
 import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
 import { parseMetadata } from "~/utils/metadata"
 
 type PageProps = {
   params: Promise<{ slug: string }>
+  searchParams: Promise<SearchParams>
 }
 
 export const generateStaticParams = async () => {
@@ -34,12 +34,12 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata 
   })
 }
 
-export default async function CollectionPage({ params }: PageProps) {
+export default async function CollectionPage({ params, searchParams }: PageProps) {
   const { slug } = await params
 
-  const [collection, tools] = await Promise.all([
+  const [collection, { tools, totalCount }] = await Promise.all([
     findUniqueCollection({ where: { slug } }),
-    findTools({ where: { collections: { some: { slug } } } }),
+    searchTools(await searchParams, { where: { collections: { some: { slug } } } }),
   ])
 
   if (!collection) {
@@ -48,19 +48,16 @@ export default async function CollectionPage({ params }: PageProps) {
 
   return (
     <Wrapper>
-      <Intro alignment="center" className="max-w-2xl mx-auto text-pretty">
-        <IntroTitle className="!leading-none">{collection.name}</IntroTitle>
-
+      <Intro alignment="center">
+        <IntroTitle>{collection.name}</IntroTitle>
         <IntroDescription>{collection.description}</IntroDescription>
       </Intro>
 
-      <Grid>
-        {tools.map(tool => (
-          <ToolCard key={tool.id} tool={tool} />
-        ))}
-
-        {!tools.length && <EmptyList>No tools found in the collection.</EmptyList>}
-      </Grid>
+      <ToolList
+        tools={tools}
+        totalCount={totalCount}
+        placeholder={`Search ${collection.name.toLowerCase()} tools...`}
+      />
     </Wrapper>
   )
 }

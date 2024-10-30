@@ -1,10 +1,7 @@
 import { Prisma } from "@prisma/client"
 
 export const categoryOnePayload = Prisma.validator<Prisma.CategoryInclude>()({
-  tools: {
-    where: { publishedAt: { lte: new Date() } },
-    orderBy: [{ isFeatured: "desc" }, { name: "desc" }],
-  },
+  _count: { select: { tools: { where: { publishedAt: { lte: new Date() } } } } },
 })
 
 export const categoryManyPayload = Prisma.validator<Prisma.CategoryInclude>()({

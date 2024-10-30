@@ -1,16 +1,16 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
+import type { SearchParams } from "nuqs/server"
 import { findCategorySlugs, findUniqueCategory } from "~/api/categories/queries"
-import { findTools } from "~/api/tools/queries"
-import { ToolCard } from "~/components/web/cards/tool-card"
-import { EmptyList } from "~/components/web/empty-list"
-import { Grid } from "~/components/web/ui/grid"
+import { searchTools } from "~/api/tools/queries"
+import { ToolList } from "~/components/web/tool-list"
 import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
 import { parseMetadata } from "~/utils/metadata"
 
 type PageProps = {
   params: Promise<{ slug: string }>
+  searchParams: Promise<SearchParams>
 }
 
 export const generateStaticParams = async () => {
@@ -34,12 +34,12 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata 
   })
 }
 
-export default async function CategoryPage({ params }: PageProps) {
+export default async function CategoryPage({ params, searchParams }: PageProps) {
   const { slug } = await params
 
-  const [category, tools] = await Promise.all([
+  const [category, { tools, totalCount }] = await Promise.all([
     findUniqueCategory({ where: { slug } }),
-    findTools({ where: { categories: { some: { slug } } } }),
+    searchTools(await searchParams, { where: { categories: { some: { slug } } } }),
   ])
 
   if (!category) {
@@ -48,19 +48,16 @@ export default async function CategoryPage({ params }: PageProps) {
 
   return (
     <Wrapper>
-      <Intro alignment="center" className="max-w-2xl mx-auto text-pretty">
-        <IntroTitle className="!leading-none">{category.name}</IntroTitle>
-
+      <Intro alignment="center">
+        <IntroTitle>{category.name}</IntroTitle>
         <IntroDescription>{category.description}</IntroDescription>
       </Intro>
 
-      <Grid>
-        {tools.map(tool => (
-          <ToolCard key={tool.id} tool={tool} />
-        ))}
-
-        {!tools.length && <EmptyList>No tools found in the category.</EmptyList>}
-      </Grid>
+      <ToolList
+        tools={tools}
+        totalCount={totalCount}
+        placeholder={`Search in "${category.name}"`}
+      />
     </Wrapper>
   )
 }

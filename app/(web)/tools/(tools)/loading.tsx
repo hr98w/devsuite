@@ -6,8 +6,8 @@ import { Wrapper } from "~/components/web/ui/wrapper"
 export default function Loading() {
   return (
     <Wrapper>
-      <Intro alignment="center" className="max-w-2xl mx-auto text-pretty">
-        <IntroTitle className="!leading-none">
+      <Intro alignment="center">
+        <IntroTitle>
           <Skeleton className="w-48">&nbsp;</Skeleton>
         </IntroTitle>
 

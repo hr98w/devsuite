@@ -36,7 +36,7 @@ export const Footer = ({ children, className, ...props }: HTMLAttributes<HTMLEle
                 </NavigationLink>
               </Tooltip>
 
-              <Tooltip tooltip="Contact Us">
+              <Tooltip tooltip="Contact us">
                 <NavigationLink
                   href={`mailto:${config.site.email}`}
                   target="_blank"
@@ -46,7 +46,7 @@ export const Footer = ({ children, className, ...props }: HTMLAttributes<HTMLEle
                 </NavigationLink>
               </Tooltip>
 
-              <Tooltip tooltip="X/Twitter">
+              <Tooltip tooltip="Follow us on X/Twitter">
                 <NavigationLink
                   href={config.links.twitter}
                   target="_blank"
@@ -56,7 +56,7 @@ export const Footer = ({ children, className, ...props }: HTMLAttributes<HTMLEle
                 </NavigationLink>
               </Tooltip>
 
-              <Tooltip tooltip="Source Code">
+              <Tooltip tooltip="View source code">
                 <NavigationLink
                   href={config.links.github}
                   target="_blank"

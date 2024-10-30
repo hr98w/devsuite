@@ -3,13 +3,17 @@
 import { LoaderIcon, SearchIcon } from "lucide-react"
 import { type Values, useQueryStates } from "nuqs"
 import { useEffect, useState, useTransition } from "react"
+import { searchParams } from "~/api/tools/search-params"
 import { Stack } from "~/components/common/stack"
 import { Input } from "~/components/web/ui/input"
 import { Select } from "~/components/web/ui/select"
 import { useDebounce } from "~/hooks/use-debounce"
-import { searchParams } from "../../api/tools/search-params"
 
-export const ToolListFilters = () => {
+export type ToolListFiltersProps = {
+  placeholder?: string
+}
+
+export const ToolListFilters = ({ placeholder }: ToolListFiltersProps) => {
   const [isLoading, startTransition] = useTransition()
   const [filters, setFilters] = useQueryStates(searchParams, { shallow: false, startTransition })
   const [inputValue, setInputValue] = useState(filters.q || "")
@@ -46,7 +50,7 @@ export const ToolListFilters = () => {
           size="lg"
           value={inputValue}
           onChange={e => setInputValue(e.target.value)}
-          placeholder="Search tools..."
+          placeholder={placeholder || "Search tools..."}
           className="w-full truncate pl-10"
         />
       </div>

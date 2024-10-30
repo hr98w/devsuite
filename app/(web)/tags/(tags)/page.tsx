@@ -50,8 +50,8 @@ export default async function Tags({ searchParams }: PageProps) {
 
   return (
     <Wrapper>
-      <Intro alignment="center" className="max-w-2xl mx-auto text-pretty">
-        <IntroTitle className="!leading-none">{title?.toString()}</IntroTitle>
+      <Intro alignment="center">
+        <IntroTitle>{title?.toString()}</IntroTitle>
         <IntroDescription>{description}</IntroDescription>
       </Intro>
 

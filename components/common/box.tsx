@@ -4,7 +4,7 @@ import { forwardRef } from "react"
 
 import { type VariantProps, cva, cx } from "~/utils/cva"
 
-export const boxVariants = cva({
+const boxVariants = cva({
   base: "border",
 
   variants: {

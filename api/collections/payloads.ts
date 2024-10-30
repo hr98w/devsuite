@@ -1,10 +1,7 @@
 import { Prisma } from "@prisma/client"
 
 export const collectionOnePayload = Prisma.validator<Prisma.CollectionInclude>()({
-  tools: {
-    where: { publishedAt: { lte: new Date() } },
-    orderBy: [{ isFeatured: "desc" }, { name: "desc" }],
-  },
+  _count: { select: { tools: { where: { publishedAt: { lte: new Date() } } } } },
 })
 
 export const collectionManyPayload = Prisma.validator<Prisma.CollectionInclude>()({

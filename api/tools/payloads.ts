@@ -7,7 +7,6 @@ export const toolOnePayload = Prisma.validator<Prisma.ToolInclude>()({
 })
 
 export const toolManyPayload = Prisma.validator<Prisma.ToolInclude>()({
-  categories: { select: { id: true, name: true, slug: true } },
   collections: { select: { id: true, name: true, slug: true } },
 })
 
