@@ -9,7 +9,8 @@ export const badgeVariants = cva({
   variants: {
     variant: {
       soft: "bg-foreground/[7.5%] hover:[&[href]]:bg-foreground/10",
-      outline: "bg-background ring-1 ring-foreground/15 hover:[&[href]]:ring-foreground/25",
+      outline:
+        "bg-background ring-1 ring-foreground/15 hover:[&[href]]:ring-foreground/25 hover:[&[href]]:text-foreground",
       ghost: "bg-transparent !p-0 hover:[&[href]]:text-foreground",
       success: "bg-green-500/50 text-foreground",
       error: "bg-red-500/50 text-foreground",

@@ -1,7 +1,7 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
 import type { HTMLAttributes } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -18,11 +18,14 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/common/form"
+import { FeatureNudge } from "~/components/web/feature-nudge"
 import { Button } from "~/components/web/ui/button"
 import { Input } from "~/components/web/ui/input"
 import { cx } from "~/utils/cva"
 
 export const SubmitForm = ({ className, ...props }: HTMLAttributes<HTMLFormElement>) => {
+  const router = useRouter()
+
   const form = useForm<z.infer<typeof submitToolSchema>>({
     resolver: zodResolver(submitToolSchema),
     defaultValues: {
@@ -37,7 +40,20 @@ export const SubmitForm = ({ className, ...props }: HTMLAttributes<HTMLFormEleme
   const { execute, isPending } = useServerAction(submitTool, {
     onSuccess: ({ data }) => {
       form.reset()
-      redirect(`/submit/${data.slug}`)
+
+      if (data.publishedAt && data.publishedAt <= new Date()) {
+        if (data.isFeatured) {
+          toast.info(`${data.name} has already been published.`)
+        } else {
+          toast.custom(t => <FeatureNudge tool={data} t={t} />, {
+            duration: Number.POSITIVE_INFINITY,
+          })
+        }
+        router.push(`/tools/${data.slug}`)
+      } else {
+        toast.success(`${data.name} has been submitted.`)
+        router.push(`/submit/${data.slug}`)
+      }
     },
 
     onError: ({ err }) => {
