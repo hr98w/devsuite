@@ -13,20 +13,16 @@ export const parseMetadata = ({
     title,
     description,
     openGraph: {
-      title,
-      description,
       url: "/",
       siteName: config.site.name,
       locale: "en_US",
       type: "website",
+      // Remove this once we have a custom tool images
       images: { url: "/_static/opengraph.png", width: 1200, height: 630 },
     },
     twitter: {
-      title,
-      description,
       site: "@devsuite",
       creator: "@piotrkulpinski",
-      images: { url: "/_static/opengraph.png", width: 1200, height: 630 },
     },
     alternates: {
       canonical: "/",

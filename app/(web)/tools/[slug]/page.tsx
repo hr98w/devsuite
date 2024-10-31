@@ -1,7 +1,6 @@
 import { getUrlHostname } from "@curiousleaf/utils"
 import { ArrowUpRightIcon, DollarSignIcon, HashIcon, SparkleIcon, TagIcon } from "lucide-react"
 import type { Metadata } from "next"
-import type { OpenGraph } from "next/dist/lib/metadata/types/opengraph-types"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { Suspense } from "react"
@@ -42,14 +41,12 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata 
 
   const title = `${tool.name}${tool.tagline ? `: ${tool.tagline}` : ""}`
   const description = tool.description || ""
-  const images: OpenGraph["images"] = [{ url: `${url}.png`, width: 1200, height: 630 }]
 
   return parseMetadata({
     title,
     description,
     alternates: { canonical: url },
-    openGraph: { url, images },
-    twitter: { images },
+    openGraph: { url },
   })
 }
 
