@@ -1,5 +1,5 @@
 import { Slot } from "@radix-ui/react-slot"
-import { type HTMLAttributes, type ReactNode, forwardRef, isValidElement } from "react"
+import { type ComponentProps, type ReactNode, isValidElement } from "react"
 import { Slottable } from "~/components/common/slottable"
 import { type VariantProps, cva, cx } from "~/utils/cva"
 
@@ -11,7 +11,7 @@ export const tagAffixVariants = cva({
   base: "shrink-0 stroke-2 text-foreground/25",
 })
 
-type TagProps = Omit<HTMLAttributes<HTMLElement>, "prefix"> &
+export type TagProps = Omit<ComponentProps<"span">, "prefix"> &
   VariantProps<typeof tagVariants> & {
     /**
      * If set to `true`, the button will be rendered as a child within the component.
@@ -30,14 +30,12 @@ type TagProps = Omit<HTMLAttributes<HTMLElement>, "prefix"> &
     suffix?: ReactNode
   }
 
-export const Tag = forwardRef<HTMLSpanElement, TagProps>((props: TagProps, ref) => {
-  const { children, className, asChild, prefix, suffix, ...rest } = props
-
-  const useAsChild = asChild && isValidElement(props.children)
+export const Tag = ({ children, className, asChild, prefix, suffix, ...props }: TagProps) => {
+  const useAsChild = asChild && isValidElement(children)
   const Component = useAsChild ? Slot : "span"
 
   return (
-    <Component className={cx(tagVariants({ className }))} {...rest} ref={ref}>
+    <Component className={cx(tagVariants({ className }))} {...props}>
       <Slottable child={children} asChild={asChild}>
         {child => (
           <>
@@ -49,4 +47,4 @@ export const Tag = forwardRef<HTMLSpanElement, TagProps>((props: TagProps, ref) 
       </Slottable>
     </Component>
   )
-})
+}

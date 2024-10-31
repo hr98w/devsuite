@@ -188,6 +188,10 @@ export default async function ToolPage({ params }: PageProps) {
           previous={previous?.slug}
           next={next?.slug}
         />
+
+        {/* <p className="text-foreground/50 text-sm">
+          Last updated: {formatDistanceToNowStrict(tool.updatedAt, { addSuffix: true })}
+        </p> */}
       </Wrapper>
 
       <Suspense fallback={<RelatedToolsSkeleton />}>

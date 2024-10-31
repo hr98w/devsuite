@@ -1,13 +1,7 @@
 "use client"
 
 import { Slot } from "@radix-ui/react-slot"
-import {
-  type ComponentProps,
-  type ElementRef,
-  type HTMLAttributes,
-  forwardRef,
-  isValidElement,
-} from "react"
+import { type ComponentProps, isValidElement } from "react"
 import { Box } from "~/components/common/box"
 import { type VariantProps, cva, cx } from "~/utils/cva"
 
@@ -39,29 +33,18 @@ type DockItemProps = ComponentProps<"div"> &
     asChild?: boolean
   }
 
-const DockItem = forwardRef<ElementRef<"div">, DockItemProps>((props, ref) => {
-  const { className, asChild, isActive, ...rest } = props
+const DockItem = ({ className, asChild, isActive, ...props }: DockItemProps) => {
   const useAsChild = asChild && isValidElement(props.children)
   const Component = useAsChild ? Slot : "div"
 
-  return <Component ref={ref} className={cx(dockItemVariants({ isActive, className }))} {...rest} />
-})
-DockItem.displayName = "Dock.Item"
+  return <Component className={cx(dockItemVariants({ isActive, className }))} {...props} />
+}
 
-const DockSeparator = forwardRef<ElementRef<"div">, ComponentProps<"div">>((props, ref) => {
-  const { className, ...rest } = props
+const DockSeparator = ({ className, ...props }: ComponentProps<"div">) => {
+  return <div className={cx("w-[1px] h-4 -my-2 mx-1.5 bg-foreground/15", className)} {...props} />
+}
 
-  return (
-    <div
-      ref={ref}
-      className={cx("w-[1px] h-4 -my-2 mx-1.5 bg-foreground/15", className)}
-      {...rest}
-    />
-  )
-})
-DockSeparator.displayName = "Dock.Separator"
-
-export const Dock = ({ className, ...props }: HTMLAttributes<HTMLElement>) => {
+export const Dock = ({ className, ...props }: ComponentProps<"div">) => {
   return (
     <Box>
       <div

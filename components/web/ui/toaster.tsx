@@ -1,11 +1,11 @@
 "use client"
 
 import { usePathname } from "next/navigation"
-import type { ComponentPropsWithoutRef } from "react"
+import type { ComponentProps } from "react"
 import { Toaster as Sonner } from "sonner"
 import { cx } from "~/utils/cva"
 
-export const Toaster = (props: ComponentPropsWithoutRef<typeof Sonner>) => {
+export const Toaster = (props: ComponentProps<typeof Sonner>) => {
   const pathname = usePathname()
 
   return (

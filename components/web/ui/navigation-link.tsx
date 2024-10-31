@@ -3,12 +3,7 @@
 import { cva } from "cva"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import {
-  type AnchorHTMLAttributes,
-  type ComponentPropsWithoutRef,
-  type ElementRef,
-  forwardRef,
-} from "react"
+import type { ComponentProps } from "react"
 import { cx } from "~/utils/cva"
 
 export const navigationLinkVariants = cva({
@@ -32,17 +27,13 @@ const isItemActive = (href: string | undefined, pathname: string) => {
   return false
 }
 
-export const NavigationLink = forwardRef<
-  ElementRef<typeof Link>,
-  AnchorHTMLAttributes<HTMLAnchorElement> & ComponentPropsWithoutRef<typeof Link>
->(({ className, ...props }, ref) => {
+export const NavigationLink = ({
+  className,
+  ...props
+}: ComponentProps<"a"> & ComponentProps<typeof Link>) => {
   const pathname = usePathname()
   const isActive = isItemActive(props.href, pathname)
   const Comp = props.href.startsWith("http") ? "a" : Link
 
-  return (
-    <Comp ref={ref} className={cx(navigationLinkVariants({ isActive, className }))} {...props} />
-  )
-})
-
-NavigationLink.displayName = "NavigationLink"
+  return <Comp className={cx(navigationLinkVariants({ isActive, className }))} {...props} />
+}

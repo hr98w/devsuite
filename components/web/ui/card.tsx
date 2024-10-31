@@ -1,7 +1,6 @@
 import { Slot } from "@radix-ui/react-slot"
-import type { HTMLAttributes } from "react"
-import { forwardRef, isValidElement } from "react"
-
+import type { ComponentProps } from "react"
+import { isValidElement } from "react"
 import { Box, type BoxProps } from "~/components/common/box"
 import { H3 } from "~/components/common/heading"
 import { Stars } from "~/components/web/ui/stars"
@@ -25,7 +24,7 @@ export const cardVariants = cva({
   },
 })
 
-type CardProps = HTMLAttributes<HTMLDivElement> &
+export type CardProps = ComponentProps<"div"> &
   BoxProps &
   VariantProps<typeof cardVariants> & {
     /**
@@ -35,66 +34,45 @@ type CardProps = HTMLAttributes<HTMLDivElement> &
     asChild?: boolean
   }
 
-export const Card = forwardRef<HTMLDivElement, CardProps>((props, ref) => {
-  const { className, hover = true, focus = true, asChild, isFeatured, isRevealed, ...rest } = props
+export const Card = ({
+  className,
+  hover = true,
+  focus = true,
+  asChild,
+  isFeatured,
+  isRevealed,
+  ...props
+}: CardProps) => {
   const useAsChild = asChild && isValidElement(props.children)
   const Component = useAsChild ? Slot : "div"
 
   return (
     <Box hover={hover} focus={focus}>
-      <Component
-        ref={ref}
-        className={cx(cardVariants({ isFeatured, isRevealed, className }))}
-        {...rest}
-      />
+      <Component className={cx(cardVariants({ isFeatured, isRevealed, className }))} {...props} />
     </Box>
   )
-})
-
-Card.displayName = "Card"
-
-export const CardHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cx("flex flex-col space-y-1.5 p-4 md:p-6", className)} {...props} />
-  ),
-)
-CardHeader.displayName = "CardHeader"
-
-export const CardTitle = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLHeadingElement>>(
-  ({ ...props }, ref) => <H3 ref={ref} {...props} />,
-)
-CardTitle.displayName = "CardTitle"
-
-export const CardDescription = ({ className, ...props }: HTMLAttributes<HTMLElement>) => {
-  return (
-    <p
-      className={cx("-tracking-0.5 line-clamp-2 text-sm/normal text-foreground/65", className)}
-      {...props}
-    />
-  )
 }
 
-CardDescription.displayName = "CardDescription"
+export const CardHeader = ({ className, ...props }: ComponentProps<"div">) => {
+  return <div className={cx("flex flex-col space-y-1.5 p-4 md:p-6", className)} {...props} />
+}
 
-export const CardContent = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div ref={ref} className={cx("w-full p-4 pt-0 md:p-6 md:pt-0", className)} {...props} />
-  ),
-)
-CardContent.displayName = "CardContent"
+export const CardTitle = ({ ...props }: ComponentProps<"h3">) => {
+  return <H3 {...props} />
+}
 
-export const CardFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      className={cx("flex items-center p-4 pt-0 md:p-6 md:pt-0", className)}
-      {...props}
-    />
-  ),
-)
-CardFooter.displayName = "CardFooter"
+export const CardDescription = ({ className, ...props }: ComponentProps<"p">) => {
+  return <p className={cx("text-sm text-foreground/65 line-clamp-2", className)} {...props} />
+}
 
-export const CardStars = ({ className, ...props }: HTMLAttributes<HTMLElement>) => {
+export const CardContent = ({ className, ...props }: ComponentProps<"div">) => {
+  return <div className={cx("w-full p-4 pt-0 md:p-6 md:pt-0", className)} {...props} />
+}
+
+export const CardFooter = ({ className, ...props }: ComponentProps<"div">) => {
+  return <div className={cx("flex items-center p-4 pt-0 md:p-6 md:pt-0", className)} {...props} />
+}
+
+export const CardStars = ({ className, ...props }: ComponentProps<"div">) => {
   return <Stars className={cx("absolute inset-0 -z-10", className)} {...props} />
 }
-CardStars.displayName = "CardStars"

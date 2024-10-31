@@ -3,7 +3,7 @@
 import NumberFlow from "@number-flow/react"
 import { Slot } from "@radix-ui/react-slot"
 import { ArrowUpRightIcon, CheckIcon, XIcon } from "lucide-react"
-import { type HTMLAttributes, forwardRef } from "react"
+import type { ComponentProps } from "react"
 import { toast } from "sonner"
 import type Stripe from "stripe"
 import { useServerAction } from "zsa-react"
@@ -60,9 +60,7 @@ export type PlanFeature = {
   type?: "positive" | "neutral" | "negative"
 }
 
-export type PlanElement = HTMLDivElement
-
-export type PlanProps = Omit<HTMLAttributes<PlanElement>, "size"> &
+export type PlanProps = ComponentProps<"div"> &
   VariantProps<typeof cardVariants> &
   VariantProps<typeof planVariants> & {
     /**
@@ -86,9 +84,15 @@ export type PlanProps = Omit<HTMLAttributes<PlanElement>, "size"> &
     tool: ToolOne
   }
 
-export const Plan = forwardRef<PlanElement, PlanProps>((props, ref) => {
-  const { className, plan, features, prices, tool, isFeatured, ...rest } = props
-
+export const Plan = ({
+  className,
+  plan,
+  features,
+  prices,
+  tool,
+  isFeatured,
+  ...props
+}: PlanProps) => {
   const { isSubscription, currentPrice, price, fullPrice, discount, interval, setInterval } =
     usePlanPrices(prices ?? [])
 
@@ -113,12 +117,11 @@ export const Plan = forwardRef<PlanElement, PlanProps>((props, ref) => {
 
   return (
     <Card
-      ref={ref}
       hover={false}
       isRevealed={false}
       isFeatured={isFeatured}
       className={cx(planVariants({ className }))}
-      {...rest}
+      {...props}
     >
       {isFeatured && <CardStars className="brightness-200" />}
 
@@ -215,7 +218,7 @@ export const Plan = forwardRef<PlanElement, PlanProps>((props, ref) => {
       </Button>
     </Card>
   )
-})
+}
 
 export const PlanSkeleton = () => {
   return (

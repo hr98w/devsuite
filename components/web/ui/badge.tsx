@@ -1,5 +1,5 @@
 import { Slot } from "@radix-ui/react-slot"
-import { type HTMLAttributes, type ReactNode, forwardRef, isValidElement } from "react"
+import { type ComponentProps, type ReactNode, isValidElement } from "react"
 import { Slottable } from "~/components/common/slottable"
 import { type VariantProps, cva, cx } from "~/utils/cva"
 
@@ -31,7 +31,7 @@ export const badgeAffixVariants = cva({
   base: "shrink-0 size-[1em]",
 })
 
-type BadgeProps = Omit<HTMLAttributes<HTMLElement>, "prefix"> &
+type BadgeProps = Omit<ComponentProps<"span">, "prefix"> &
   VariantProps<typeof badgeVariants> & {
     /**
      * If set to `true`, the button will be rendered as a child within the component.
@@ -50,14 +50,21 @@ type BadgeProps = Omit<HTMLAttributes<HTMLElement>, "prefix"> &
     suffix?: ReactNode
   }
 
-export const Badge = forwardRef<HTMLSpanElement, BadgeProps>((props: BadgeProps, ref) => {
-  const { children, className, asChild, variant, size, prefix, suffix, ...rest } = props
-
-  const useAsChild = asChild && isValidElement(props.children)
+export const Badge = ({
+  children,
+  className,
+  asChild,
+  variant,
+  size,
+  prefix,
+  suffix,
+  ...props
+}: BadgeProps) => {
+  const useAsChild = asChild && isValidElement(children)
   const Component = useAsChild ? Slot : "span"
 
   return (
-    <Component className={cx(badgeVariants({ variant, size, className }))} {...rest} ref={ref}>
+    <Component className={cx(badgeVariants({ variant, size, className }))} {...props}>
       <Slottable child={children} asChild={asChild}>
         {child => (
           <>
@@ -69,4 +76,4 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>((props: BadgeProps,
       </Slottable>
     </Component>
   )
-})
+}

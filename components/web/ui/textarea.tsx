@@ -1,14 +1,14 @@
-import { type TextareaHTMLAttributes, forwardRef } from "react"
+import type { ComponentProps } from "react"
+import { Box } from "~/components/common/box"
 import { inputVariants } from "~/components/web/ui/input"
 import { type VariantProps, cx } from "~/utils/cva"
 
-export type TextAreaProps = TextareaHTMLAttributes<HTMLTextAreaElement> &
-  VariantProps<typeof inputVariants>
+export type TextAreaProps = ComponentProps<"textarea"> & VariantProps<typeof inputVariants>
 
-export const Textarea = forwardRef<HTMLTextAreaElement, TextAreaProps>((props, ref) => {
-  const { className, ...rest } = props
-
-  return <textarea ref={ref} className={cx(inputVariants({ className }))} {...rest} />
-})
-
-Textarea.displayName = "Textarea"
+export const Textarea = ({ className, ...props }: TextAreaProps) => {
+  return (
+    <Box focus>
+      <textarea className={cx(inputVariants({ className }))} {...props} />
+    </Box>
+  )
+}
