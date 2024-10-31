@@ -4,20 +4,20 @@ import { Slottable } from "~/components/common/slottable"
 import { type VariantProps, cva, cx } from "~/utils/cva"
 
 export const badgeVariants = cva({
-  base: "flex items-center gap-1 text-foreground/65 font-display rounded",
+  base: "flex items-center text-foreground/65 font-display rounded",
 
   variants: {
     variant: {
-      soft: "bg-foreground/5 hover:[&[href]]:bg-foreground/10",
+      soft: "bg-foreground/[7.5%] hover:[&[href]]:bg-foreground/10",
       outline: "bg-background ring-1 ring-foreground/15 hover:[&[href]]:ring-foreground/25",
-      ghost: "bg-transparent !p-0",
+      ghost: "bg-transparent !p-0 hover:[&[href]]:text-foreground",
       success: "bg-green-500/50 text-foreground",
       error: "bg-red-500/50 text-foreground",
     },
     size: {
-      sm: "px-1 py-px text-[10px]/tight",
-      md: "px-1.5 py-[3px] text-xs/tight",
-      lg: "px-2 py-1 text-xs/tight",
+      sm: "px-1 py-px gap-1 text-[10px]/tight",
+      md: "px-1.5 py-[3px] gap-1.5 text-xs/tight",
+      lg: "px-2 py-1 gap-2 text-xs/tight",
     },
   },
 

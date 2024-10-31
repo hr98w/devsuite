@@ -9,7 +9,7 @@ export const RelatedToolsSkeleton = () => {
         Other Alternatives:
       </H4>
 
-      <Grid className="w-full">
+      <Grid>
         {Array.from({ length: 3 }).map((_, index) => (
           <ToolSkeleton key={index} />
         ))}

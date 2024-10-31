@@ -37,7 +37,7 @@ export const RelatedTools = async ({ tool }: { tool: ToolOne }) => {
         Other Alternatives to {tool.name}:
       </H4>
 
-      <Grid className="w-full">
+      <Grid>
         {tools.map(tool => (
           <ToolCard key={tool.id} tool={tool} />
         ))}

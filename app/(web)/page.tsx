@@ -33,7 +33,7 @@ export default async function Home() {
           className="mt-4 mx-auto"
         />
 
-        <Badge size="lg" prefix={<Ping className="mr-1" />} className="order-first" asChild>
+        <Badge size="lg" prefix={<Ping />} className="order-first" asChild>
           <Link href="/tools?sort=publishedAt_desc">
             {newToolsCount
               ? `${newToolsCount} new ${plur("tool", newToolsCount)} added`

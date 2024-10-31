@@ -1,6 +1,5 @@
 import { getUrlHostname } from "@curiousleaf/utils"
-import { formatDistanceToNowStrict } from "date-fns"
-import { ArrowUpRightIcon, DollarSignIcon, HashIcon, SparkleIcon } from "lucide-react"
+import { ArrowUpRightIcon, DollarSignIcon, HashIcon, SparkleIcon, TagIcon } from "lucide-react"
 import type { Metadata } from "next"
 import type { OpenGraph } from "next/dist/lib/metadata/types/opengraph-types"
 import Link from "next/link"
@@ -10,7 +9,7 @@ import { z } from "zod"
 import { findFirstTool, findToolSlugs, findUniqueTool } from "~/api/tools/queries"
 import { RelatedTools } from "~/app/(web)/tools/[slug]/related-tools"
 import { RelatedToolsSkeleton } from "~/app/(web)/tools/[slug]/related-tools-skeleton"
-import { H2 } from "~/components/common/heading"
+import { H2, H6 } from "~/components/common/heading"
 import { Markdown } from "~/components/common/markdown"
 import { Stack } from "~/components/common/stack"
 import { Nav } from "~/components/web/nav"
@@ -19,6 +18,7 @@ import { Button } from "~/components/web/ui/button"
 import { FaviconImage } from "~/components/web/ui/favicon"
 import { Gallery } from "~/components/web/ui/gallery"
 import { IntroDescription } from "~/components/web/ui/intro"
+import { Tag } from "~/components/web/ui/tag"
 import { Wrapper } from "~/components/web/ui/wrapper"
 import { parseMetadata } from "~/utils/metadata"
 
@@ -151,44 +151,36 @@ export default async function ToolPage({ params }: PageProps) {
 
         {tool.content && <Markdown>{tool.content}</Markdown>}
 
-        {!!tool.tags.length && (
-          <nav className="flex flex-wrap gap-y-2 gap-x-4">
-            {tool.tags.map(tag => (
-              <Link
-                key={tag.id}
-                href={`/tags/${tag.slug}`}
-                className="flex items-center gap-0.5 text-foreground/65 text-sm hover:text-foreground"
-              >
-                <HashIcon className="opacity-30" />
-                {tag.slug}
-              </Link>
-            ))}
-          </nav>
-        )}
-
         {!!tool.categories.length && (
-          <nav className="flex flex-wrap gap-y-2 gap-x-4">
-            {tool.categories.map(category => (
-              <Link key={category.id} href={`/categories/${category.slug}`}>
-                {category.name}
-              </Link>
-            ))}
-          </nav>
+          <Stack direction="column">
+            <H6 as="h4">Categories:</H6>
+
+            <Stack>
+              {tool.categories.map(category => (
+                <Tag key={category.id} prefix={<TagIcon className="mr-0.5" />} asChild>
+                  <Link href={`/categories/${category.slug}`}>
+                    {category.name}
+                    <span className="text-foreground/50">({category._count.tools})</span>
+                  </Link>
+                </Tag>
+              ))}
+            </Stack>
+          </Stack>
         )}
 
-        {!!tool.collections.length && (
-          <nav className="flex flex-wrap gap-y-2 gap-x-4">
-            {tool.collections.map(collection => (
-              <Link key={collection.id} href={`/collections/${collection.slug}`}>
-                {collection.name}
-              </Link>
-            ))}
-          </nav>
-        )}
+        {!!tool.tags.length && (
+          <Stack direction="column">
+            <H6 as="h4">Tags:</H6>
 
-        <p className="text-foreground/50 text-sm">
-          Last updated: {formatDistanceToNowStrict(tool.updatedAt, { addSuffix: true })}
-        </p>
+            <Stack>
+              {tool.tags.map(tag => (
+                <Tag key={tag.id} prefix={<HashIcon />} asChild>
+                  <Link href={`/tags/${tag.slug}`}>{tag.slug}</Link>
+                </Tag>
+              ))}
+            </Stack>
+          </Stack>
+        )}
 
         <Nav
           className="sticky bottom-4 z-30 mx-auto"
