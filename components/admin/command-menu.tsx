@@ -5,6 +5,7 @@ import { LoaderIcon } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useServerAction } from "zsa-react"
+import { updateToolContent } from "~/actions/misc"
 import { searchItems } from "~/actions/search"
 import {
   CommandDialog,
@@ -83,6 +84,10 @@ export const CommandMenu = () => {
     setSearchQuery(value)
   }
 
+  const handleUpdateContent = () => {
+    updateToolContent()
+  }
+
   const handleSelect = (url: string) => {
     handleOpenChange(false)
     router.push(url)
@@ -119,9 +124,9 @@ export const CommandMenu = () => {
           <CommandItem onSelect={() => handleSelect("/admin/tags/new")}>New Tag</CommandItem>
         </CommandGroup>
 
-        {/* <CommandGroup heading="Quick Commands">
-          <CommandItem onSelect={handleUpdatePricing}>Update Pricing</CommandItem>
-        </CommandGroup> */}
+        <CommandGroup heading="Quick Commands">
+          <CommandItem onSelect={handleUpdateContent}>Update Content</CommandItem>
+        </CommandGroup>
 
         {!!searchResults?.tools.length && (
           <CommandGroup heading="Tools">

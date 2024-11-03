@@ -123,7 +123,7 @@ export const Plan = ({
       className={cx(planVariants({ className }))}
       {...props}
     >
-      {isFeatured && <CardStars className="brightness-200" />}
+      {isFeatured && <CardStars className="dark:brightness-150" />}
 
       <div className="space-y-3">
         <div className="flex items-center justify-between gap-2">

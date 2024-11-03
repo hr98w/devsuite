@@ -25,19 +25,23 @@ export default async function Home() {
   return (
     <>
       <Intro alignment="center" className="mb-[2.5vh] text-pretty">
-        <IntroTitle className="max-w-2xl">{config.site.tagline} 🚀</IntroTitle>
+        <IntroTitle className="max-w-2xl">{config.site.tagline}</IntroTitle>
         <IntroDescription>{config.site.description}</IntroDescription>
 
         <NewsletterForm
           buttonProps={{ children: "Join our community", size: "md" }}
           className="mt-4 mx-auto"
-        />
+        >
+          <p className="w-full text-xs text-foreground/50">
+            Get the latest tools sent directly to your inbox 🎉
+          </p>
+        </NewsletterForm>
 
         <Badge size="lg" prefix={<Ping />} className="order-first" asChild>
           <Link href="/tools?sort=publishedAt_desc">
             {newToolsCount
-              ? `${newToolsCount} new ${plur("tool", newToolsCount)} added`
-              : `${formatNumber(toolsCount)}+ developer tools`}
+              ? `${formatNumber(newToolsCount)} new ${plur("tool", newToolsCount)} added`
+              : `${formatNumber(toolsCount)}+ tools collected`}
           </Link>
         </Badge>
       </Intro>

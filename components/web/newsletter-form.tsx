@@ -21,6 +21,7 @@ type NewsletterProps = HTMLAttributes<HTMLFormElement> & {
 }
 
 export const NewsletterForm = ({
+  children,
   className,
   medium = "subscribe_form",
   placeholder = "Your email here...",
@@ -81,6 +82,8 @@ export const NewsletterForm = ({
 
         {form.formState.errors.email && <Hint>{form.formState.errors.email.message}</Hint>}
       </form>
+
+      {children}
     </Form>
   )
 }

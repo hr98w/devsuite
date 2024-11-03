@@ -5,10 +5,13 @@ import Link from "next/link"
 import { type HTMLAttributes, useEffect, useState } from "react"
 import { Box } from "~/components/common/box"
 import { Logo } from "~/components/common/logo"
+import { Stack } from "~/components/common/stack"
 import { SearchForm } from "~/components/web/search-form"
+import { Badge } from "~/components/web/ui/badge"
 import { Button } from "~/components/web/ui/button"
 import { Container } from "~/components/web/ui/container"
 import { NavigationLink } from "~/components/web/ui/navigation-link"
+import { Ping } from "~/components/web/ui/ping"
 import { cx } from "~/utils/cva"
 
 export const Header = ({ className, ...props }: HTMLAttributes<HTMLElement>) => {
@@ -38,21 +41,21 @@ export const Header = ({ className, ...props }: HTMLAttributes<HTMLElement>) => 
           "[--offset:50px] [--cutoff:calc(100%-var(--offset))]",
           "fixed left-1/2 w-screen -translate-x-1/2 top-[calc(var(--header-top)*-1)] -bottom-[var(--offset)] backdrop-blur-xl duration-300 pointer-events-none",
           "[mask-image:linear-gradient(to_bottom,black_0,black_var(--cutoff),transparent_var(--cutoff))]",
-          isNavOpen && "max-md:-bottom-[calc(var(--offset)+var(--header-top))]",
+          isNavOpen && "max-lg:-bottom-[calc(var(--offset)+var(--header-top))]",
         )}
       />
 
       <Box>
         <div
           className={cx(
-            "flex flex-wrap items-center gap-3 py-2 px-4 -mx-2 h-[var(--header-height)] bg-background/50 rounded-xl isolate overflow-clip duration-300 md:-mx-4 md:gap-6",
-            "max-md:group-data-[state=open]/menu:h-[calc(100dvh-(var(--header-top)*2))] max-md:group-data-[state=open]/menu:bg-background/75",
+            "flex flex-wrap items-center gap-3 py-2 px-4 -mx-2 h-[var(--header-height)] bg-background/50 rounded-xl isolate overflow-clip duration-300 lg:-mx-4 lg:gap-6",
+            "max-lg:group-data-[state=open]/menu:h-[calc(100dvh-(var(--header-top)*2))] max-lg:group-data-[state=open]/menu:bg-background/75",
           )}
         >
           <button
             type="button"
             onClick={() => setNavOpen(!isNavOpen)}
-            className="block -m-1 md:hidden"
+            className="block -m-1 lg:hidden"
             aria-label="Toggle navigation"
           >
             <svg
@@ -76,15 +79,32 @@ export const Header = ({ className, ...props }: HTMLAttributes<HTMLElement>) => 
             </svg>
           </button>
 
-          <Logo className="mr-auto" />
+          <Stack size="lg" className="mr-auto">
+            <Logo />
 
-          <nav className="hidden md:contents">
+            <Badge
+              size="lg"
+              variant="outline"
+              prefix={
+                <img src="/_static/producthunt.svg" alt="Product Hunt" className="opacity-75" />
+              }
+              className="relative font-medium text-foreground max-md:hidden"
+              asChild
+            >
+              <Link href="#">
+                Live on ProductHunt
+                <Ping className="size-2.5 text-green-600 absolute -top-1 -right-1" />
+              </Link>
+            </Badge>
+          </Stack>
+
+          <nav className="hidden lg:contents">
             <NavigationLink href="/tools">All Tools</NavigationLink>
             <NavigationLink href="/categories">Categories</NavigationLink>
             <NavigationLink href="/collections">Collections</NavigationLink>
           </nav>
 
-          <SearchForm className="md:-mx-2" />
+          <SearchForm className="lg:-mx-2" />
 
           <Button size="md" variant="primary" suffix={<SparkleIcon />} className="-mr-1.5" asChild>
             <Link href="/submit">Submit</Link>
@@ -92,7 +112,7 @@ export const Header = ({ className, ...props }: HTMLAttributes<HTMLElement>) => 
 
           <nav
             className={cx(
-              "size-full mt-6 mb-4 grid grid-cols-2 place-content-start gap-x-4 gap-y-6 px-2 text-lg transition-opacity md:hidden",
+              "size-full mt-6 mb-4 grid grid-cols-2 place-content-start gap-x-4 gap-y-6 px-2 text-lg transition-opacity lg:hidden",
               "group-data-[state=open]/menu:opacity-100 group-data-[state=close]/menu:opacity-0",
             )}
           >
