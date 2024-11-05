@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { CategoryActions } from "~/app/admin/categories/_components/category-actions"
 import { CategoryForm } from "~/app/admin/categories/_components/category-form"
-import { getCategoryBySlug, getCategorySlugs, getTools } from "~/app/admin/categories/_lib/queries"
+import { getCategoryBySlug, getTools } from "~/app/admin/categories/_lib/queries"
 import { Wrapper } from "~/components/admin/ui/wrapper"
 import { H4 } from "~/components/common/heading"
 
@@ -12,11 +12,6 @@ type PageProps = {
 
 export const metadata: Metadata = {
   title: "Update category",
-}
-
-export const generateStaticParams = async () => {
-  const categories = await getCategorySlugs()
-  return categories.map(({ slug }) => ({ slug }))
 }
 
 export default async function UpdateCategoryPage({ params }: PageProps) {

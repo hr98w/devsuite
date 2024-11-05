@@ -7,18 +7,12 @@ import {
   getCollections,
   getTags,
   getToolBySlug,
-  getToolSlugs,
 } from "~/app/admin/tools/_lib/queries"
 import { Wrapper } from "~/components/admin/ui/wrapper"
 import { H4 } from "~/components/common/heading"
 
 type PageProps = {
   params: Promise<{ slug: string }>
-}
-
-export const generateStaticParams = async () => {
-  const tools = await getToolSlugs()
-  return tools.map(({ slug }) => ({ slug }))
 }
 
 export const metadata: Metadata = {

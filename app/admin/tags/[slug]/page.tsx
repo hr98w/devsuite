@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { TagActions } from "~/app/admin/tags/_components/tag-actions"
 import { TagForm } from "~/app/admin/tags/_components/tag-form"
-import { getTagBySlug, getTagSlugs, getTools } from "~/app/admin/tags/_lib/queries"
+import { getTagBySlug, getTools } from "~/app/admin/tags/_lib/queries"
 import { Wrapper } from "~/components/admin/ui/wrapper"
 import { H4 } from "~/components/common/heading"
 
@@ -12,11 +12,6 @@ type PageProps = {
 
 export const metadata: Metadata = {
   title: "Update tag",
-}
-
-export const generateStaticParams = async () => {
-  const tags = await getTagSlugs()
-  return tags.map(({ slug }) => ({ slug }))
 }
 
 export default async function UpdateTagPage({ params }: PageProps) {

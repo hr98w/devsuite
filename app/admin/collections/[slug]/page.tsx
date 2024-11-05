@@ -2,11 +2,7 @@ import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { CollectionActions } from "~/app/admin/collections/_components/collection-actions"
 import { CollectionForm } from "~/app/admin/collections/_components/collection-form"
-import {
-  getCollectionBySlug,
-  getCollectionSlugs,
-  getTools,
-} from "~/app/admin/collections/_lib/queries"
+import { getCollectionBySlug, getTools } from "~/app/admin/collections/_lib/queries"
 import { Wrapper } from "~/components/admin/ui/wrapper"
 import { H4 } from "~/components/common/heading"
 
@@ -16,11 +12,6 @@ type PageProps = {
 
 export const metadata: Metadata = {
   title: "Update collection",
-}
-
-export const generateStaticParams = async () => {
-  const collections = await getCollectionSlugs()
-  return collections.map(({ slug }) => ({ slug }))
 }
 
 export default async function UpdateCollectionPage({ params }: PageProps) {
