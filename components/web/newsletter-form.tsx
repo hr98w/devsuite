@@ -7,11 +7,11 @@ import { toast } from "sonner"
 import type { z } from "zod"
 import { useServerAction } from "zsa-react"
 import { subscribeToNewsletter } from "~/actions/subscribe"
-import { newsletterSchema } from "~/api/schemas"
 import { Form, FormControl, FormField } from "~/components/common/form"
 import { Hint } from "~/components/common/hint"
 import { Button, type ButtonProps } from "~/components/web/ui/button"
 import { Input } from "~/components/web/ui/input"
+import { newsletterSchema } from "~/server/schemas"
 import { cx } from "~/utils/cva"
 
 type NewsletterProps = HTMLAttributes<HTMLFormElement> & {

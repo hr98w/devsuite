@@ -1,8 +1,8 @@
 import Link from "next/link"
 import plur from "plur"
 import type { HTMLAttributes } from "react"
-import type { TagMany } from "~/api/tags/payloads"
 import { H5 } from "~/components/common/heading"
+import type { TagMany } from "~/server/tags/payloads"
 import { cx } from "~/utils/cva"
 
 type TagCardProps = HTMLAttributes<HTMLElement> & {

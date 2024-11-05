@@ -3,7 +3,7 @@
 import { slugify } from "@curiousleaf/utils"
 import { createServerAction } from "zsa"
 import { subscribeToNewsletter } from "~/actions/subscribe"
-import { submitToolSchema } from "~/api/schemas"
+import { submitToolSchema } from "~/server/schemas"
 import { inngest } from "~/services/inngest"
 import { prisma } from "~/services/prisma"
 

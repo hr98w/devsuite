@@ -8,7 +8,6 @@ import { toast } from "sonner"
 import type { z } from "zod"
 import { useServerAction } from "zsa-react"
 import { submitTool } from "~/actions/submit"
-import { submitToolSchema } from "~/api/schemas"
 import { Checkbox } from "~/components/common/checkbox"
 import {
   Form,
@@ -21,6 +20,7 @@ import {
 import { FeatureNudge } from "~/components/web/feature-nudge"
 import { Button } from "~/components/web/ui/button"
 import { Input } from "~/components/web/ui/input"
+import { submitToolSchema } from "~/server/schemas"
 import { cx } from "~/utils/cva"
 
 export const SubmitForm = ({ className, ...props }: HTMLAttributes<HTMLFormElement>) => {

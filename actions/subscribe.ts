@@ -2,8 +2,8 @@
 
 import ky from "ky"
 import { createServerAction } from "zsa"
-import { newsletterSchema } from "~/api/schemas"
 import { env } from "~/env"
+import { newsletterSchema } from "~/server/schemas"
 
 /**
  * Subscribe to the newsletter

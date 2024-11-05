@@ -1,13 +1,13 @@
 "use client"
 
 import { useQueryStates } from "nuqs"
-import type { ToolMany } from "~/api/tools/payloads"
-import { searchParams } from "~/api/tools/search-params"
 import { ToolCard } from "~/components/web/cards/tool-card"
 import { EmptyList } from "~/components/web/empty-list"
 import { Pagination } from "~/components/web/pagination"
 import { ToolListFilters, type ToolListFiltersProps } from "~/components/web/tool-list-filters"
 import { Grid } from "~/components/web/ui/grid"
+import type { ToolMany } from "~/server/tools/payloads"
+import { searchParams } from "~/server/tools/search-params"
 
 type ToolListProps = ToolListFiltersProps & {
   tools: ToolMany[]

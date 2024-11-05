@@ -1,5 +1,5 @@
 import type { Prisma } from "@prisma/client"
-import { collectionManyPayload, collectionOnePayload } from "~/api/collections/payloads"
+import { collectionManyPayload, collectionOnePayload } from "~/server/collections/payloads"
 import { prisma } from "~/services/prisma"
 
 export const findCollections = async ({

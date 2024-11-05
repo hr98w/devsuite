@@ -2,10 +2,10 @@ import { ArrowRightIcon } from "lucide-react"
 import Link from "next/link"
 import plur from "plur"
 import type { ComponentProps } from "react"
-import type { CategoryMany } from "~/api/categories/payloads"
-import type { CollectionMany } from "~/api/collections/payloads"
 import { H5 } from "~/components/common/heading"
 import { Card, CardDescription } from "~/components/web/ui/card"
+import type { CategoryMany } from "~/server/categories/payloads"
+import type { CollectionMany } from "~/server/collections/payloads"
 
 type CategoryCardProps = ComponentProps<typeof Link> & {
   category: CategoryMany | CollectionMany

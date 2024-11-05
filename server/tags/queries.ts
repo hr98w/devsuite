@@ -1,5 +1,5 @@
 import type { Prisma } from "@prisma/client"
-import { tagManyPayload, tagOnePayload } from "~/api/tags/payloads"
+import { tagManyPayload, tagOnePayload } from "~/server/tags/payloads"
 import { prisma } from "~/services/prisma"
 
 export const findTags = async ({ where, orderBy, ...args }: Prisma.TagFindManyArgs) => {

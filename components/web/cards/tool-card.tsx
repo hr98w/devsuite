@@ -1,12 +1,12 @@
 import { DollarSignIcon, SparkleIcon } from "lucide-react"
 import Link from "next/link"
 import type { HTMLAttributes } from "react"
-import type { ToolMany } from "~/api/tools/payloads"
 import { H4 } from "~/components/common/heading"
 import { Stack } from "~/components/common/stack"
 import { Badge } from "~/components/web/ui/badge"
 import { Card, CardDescription, CardStars } from "~/components/web/ui/card"
 import { Favicon } from "~/components/web/ui/favicon"
+import type { ToolMany } from "~/server/tools/payloads"
 
 type ToolCardProps = HTMLAttributes<HTMLElement> & {
   tool: ToolMany

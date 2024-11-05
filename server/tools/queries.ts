@@ -1,8 +1,8 @@
 import type { Prisma } from "@prisma/client"
 import type { SearchParams } from "nuqs/server"
-import { toolManyPayload, toolOnePayload } from "~/api/tools/payloads"
-import { searchParamsCache } from "~/api/tools/search-params"
 import { auth } from "~/lib/auth"
+import { toolManyPayload, toolOnePayload } from "~/server/tools/payloads"
+import { searchParamsCache } from "~/server/tools/search-params"
 import { prisma } from "~/services/prisma"
 
 export const searchTools = async (

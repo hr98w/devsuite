@@ -1,11 +1,11 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import type { SearchParams } from "nuqs/server"
-import { findTagSlugs, findUniqueTag } from "~/api/tags/queries"
-import { searchTools } from "~/api/tools/queries"
 import { ToolList } from "~/components/web/tool-list"
 import { Intro, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
+import { findTagSlugs, findUniqueTag } from "~/server/tags/queries"
+import { searchTools } from "~/server/tools/queries"
 import { parseMetadata } from "~/utils/metadata"
 
 type PageProps = {

@@ -1,8 +1,8 @@
-import type { ToolOne } from "~/api/tools/payloads"
-import { countUpcomingTools } from "~/api/tools/queries"
 import { Plan } from "~/components/web/plan"
 import { getProductFeatures, getProducts } from "~/lib/products"
 import { isToolPublished } from "~/lib/tools"
+import type { ToolOne } from "~/server/tools/payloads"
+import { countUpcomingTools } from "~/server/tools/queries"
 import { stripe } from "~/services/stripe"
 
 type SubmitProductsProps = {

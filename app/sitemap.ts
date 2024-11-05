@@ -1,9 +1,9 @@
 import type { MetadataRoute } from "next"
-import { findCategorySlugs } from "~/api/categories/queries"
-import { findCollectionSlugs } from "~/api/collections/queries"
-import { findTagSlugs } from "~/api/tags/queries"
-import { findToolSlugs } from "~/api/tools/queries"
 import { env } from "~/env"
+import { findCategorySlugs } from "~/server/categories/queries"
+import { findCollectionSlugs } from "~/server/collections/queries"
+import { findTagSlugs } from "~/server/tags/queries"
+import { findToolSlugs } from "~/server/tools/queries"
 
 export default async function Sitemap(): Promise<MetadataRoute.Sitemap> {
   const url = env.NEXT_PUBLIC_SITE_URL

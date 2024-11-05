@@ -6,7 +6,6 @@ import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { Fragment, type HTMLAttributes } from "react"
 import { toast } from "sonner"
-import type { ToolOne } from "~/api/tools/payloads"
 import { BrandFacebookIcon } from "~/components/common/icons/brand-facebook"
 import { BrandHackerNewsIcon } from "~/components/common/icons/brand-hackernews"
 import { BrandLinkedInIcon } from "~/components/common/icons/brand-linkedin"
@@ -17,6 +16,7 @@ import { NavItem, type NavItemProps } from "~/components/web/nav-item"
 import { Dock } from "~/components/web/ui/dock"
 import { Tooltip, TooltipProvider } from "~/components/web/ui/tooltip"
 import { config } from "~/config"
+import type { ToolOne } from "~/server/tools/payloads"
 
 type NavProps = HTMLAttributes<HTMLElement> & {
   tool: ToolOne

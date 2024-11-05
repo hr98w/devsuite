@@ -1,10 +1,10 @@
 import { getRandomElement } from "@curiousleaf/utils"
 import type { Prisma } from "@prisma/client"
-import type { ToolOne } from "~/api/tools/payloads"
-import { findTools } from "~/api/tools/queries"
 import { H4 } from "~/components/common/heading"
 import { ToolCard } from "~/components/web/cards/tool-card"
 import { Grid } from "~/components/web/ui/grid"
+import type { ToolOne } from "~/server/tools/payloads"
+import { findTools } from "~/server/tools/queries"
 import { prisma } from "~/services/prisma"
 
 export const RelatedTools = async ({ tool }: { tool: ToolOne }) => {

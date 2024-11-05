@@ -3,10 +3,10 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { cache } from "react"
-import { findUniqueTool } from "~/api/tools/queries"
 import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
 import { config } from "~/config"
+import { findUniqueTool } from "~/server/tools/queries"
 import { parseMetadata } from "~/utils/metadata"
 
 type PageProps = {

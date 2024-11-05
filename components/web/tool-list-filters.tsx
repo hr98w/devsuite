@@ -3,11 +3,11 @@
 import { LoaderIcon, SearchIcon } from "lucide-react"
 import { type Values, useQueryStates } from "nuqs"
 import { useEffect, useState, useTransition } from "react"
-import { searchParams } from "~/api/tools/search-params"
 import { Stack } from "~/components/common/stack"
 import { Input } from "~/components/web/ui/input"
 import { Select } from "~/components/web/ui/select"
 import { useDebounce } from "~/hooks/use-debounce"
+import { searchParams } from "~/server/tools/search-params"
 
 export type ToolListFiltersProps = {
   placeholder?: string

@@ -1,10 +1,10 @@
 import type { Metadata } from "next"
 import type { SearchParams } from "nuqs/server"
 import { cache } from "react"
-import { searchTools } from "~/api/tools/queries"
 import { ToolList } from "~/components/web/tool-list"
 import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
+import { searchTools } from "~/server/tools/queries"
 import { parseMetadata } from "~/utils/metadata"
 
 type PageProps = {

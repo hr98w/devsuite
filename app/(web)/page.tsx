@@ -2,8 +2,6 @@ import { formatNumber } from "@curiousleaf/utils"
 import { subDays } from "date-fns"
 import Link from "next/link"
 import plur from "plur"
-import { findCategories } from "~/api/categories/queries"
-import { countTools, findTools } from "~/api/tools/queries"
 import { H3 } from "~/components/common/heading"
 import { CategoryCard } from "~/components/web/cards/category-card"
 import { ToolCard } from "~/components/web/cards/tool-card"
@@ -13,6 +11,8 @@ import { Grid } from "~/components/web/ui/grid"
 import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
 import { Ping } from "~/components/web/ui/ping"
 import { config } from "~/config"
+import { findCategories } from "~/server/categories/queries"
+import { countTools, findTools } from "~/server/tools/queries"
 
 export default async function Home() {
   const [categories, tools, toolsCount, newToolsCount] = await Promise.all([
