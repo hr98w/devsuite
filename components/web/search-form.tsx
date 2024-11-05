@@ -97,7 +97,9 @@ export const SearchForm = ({ className, ...props }: HTMLAttributes<HTMLFormEleme
           </button>
 
           {isPending && (
-            <LoaderIcon className="absolute top-1/2 -translate-y-1/2 right-1 size-4 animate-spin" />
+            <div className="absolute top-1/2 -translate-y-1/2 right-2">
+              <LoaderIcon className="animate-spin" />
+            </div>
           )}
         </div>
       </form>
