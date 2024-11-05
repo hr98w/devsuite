@@ -4,6 +4,8 @@ import { prisma } from "~/services/prisma"
 import { addUTMTracking } from "~/utils/helpers"
 
 export async function GET() {
+  const { url, name, tagline } = config.site
+
   const tools = await prisma.tool.findMany({
     where: { publishedAt: { lte: new Date() } },
     orderBy: { publishedAt: "desc" },
@@ -12,11 +14,11 @@ export async function GET() {
   })
 
   const feed = new RSS({
-    title: config.site.name,
-    description: config.site.tagline,
-    site_url: addUTMTracking(config.site.url, { source: "rss" }),
-    feed_url: `${config.site.url}/rss.xml`,
-    copyright: `${new Date().getFullYear()} ${config.site.name}`,
+    title: name,
+    description: tagline,
+    site_url: addUTMTracking(url, { source: "rss" }),
+    feed_url: `${url}/rss.xml`,
+    copyright: `${new Date().getFullYear()} ${name}`,
     language: "en",
     ttl: 14400,
     pubDate: new Date(),
@@ -26,8 +28,8 @@ export async function GET() {
     feed.item({
       title: tool.name,
       guid: tool.slug,
-      url: addUTMTracking(`${config.site.url}/tools/${tool.slug}`, { source: "rss" }),
-      date: tool.publishedAt?.toUTCString() ?? new Date().toUTCString(),
+      url: addUTMTracking(`${url}/tools/${tool.slug}`, { source: "rss" }),
+      date: tool.publishedAt ?? new Date(),
       description: tool.description ?? "",
       categories: tool.categories?.map(c => c.name) || [],
     })

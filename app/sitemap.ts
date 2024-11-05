@@ -1,12 +1,12 @@
 import type { MetadataRoute } from "next"
-import { env } from "~/env"
+import { config } from "~/config"
 import { findCategorySlugs } from "~/server/categories/queries"
 import { findCollectionSlugs } from "~/server/collections/queries"
 import { findTagSlugs } from "~/server/tags/queries"
 import { findToolSlugs } from "~/server/tools/queries"
 
 export default async function Sitemap(): Promise<MetadataRoute.Sitemap> {
-  const url = env.NEXT_PUBLIC_SITE_URL
+  const { url } = config.site
 
   const [tools, categories, collections, tags] = await Promise.all([
     findToolSlugs({}),

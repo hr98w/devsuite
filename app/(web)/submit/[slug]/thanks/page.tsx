@@ -6,7 +6,7 @@ import { cache } from "react"
 import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
 import { config } from "~/config"
-import { findUniqueTool } from "~/server/tools/queries"
+import { findToolSlugs, findUniqueTool } from "~/server/tools/queries"
 import { parseMetadata } from "~/utils/metadata"
 
 type PageProps = {
@@ -28,6 +28,11 @@ const getMetadata = cache((tool: Tool, metadata?: Metadata): Metadata => {
     description: `We've received your submission. We'll review it shortly and get back to you.`,
   }
 })
+
+export const generateStaticParams = async () => {
+  const tools = await findToolSlugs({ where: { publishedAt: undefined } })
+  return tools.map(({ slug }) => ({ slug }))
+}
 
 export const generateMetadata = async ({ params }: PageProps): Promise<Metadata | undefined> => {
   const { slug } = await params

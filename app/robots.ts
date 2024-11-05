@@ -1,8 +1,8 @@
 import type { MetadataRoute } from "next"
-import { env } from "~/env"
+import { config } from "~/config"
 
 export default function Robots(): MetadataRoute.Robots {
-  const url = env.NEXT_PUBLIC_SITE_URL
+  const { url } = config.site
 
   return {
     rules: {

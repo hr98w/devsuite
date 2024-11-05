@@ -13,7 +13,7 @@ import { Ping } from "~/components/web/ui/ping"
 import { Wrapper } from "~/components/web/ui/wrapper"
 import { config } from "~/config"
 import { isToolPublished } from "~/lib/tools"
-import { findUniqueTool } from "~/server/tools/queries"
+import { findToolSlugs, findUniqueTool } from "~/server/tools/queries"
 import { parseMetadata } from "~/utils/metadata"
 
 type PageProps = {
@@ -35,6 +35,11 @@ const getMetadata = cache((tool: Tool, metadata?: Metadata): Metadata => {
     description: `Maximize ${tool.name}'s impact from day one. Select a package that suits your goals - from free listing to premium features.`,
   }
 })
+
+export const generateStaticParams = async () => {
+  const tools = await findToolSlugs({ where: { publishedAt: undefined } })
+  return tools.map(({ slug }) => ({ slug }))
+}
 
 export const generateMetadata = async ({ params }: PageProps): Promise<Metadata | undefined> => {
   const { slug } = await params
