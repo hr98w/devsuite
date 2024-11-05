@@ -29,7 +29,7 @@ export default auth(req => {
     }
   }
 
-  if (!req.auth && pathname.includes("/admin")) {
+  if (!req.auth && pathname.startsWith("/admin")) {
     return NextResponse.redirect(new URL("/login", req.url))
   }
 
