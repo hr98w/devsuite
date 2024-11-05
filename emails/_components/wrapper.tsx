@@ -30,9 +30,9 @@ export const EmailWrapper = ({ to, subject, children, ...props }: EmailWrapperPr
             <Link href={config.site.url} className="inline-block mt-6 mb-2">
               <Img
                 src={`${config.site.url}/_static/logo.svg`}
+                alt={`${config.site.name} Logo`}
                 width="122"
                 height="32"
-                alt={config.site.name}
                 className="h-7 w-auto"
               />
             </Link>

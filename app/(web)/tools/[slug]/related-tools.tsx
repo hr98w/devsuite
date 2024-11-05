@@ -1,8 +1,7 @@
 import { getRandomElement } from "@curiousleaf/utils"
 import type { Prisma } from "@prisma/client"
-import { H4 } from "~/components/common/heading"
 import { ToolCard } from "~/components/web/cards/tool-card"
-import { Grid } from "~/components/web/ui/grid"
+import { Listing } from "~/components/web/listing"
 import type { ToolOne } from "~/server/tools/payloads"
 import { findTools } from "~/server/tools/queries"
 import { prisma } from "~/services/prisma"
@@ -32,16 +31,10 @@ export const RelatedTools = async ({ tool }: { tool: ToolOne }) => {
   }
 
   return (
-    <div className="flex flex-col items-center gap-6 lg:gap-8">
-      <H4 as="h3" className="text-center">
-        Other Alternatives to {tool.name}:
-      </H4>
-
-      <Grid>
-        {tools.map(tool => (
-          <ToolCard key={tool.id} tool={tool} />
-        ))}
-      </Grid>
-    </div>
+    <Listing title={`Developer Tools Similar to ${tool.name}:`}>
+      {tools.map(tool => (
+        <ToolCard key={tool.id} tool={tool} />
+      ))}
+    </Listing>
   )
 }

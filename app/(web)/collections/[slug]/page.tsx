@@ -1,11 +1,12 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import type { SearchParams } from "nuqs/server"
-import { ToolList } from "~/components/web/tool-list"
+import { Suspense } from "react"
+import { ToolsListing } from "~/app/(web)/tools/(tools)/listing"
+import { ToolListSkeleton } from "~/components/web/tool-list-skeleton"
 import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
 import { findCollectionSlugs, findUniqueCollection } from "~/server/collections/queries"
-import { searchTools } from "~/server/tools/queries"
 import { parseMetadata } from "~/utils/metadata"
 
 type PageProps = {
@@ -36,11 +37,7 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata 
 
 export default async function CollectionPage({ params, searchParams }: PageProps) {
   const { slug } = await params
-
-  const [collection, { tools, totalCount }] = await Promise.all([
-    findUniqueCollection({ where: { slug } }),
-    searchTools(await searchParams, { where: { collections: { some: { slug } } } }),
-  ])
+  const collection = await findUniqueCollection({ where: { slug } })
 
   if (!collection) {
     notFound()
@@ -48,16 +45,18 @@ export default async function CollectionPage({ params, searchParams }: PageProps
 
   return (
     <Wrapper>
-      <Intro alignment="center">
+      <Intro>
         <IntroTitle>{collection.name}</IntroTitle>
         <IntroDescription>{collection.description}</IntroDescription>
       </Intro>
 
-      <ToolList
-        tools={tools}
-        totalCount={totalCount}
-        placeholder={`Search ${collection.name.toLowerCase()} tools...`}
-      />
+      <Suspense fallback={<ToolListSkeleton />}>
+        <ToolsListing
+          searchParams={searchParams}
+          where={{ collections: { some: { slug } } }}
+          placeholder={`Search ${collection.name.toLowerCase()} tools...`}
+        />
+      </Suspense>
     </Wrapper>
   )
 }

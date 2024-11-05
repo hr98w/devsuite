@@ -36,7 +36,7 @@ export default async function LoginPage() {
 
   return (
     <Wrapper size="sm">
-      <Intro alignment="center">
+      <Intro>
         <IntroTitle>{title?.toString()}</IntroTitle>
       </Intro>
 

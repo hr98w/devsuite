@@ -16,9 +16,7 @@ export const EmailFeatureNudge = ({ tool, showButton }: EmailFeatureNudgeProps) 
     "⏱️ Get published within 12 hours",
     "🔗 Get a do-follow link",
     "⭐ Featured on our homepage",
-    "📌 Pinned at the top of category pages",
-    "📌 Pinned at the top of topics pages",
-    "📌 Pinned at the top of related tool listings",
+    "📌 Prominent placement on collection pages",
     "✏️ Unlimited content updates",
   ]
 
@@ -32,8 +30,7 @@ export const EmailFeatureNudge = ({ tool, showButton }: EmailFeatureNudgeProps) 
 
       <Text>
         Want to maximize {tool?.name}'s visibility? Consider upgrading to{" "}
-        <Link href={link}>our Featured plan</Link>. We offer a wide range of featuring options such
-        as:
+        <Link href={link}>our Featured plan</Link>. We offer a wide range of featuring options:
       </Text>
 
       <ul>

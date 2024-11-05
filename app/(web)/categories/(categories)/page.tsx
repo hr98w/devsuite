@@ -1,17 +1,16 @@
 import type { Metadata } from "next"
-import { cache } from "react"
-import { CategoryCard } from "~/components/web/cards/category-card"
-import { EmptyList } from "~/components/web/empty-list"
+import { Suspense, cache } from "react"
+import { CategorySkeleton } from "~/components/web/cards/category-skeleton"
 import { Grid } from "~/components/web/ui/grid"
 import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
-import { findCategories } from "~/server/categories/queries"
 import { parseMetadata } from "~/utils/metadata"
+import { CategoriesListing } from "./listing"
 
 const getMetadata = cache(
   (metadata?: Metadata): Metadata => ({
     ...metadata,
-    title: "Developer Tools by Category",
+    title: "Browse Developer Tools by Category",
     description:
       "Browse top categories of developer tools. Stop wasting time and money by developing tools that already exist.",
   }),
@@ -24,27 +23,20 @@ export const metadata = parseMetadata(
   }),
 )
 
-export default async function Categories() {
+export default function Categories() {
   const { title, description } = getMetadata()
-  const categories = await findCategories({})
 
   return (
     <Wrapper>
-      <Intro alignment="center">
+      <Intro>
         <IntroTitle>{title?.toString()}</IntroTitle>
         <IntroDescription>{description}</IntroDescription>
       </Intro>
 
       <Grid>
-        {categories.map(category => (
-          <CategoryCard
-            key={category.id}
-            href={`/categories/${category.slug}`}
-            category={category}
-          />
-        ))}
-
-        {!categories.length && <EmptyList>No categories found.</EmptyList>}
+        <Suspense fallback={[...Array(6)].map((_, index) => <CategorySkeleton key={index} />)}>
+          <CategoriesListing />
+        </Suspense>
       </Grid>
     </Wrapper>
   )

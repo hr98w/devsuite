@@ -1,11 +1,12 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import type { SearchParams } from "nuqs/server"
-import { ToolList } from "~/components/web/tool-list"
+import { Suspense } from "react"
+import { ToolsListing } from "~/app/(web)/tools/(tools)/listing"
+import { ToolListSkeleton } from "~/components/web/tool-list-skeleton"
 import { Intro, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
 import { findTagSlugs, findUniqueTag } from "~/server/tags/queries"
-import { searchTools } from "~/server/tools/queries"
 import { parseMetadata } from "~/utils/metadata"
 
 type PageProps = {
@@ -36,11 +37,7 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata 
 
 export default async function TagPage({ params, searchParams }: PageProps) {
   const { slug } = await params
-
-  const [tag, { tools, totalCount }] = await Promise.all([
-    findUniqueTag({ where: { slug } }),
-    searchTools(await searchParams, { where: { tags: { some: { slug } } } }),
-  ])
+  const tag = await findUniqueTag({ where: { slug } })
 
   if (!tag) {
     notFound()
@@ -48,11 +45,17 @@ export default async function TagPage({ params, searchParams }: PageProps) {
 
   return (
     <Wrapper>
-      <Intro alignment="center">
+      <Intro>
         <IntroTitle>{tag.name}</IntroTitle>
       </Intro>
 
-      <ToolList tools={tools} totalCount={totalCount} placeholder={`Search in "${tag.name}"`} />
+      <Suspense fallback={<ToolListSkeleton />}>
+        <ToolsListing
+          searchParams={searchParams}
+          where={{ tags: { some: { slug } } }}
+          placeholder={`Search in "${tag.name}"`}
+        />
+      </Suspense>
     </Wrapper>
   )
 }

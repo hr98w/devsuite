@@ -105,7 +105,7 @@ export default async function SubmitPackages({ params, searchParams }: PageProps
 
   return (
     <Wrapper>
-      <Intro alignment="center">
+      <Intro>
         <IntroTitle>{title?.toString()}</IntroTitle>
         <IntroDescription>{description}</IntroDescription>
 
@@ -132,7 +132,7 @@ export default async function SubmitPackages({ params, searchParams }: PageProps
         </div>
       )}
 
-      <Intro alignment="center">
+      <Intro>
         <IntroTitle size="h3">Have questions?</IntroTitle>
 
         <Prose>

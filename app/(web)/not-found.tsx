@@ -9,7 +9,7 @@ export default function NotFound() {
   const pathname = usePathname()
 
   return (
-    <Intro alignment="center">
+    <Intro>
       <IntroTitle>404 Not Found</IntroTitle>
 
       <IntroDescription className="max-w-xl">

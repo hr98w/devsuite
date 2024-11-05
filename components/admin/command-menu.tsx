@@ -63,7 +63,7 @@ export const CommandMenu = () => {
   useEffect(() => {
     const performSearch = async () => {
       if (searchQuery.length > 1) {
-        execute({ query: searchQuery })
+        execute({ q: searchQuery })
       } else {
         setSearchResults(null)
       }

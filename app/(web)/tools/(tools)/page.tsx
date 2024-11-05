@@ -1,11 +1,12 @@
 import type { Metadata } from "next"
 import type { SearchParams } from "nuqs/server"
-import { cache } from "react"
-import { ToolList } from "~/components/web/tool-list"
+import { Suspense, cache } from "react"
+import { ToolListSkeleton } from "~/components/web/tool-list-skeleton"
 import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
-import { searchTools } from "~/server/tools/queries"
+import { config } from "~/config"
 import { parseMetadata } from "~/utils/metadata"
+import { ToolsListing } from "./listing"
 
 type PageProps = {
   searchParams: Promise<SearchParams>
@@ -14,9 +15,8 @@ type PageProps = {
 const getMetadata = cache(
   (metadata?: Metadata): Metadata => ({
     ...metadata,
-    title: "Browse Top Developer Tools",
-    description:
-      "Browse top developer tools. Stop wasting time and money by developing tools that already exist.",
+    title: "Browse All Developer Tools",
+    description: config.site.description,
   }),
 )
 
@@ -27,18 +27,19 @@ export const metadata = parseMetadata(
   }),
 )
 
-export default async function Tools({ searchParams }: PageProps) {
+export default function Tools({ searchParams }: PageProps) {
   const { title, description } = getMetadata()
-  const { tools, totalCount } = await searchTools(await searchParams, {})
 
   return (
     <Wrapper>
-      <Intro alignment="center">
+      <Intro>
         <IntroTitle>{title?.toString()}</IntroTitle>
         <IntroDescription>{description}</IntroDescription>
       </Intro>
 
-      <ToolList tools={tools} totalCount={totalCount} />
+      <Suspense fallback={<ToolListSkeleton />}>
+        <ToolsListing searchParams={searchParams} />
+      </Suspense>
     </Wrapper>
   )
 }

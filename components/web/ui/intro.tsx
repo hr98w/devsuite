@@ -1,6 +1,5 @@
-import type { HTMLAttributes } from "react"
+import type { ComponentProps, HTMLAttributes } from "react"
 import { Heading, type HeadingProps } from "~/components/common/heading"
-import { Prose } from "~/components/common/prose"
 import { type VariantProps, cva, cx } from "~/utils/cva"
 
 const introVariants = cva({
@@ -15,7 +14,7 @@ const introVariants = cva({
   },
 
   defaultVariants: {
-    alignment: "start",
+    alignment: "center",
   },
 })
 
@@ -28,17 +27,16 @@ const Intro = ({ className, alignment, ...props }: IntroProps) => {
   return <div className={cx(introVariants({ alignment, className }))} {...props} />
 }
 
-const IntroTitle = ({ size = "h1", ...props }: HTMLAttributes<HTMLElement> & HeadingProps) => {
+const IntroTitle = ({ size = "h1", ...props }: ComponentProps<typeof Heading>) => {
   return <Heading size={size} {...props} />
 }
 
-const IntroDescription = ({ children, className, ...props }: HTMLAttributes<HTMLElement>) => {
+const IntroDescription = ({ className, ...props }: ComponentProps<"h2">) => {
   return (
-    <Prose className={cx("w-full max-w-2xl", className)} {...props}>
-      <h2 className="!text-base !font-normal !tracking-normal !text-foreground/65 md:!text-lg">
-        {children}
-      </h2>
-    </Prose>
+    <h2
+      className={cx("w-full max-w-2xl text-base text-foreground/65 md:text-lg", className)}
+      {...props}
+    />
   )
 }
 

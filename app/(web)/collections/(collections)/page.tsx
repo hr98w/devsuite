@@ -1,17 +1,16 @@
 import type { Metadata } from "next"
-import { cache } from "react"
-import { CategoryCard } from "~/components/web/cards/category-card"
-import { EmptyList } from "~/components/web/empty-list"
+import { Suspense, cache } from "react"
+import { CategorySkeleton } from "~/components/web/cards/category-skeleton"
 import { Grid } from "~/components/web/ui/grid"
 import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
-import { findCollections } from "~/server/collections/queries"
 import { parseMetadata } from "~/utils/metadata"
+import { CollectionsListing } from "./listing"
 
 const getMetadata = cache(
   (metadata?: Metadata): Metadata => ({
     ...metadata,
-    title: "Developer Tools by Collection",
+    title: "Browse Developer Tools by Collection",
     description:
       "Browse top collections of developer tools. Stop wasting time and money by developing tools that already exist.",
   }),
@@ -24,27 +23,20 @@ export const metadata = parseMetadata(
   }),
 )
 
-export default async function Collections() {
+export default function Collections() {
   const { title, description } = getMetadata()
-  const collections = await findCollections({})
 
   return (
     <Wrapper>
-      <Intro alignment="center">
+      <Intro>
         <IntroTitle>{title?.toString()}</IntroTitle>
         <IntroDescription>{description}</IntroDescription>
       </Intro>
 
       <Grid>
-        {collections.map(collection => (
-          <CategoryCard
-            key={collection.id}
-            href={`/collections/${collection.slug}`}
-            category={collection}
-          />
-        ))}
-
-        {!collections.length && <EmptyList>No collections found.</EmptyList>}
+        <Suspense fallback={[...Array(6)].map((_, index) => <CategorySkeleton key={index} />)}>
+          <CollectionsListing />
+        </Suspense>
       </Grid>
     </Wrapper>
   )

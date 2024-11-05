@@ -26,7 +26,7 @@ export default function SubmitPage() {
 
   return (
     <Wrapper size="sm">
-      <Intro alignment="center">
+      <Intro>
         <IntroTitle>{title?.toString()}</IntroTitle>
         <IntroDescription>{description}</IntroDescription>
       </Intro>

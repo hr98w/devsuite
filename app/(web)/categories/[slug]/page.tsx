@@ -1,11 +1,12 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import type { SearchParams } from "nuqs/server"
-import { ToolList } from "~/components/web/tool-list"
+import { Suspense } from "react"
+import { ToolsListing } from "~/app/(web)/tools/(tools)/listing"
+import { ToolListSkeleton } from "~/components/web/tool-list-skeleton"
 import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
 import { findCategorySlugs, findUniqueCategory } from "~/server/categories/queries"
-import { searchTools } from "~/server/tools/queries"
 import { parseMetadata } from "~/utils/metadata"
 
 type PageProps = {
@@ -36,11 +37,7 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata 
 
 export default async function CategoryPage({ params, searchParams }: PageProps) {
   const { slug } = await params
-
-  const [category, { tools, totalCount }] = await Promise.all([
-    findUniqueCategory({ where: { slug } }),
-    searchTools(await searchParams, { where: { categories: { some: { slug } } } }),
-  ])
+  const category = await findUniqueCategory({ where: { slug } })
 
   if (!category) {
     notFound()
@@ -48,16 +45,18 @@ export default async function CategoryPage({ params, searchParams }: PageProps) 
 
   return (
     <Wrapper>
-      <Intro alignment="center">
+      <Intro>
         <IntroTitle>{category.name}</IntroTitle>
         <IntroDescription>{category.description}</IntroDescription>
       </Intro>
 
-      <ToolList
-        tools={tools}
-        totalCount={totalCount}
-        placeholder={`Search in "${category.name}"`}
-      />
+      <Suspense fallback={<ToolListSkeleton />}>
+        <ToolsListing
+          searchParams={searchParams}
+          where={{ categories: { some: { slug } } }}
+          placeholder={`Search ${category.name.toLowerCase()} tools...`}
+        />
+      </Suspense>
     </Wrapper>
   )
 }
