@@ -1,5 +1,5 @@
-import ky from "ky"
 import type { ComponentProps } from "react"
+import wretch from "wretch"
 import { AnalyticsChart, type AnalyticsChartData } from "~/app/admin/_components/analytics-chart"
 import {
   Card,
@@ -12,13 +12,20 @@ import { Skeleton } from "~/components/common/skeleton"
 import { env } from "~/env"
 
 export const AnalyticsCard = async ({ ...props }: ComponentProps<typeof Card>) => {
-  const siteId = "openalternative.co"
-  const apiEndpoint = `${env.NEXT_PUBLIC_PLAUSIBLE_HOST}/api/v1/stats/timeseries?metrics=visitors&period=30d&site_id=${siteId}`
+  const api = wretch(`${env.NEXT_PUBLIC_PLAUSIBLE_HOST}/api/v1`)
+    .auth(`Bearer ${env.PLAUSIBLE_API_KEY}`)
+    .options({ cache: "no-store" })
+    .errorType("json")
 
-  const { results } = await ky
-    .get(apiEndpoint, { headers: { Authorization: `Bearer ${env.PLAUSIBLE_API_KEY}` } })
+  const queryOptions = new URLSearchParams({
+    metrics: "visitors",
+    period: "30d",
+    site_id: env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN,
+  })
+
+  const { results } = await api
+    .get(`/stats/timeseries?${queryOptions.toString()}`)
     .json<{ results: AnalyticsChartData[] }>()
-
   const totalVisitors = results.reduce((acc, curr) => acc + curr.visitors, 0)
   const averageVisitors = Math.round(totalVisitors / results.length)
 

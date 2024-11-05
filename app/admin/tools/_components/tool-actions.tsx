@@ -44,8 +44,9 @@ export const ToolActions = ({ tool, row, className, ...props }: ToolActionsProps
   })
 
   const handleDialogSuccess = () => {
-    router.push("/admin/tools")
+    setDialog(null)
     row?.toggleSelected(false)
+    router.push("/admin/tools")
   }
 
   return (

@@ -2,7 +2,7 @@ import "server-only"
 import { DeleteObjectCommand, ListObjectsV2Command } from "@aws-sdk/client-s3"
 import { Upload } from "@aws-sdk/lib-storage"
 import { stripURLSubpath } from "@curiousleaf/utils"
-import ky from "ky"
+import wretch from "wretch"
 import { env } from "~/env"
 import { s3Client } from "~/services/aws-s3"
 
@@ -74,17 +74,14 @@ export const uploadFavicon = async (url: string, s3Key: string): Promise<string>
   const faviconUrl = `https://www.google.com/s2/favicons?sz=128&domain_url=${cleanedUrl}`
 
   try {
-    const response = await ky.get(faviconUrl, {
-      throwHttpErrors: false,
-      retry: 3,
-    })
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch favicon: ${response.statusText}`)
-    }
+    const arrayBuffer = await wretch(faviconUrl)
+      .get()
+      .badRequest(err => {
+        throw new Error(`Failed to fetch favicon: ${err.message}`)
+      })
+      .arrayBuffer()
 
     // Convert response to Buffer
-    const arrayBuffer = await response.arrayBuffer()
     const buffer = Buffer.from(arrayBuffer)
 
     // Upload to S3
@@ -104,7 +101,7 @@ export const uploadFavicon = async (url: string, s3Key: string): Promise<string>
  * @returns The S3 location of the uploaded screenshot.
  */
 export const uploadScreenshot = async (url: string, s3Key: string): Promise<string> => {
-  const screenshotParams = new URLSearchParams({
+  const queryParams = new URLSearchParams({
     url,
     access_key: env.SCREENSHOTONE_ACCESS_KEY,
     response_type: "json",
@@ -139,8 +136,8 @@ export const uploadScreenshot = async (url: string, s3Key: string): Promise<stri
   })
 
   try {
-    const endpointUrl = `https://api.screenshotone.com/take?${screenshotParams.toString()}`
-    const { store } = await ky.get(endpointUrl).json<{ store: { location: string } }>()
+    const endpointUrl = `https://api.screenshotone.com/take?${queryParams.toString()}`
+    const { store } = await wretch(endpointUrl).get().json<{ store: { location: string } }>()
 
     return store.location
   } catch (error) {

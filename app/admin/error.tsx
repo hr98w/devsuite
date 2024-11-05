@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 import { Button } from "~/components/admin/ui/button"
-import { H4 } from "~/components/common/heading"
+import { H3 } from "~/components/common/heading"
 
 type ErrorProps = {
   error: Error & { digest?: string }
@@ -16,16 +16,16 @@ export default function Error({ error, reset }: ErrorProps) {
   }, [error])
 
   return (
-    <>
-      <H4 as="h1">Something went wrong!</H4>
+    <div className="flex flex-col items-start gap-2 max-w-lg">
+      <H3 as="h1">Something went wrong!</H3>
 
       <p className="text-sm text-muted-foreground">
         Please try again. If the problem persists, contact support.
       </p>
 
-      <Button className="justify-self-start" onClick={() => reset()}>
+      <Button className="mt-4" onClick={() => reset()}>
         Try again
       </Button>
-    </>
+    </div>
   )
 }

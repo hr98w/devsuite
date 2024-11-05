@@ -49,7 +49,7 @@ export const Dock = ({ className, ...props }: ComponentProps<"div">) => {
     <Box>
       <div
         className={cx(
-          "flex items-center bg-background/50 backdrop-blur-xl rounded-xl py-1.5 px-2 isolate",
+          "flex items-center bg-background/50 shadow-foreground/10 shadow-[0_0_25px_0_var(--tw-shadow-color)] backdrop-blur-xl rounded-xl py-1.5 px-2 isolate",
           className,
         )}
         {...props}

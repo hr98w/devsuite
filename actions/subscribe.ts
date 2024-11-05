@@ -1,6 +1,6 @@
 "use server"
 
-import ky from "ky"
+import wretch from "wretch"
 import { createServerAction } from "zsa"
 import { env } from "~/env"
 import { newsletterSchema } from "~/server/schemas"
@@ -15,8 +15,9 @@ export const subscribeToNewsletter = createServerAction()
   .handler(async ({ input: json }) => {
     const url = `https://api.beehiiv.com/v2/publications/${env.BEEHIIV_PUBLICATION_ID}/subscriptions`
 
-    const { data } = await ky
-      .post(url, { json, headers: { Authorization: `Bearer ${env.BEEHIIV_API_KEY}` } })
+    const { data } = await wretch(url)
+      .auth(`Bearer ${env.BEEHIIV_API_KEY}`)
+      .post(json)
       .json<{ data: { status: string } }>()
 
     if (data?.status !== "active") {
