@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server"
-import { env, isProd } from "~/env"
 import { auth } from "~/lib/auth"
 
 export const config = {
@@ -17,20 +16,9 @@ export const config = {
   ],
 }
 
-export default auth(req => {
-  const { pathname } = req.nextUrl
-
-  if (isProd && env.ALLOWED_IPS) {
-    const allowedIps = env.ALLOWED_IPS.split(",")
-    const ip = req.headers.get("x-forwarded-for")
-
-    if (!ip || !allowedIps.includes(ip)) {
-      return NextResponse.redirect(new URL("https://kulp.in/devsuite"))
-    }
-  }
-
-  if (!req.auth && pathname.startsWith("/admin")) {
-    return NextResponse.redirect(new URL("/login", req.url))
+export default auth(({ nextUrl, auth }) => {
+  if (!auth && nextUrl.pathname.startsWith("/admin")) {
+    return NextResponse.redirect(new URL("/login", nextUrl))
   }
 
   return NextResponse.next()

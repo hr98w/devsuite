@@ -73,7 +73,6 @@ export const Footer = ({ children, className, ...props }: HTMLAttributes<HTMLEle
           <H6 as="strong">Quick Links:</H6>
 
           <NavigationLink href="/about">About</NavigationLink>
-          <NavigationLink href="/sponsor">Sponsor</NavigationLink>
           <NavigationLink href="/submit">Submit</NavigationLink>
           <NavigationLink href={`mailto:${config.site.email}`}>Contact</NavigationLink>
         </Stack>
