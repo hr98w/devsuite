@@ -25,7 +25,7 @@ type GalleryProps = HTMLAttributes<HTMLElement> & {
 }
 
 const galleryImageVariants = cva({
-  base: "border border-foreground/10 bg-foreground/5 rounded aspect-video object-cover md:rounded-lg",
+  base: "border border-foreground/10 bg-foreground/10 rounded aspect-video object-cover md:rounded-lg",
 })
 
 export const Gallery = ({ images, ...props }: GalleryProps) => {

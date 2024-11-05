@@ -4,6 +4,7 @@ import { Skeleton } from "~/components/common/skeleton"
 import { Stack } from "~/components/common/stack"
 import { Button } from "~/components/web/ui/button"
 import { Gallery } from "~/components/web/ui/gallery"
+import { Tag } from "~/components/web/ui/tag"
 import { Wrapper } from "~/components/web/ui/wrapper"
 
 export default function Loading() {
@@ -36,20 +37,18 @@ export default function Loading() {
         <Gallery images={[""]} />
 
         <div className="space-y-2">
-          <Skeleton className="h-4 w-3/4" />
-          <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-5/6" />
-          <Skeleton className="h-4 w-full" />
-        </div>
-
-        <div className="flex flex-wrap gap-y-2 gap-x-4">
-          {[...Array(6)].map((_, index) => (
-            <div key={index} className="flex items-center gap-0.5 text-foreground/65 text-sm">
-              <HashIcon className="opacity-30" />
-              <Skeleton key={index} className="h-3 w-12" />
-            </div>
+          {[...Array(12)].map((_, i) => (
+            <Skeleton key={i} className="h-4" style={{ width: `${50 + Math.random() * 50}%` }} />
           ))}
         </div>
+
+        <Stack>
+          {[...Array(6)].map((_, i) => (
+            <Tag key={i} prefix={<HashIcon />}>
+              <Skeleton className="h-3 w-12" />
+            </Tag>
+          ))}
+        </Stack>
       </Wrapper>
 
       <RelatedToolsSkeleton />

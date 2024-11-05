@@ -5,7 +5,6 @@ import { LoaderIcon } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
 import { useServerAction } from "zsa-react"
-import { updateToolContent } from "~/actions/misc"
 import { searchItems } from "~/actions/search"
 import {
   CommandDialog,
@@ -84,9 +83,10 @@ export const CommandMenu = () => {
     setSearchQuery(value)
   }
 
-  const handleUpdateContent = () => {
-    updateToolContent()
-  }
+  // const handleAssignTools = () => {
+  //   assignToolsToCollection()
+  //   toast.success("Tools assigned to collection")
+  // }
 
   const handleSelect = (url: string) => {
     handleOpenChange(false)
@@ -125,7 +125,7 @@ export const CommandMenu = () => {
         </CommandGroup>
 
         <CommandGroup heading="Quick Commands">
-          <CommandItem onSelect={handleUpdateContent}>Update Content</CommandItem>
+          {/* <CommandItem onSelect={handleAssignTools}>Assign Tools</CommandItem> */}
         </CommandGroup>
 
         {!!searchResults?.tools.length && (

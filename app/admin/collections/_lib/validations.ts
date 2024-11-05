@@ -17,6 +17,7 @@ export type GetCollectionsSchema = z.infer<typeof getCollectionsSchema>
 export const collectionSchema = z.object({
   name: z.string().min(1, "Name is required"),
   slug: z.string().optional(),
+  description: z.string().optional(),
   tools: z.array(z.string()).optional(),
 })
 

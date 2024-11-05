@@ -2,10 +2,12 @@
 
 import { z } from "zod"
 import { createServerAction } from "zsa"
+import { authedProcedure } from "~/lib/safe-actions"
 import { findToolSlugs } from "~/server/tools/queries"
 import { prisma } from "~/services/prisma"
 
-export const searchItems = createServerAction()
+export const searchItems = authedProcedure
+  .createServerAction()
   .input(
     z.object({
       query: z.string(),
