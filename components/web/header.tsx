@@ -12,6 +12,7 @@ import { Button } from "~/components/web/ui/button"
 import { Container } from "~/components/web/ui/container"
 import { NavigationLink } from "~/components/web/ui/navigation-link"
 import { Ping } from "~/components/web/ui/ping"
+import { config } from "~/config"
 import { cx } from "~/utils/cva"
 
 export const Header = ({ className, ...props }: HTMLAttributes<HTMLElement>) => {
@@ -91,7 +92,7 @@ export const Header = ({ className, ...props }: HTMLAttributes<HTMLElement>) => 
               className="relative font-medium text-foreground max-md:hidden"
               asChild
             >
-              <Link href="#">
+              <Link href={config.links.producthunt} target="_blank" rel="noreferrer nofollow">
                 Live on ProductHunt
                 <Ping className="size-2.5 text-green-600 absolute -top-1 -right-1" />
               </Link>

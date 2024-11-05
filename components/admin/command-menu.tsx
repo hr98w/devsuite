@@ -133,7 +133,7 @@ export const CommandMenu = () => {
             {searchResults.tools.map(tool => (
               <CommandItem
                 key={tool.id}
-                value={`tool:${tool.name}`}
+                value={`tool:${tool.slug}`}
                 onSelect={() => handleSelect(`/admin/tools/${tool.slug}`)}
               >
                 {tool.name}

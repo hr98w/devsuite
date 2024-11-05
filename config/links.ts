@@ -5,6 +5,7 @@ export const linksConfig = {
   author: "https://x.com/piotrkulpinski",
   twitter: "https://x.com/devsuiteco",
   github: "https://github.com/piotrkulpinski/devsuite",
+  producthunt: "https://www.producthunt.com/posts/devsuite",
   family: [
     {
       title: "OpenAlternative",

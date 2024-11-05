@@ -72,10 +72,7 @@ export const generateStaticParams = async () => {
   return tools.map(({ slug }) => ({ slug }))
 }
 
-export const generateMetadata = async ({
-  params,
-  searchParams,
-}: PageProps): Promise<Metadata | undefined> => {
+export const generateMetadata = async ({ params, searchParams }: PageProps): Promise<Metadata> => {
   const { slug } = await params
   const { success } = searchParamsCache.parse(await searchParams)
 
@@ -83,7 +80,7 @@ export const generateMetadata = async ({
   const url = `/submit/${slug}`
 
   if (!tool) {
-    return
+    return {}
   }
 
   return parseMetadata(
