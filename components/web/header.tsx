@@ -83,20 +83,22 @@ export const Header = ({ className, ...props }: HTMLAttributes<HTMLElement>) => 
           <Stack size="lg" className="mr-auto">
             <Logo />
 
-            <Badge
-              size="lg"
-              variant="outline"
-              prefix={
-                <img src="/_static/producthunt.svg" alt="Product Hunt" className="opacity-75" />
-              }
-              className="relative font-medium text-foreground max-md:hidden"
-              asChild
-            >
-              <Link href={config.links.producthunt} target="_blank" rel="noreferrer nofollow">
-                Live on ProductHunt
-                <Ping className="size-2.5 text-green-600 absolute -top-1 -right-1" />
-              </Link>
-            </Badge>
+            {false && (
+              <Badge
+                size="lg"
+                variant="outline"
+                prefix={
+                  <img src="/_static/producthunt.svg" alt="Product Hunt" className="opacity-75" />
+                }
+                className="relative font-medium text-foreground max-md:hidden"
+                asChild
+              >
+                <Link href={config.links.producthunt} target="_blank" rel="noreferrer nofollow">
+                  Live on ProductHunt
+                  <Ping className="size-2.5 text-green-600 absolute -top-1 -right-1" />
+                </Link>
+              </Badge>
+            )}
           </Stack>
 
           <nav className="hidden lg:contents">
