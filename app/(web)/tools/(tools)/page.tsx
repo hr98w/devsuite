@@ -27,7 +27,7 @@ export const metadata = parseMetadata(
   }),
 )
 
-export default async function ToolsPage({ searchParams }: PageProps) {
+export default async function Tools({ searchParams }: PageProps) {
   const { title, description } = getMetadata()
   const { tools, totalCount } = await searchTools(await searchParams, {})
 

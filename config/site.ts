@@ -6,5 +6,5 @@ export const siteConfig = {
   name: "DevSuite",
   tagline: "Build Better, Launch Faster 🚀 Your Go-To Dev Tools",
   description:
-    "Find the best tools to help you build faster and more efficiently. Stop wasting time and money by developing tools that already exist.",
+    "Find the best tools to help you build software faster and more efficiently. Stop wasting time and money by developing tools that already exist.",
 }

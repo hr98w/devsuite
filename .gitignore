@@ -17,10 +17,6 @@ node_modules
 # production
 /build
 
-# next-sitemap
-/public/robots*
-/public/sitemap*
-
 # vercel
 .vercel
 

@@ -1,7 +1,7 @@
-import type { HTMLAttributes } from "react"
+import type { ComponentProps } from "react"
 import { cx } from "~/utils/cva"
 
-export const Skeleton = ({ className, ...props }: HTMLAttributes<HTMLSpanElement>) => {
+export const Skeleton = ({ className, ...props }: ComponentProps<"span">) => {
   return (
     <span
       className={cx(

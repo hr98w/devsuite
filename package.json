@@ -14,7 +14,6 @@
     "db:studio": "prisma studio",
     "db:push": "prisma db push --skip-generate",
     "db:reset": "prisma migrate reset --skip-seed && prisma db push --skip-generate",
-    "postbuild": "next-sitemap --config sitemap.config.mjs",
     "postinstall": "bun run db:generate"
   },
   "dependencies": {
@@ -46,9 +45,7 @@
     "@t3-oss/env-nextjs": "^0.11.1",
     "@tanstack/react-table": "^8.20.5",
     "ai": "^3.4.18",
-    "class-variance-authority": "^0.7.0",
-    "clsx": "^2.1.1",
-    "cmdk": "1.0.0",
+    "cmdk": "^1.0.0",
     "cva": "^1.0.0-beta.1",
     "date-fns": "^4.1.0",
     "deepmerge": "^4.3.1",
@@ -60,7 +57,6 @@
     "next": "^15.0.1",
     "next-auth": "^5.0.0-beta.25",
     "next-plausible": "^3.12.2",
-    "next-sitemap": "^4.2.3",
     "nuqs": "^2.0.3",
     "plur": "^5.1.0",
     "posthog-js": "^1.174.3",

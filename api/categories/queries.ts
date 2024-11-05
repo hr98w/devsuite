@@ -3,7 +3,7 @@ import { categoryManyPayload, categoryOnePayload } from "~/api/categories/payloa
 import { prisma } from "~/services/prisma"
 
 export const findCategories = async ({ where, orderBy, ...args }: Prisma.CategoryFindManyArgs) => {
-  return await prisma.category.findMany({
+  return prisma.category.findMany({
     ...args,
     orderBy: { name: "asc", ...orderBy },
     where: { tools: { some: { publishedAt: { lte: new Date() } } }, ...where },
@@ -16,7 +16,7 @@ export const findCategorySlugs = async ({
   orderBy,
   ...args
 }: Prisma.CategoryFindManyArgs) => {
-  return await prisma.category.findMany({
+  return prisma.category.findMany({
     ...args,
     orderBy: { name: "asc", ...orderBy },
     where: { tools: { some: { publishedAt: { lte: new Date() } } }, ...where },
@@ -25,7 +25,7 @@ export const findCategorySlugs = async ({
 }
 
 export const findUniqueCategory = async ({ ...args }: Prisma.CategoryFindUniqueArgs) => {
-  return await prisma.category.findUnique({
+  return prisma.category.findUnique({
     ...args,
     include: categoryOnePayload,
   })

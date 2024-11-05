@@ -1,5 +1,6 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import type { NextConfig } from "next"
+
+const nextConfig: NextConfig = {
   images: {
     remotePatterns: [{ hostname: "*.google.com" }, { hostname: "*.amazonaws.com" }],
   },
@@ -9,7 +10,7 @@ const nextConfig = {
       // for posthog proxy
       {
         source: "/_proxy/posthog/ingest/static/:path*",
-        destination: `${process.env.NEXT_PUBLIC_POSTHOG_HOST.replace("us", "us-assets")}/static/:path*`,
+        destination: `${process.env.NEXT_PUBLIC_POSTHOG_HOST?.replace("us", "us-assets")}/static/:path*`,
       },
       {
         source: "/_proxy/posthog/ingest/:path*",

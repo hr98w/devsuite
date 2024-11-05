@@ -7,7 +7,7 @@ export const findCollections = async ({
   orderBy,
   ...args
 }: Prisma.CollectionFindManyArgs) => {
-  return await prisma.collection.findMany({
+  return prisma.collection.findMany({
     ...args,
     orderBy: { name: "asc", ...orderBy },
     where: { tools: { some: { publishedAt: { lte: new Date() } } }, ...where },
@@ -20,7 +20,7 @@ export const findCollectionSlugs = async ({
   orderBy,
   ...args
 }: Prisma.CollectionFindManyArgs) => {
-  return await prisma.collection.findMany({
+  return prisma.collection.findMany({
     ...args,
     orderBy: { name: "asc", ...orderBy },
     where: { tools: { some: { publishedAt: { lte: new Date() } } }, ...where },
@@ -29,7 +29,7 @@ export const findCollectionSlugs = async ({
 }
 
 export const findUniqueCollection = async ({ ...args }: Prisma.CollectionFindUniqueArgs) => {
-  return await prisma.collection.findUnique({
+  return prisma.collection.findUnique({
     ...args,
     include: collectionOnePayload,
   })

@@ -48,7 +48,7 @@ export const searchTools = async (
 }
 
 export const findTools = async ({ where, ...args }: Prisma.ToolFindManyArgs) => {
-  return await prisma.tool.findMany({
+  return prisma.tool.findMany({
     ...args,
     where: { publishedAt: { lte: new Date() }, ...where },
     include: toolManyPayload,
@@ -56,7 +56,7 @@ export const findTools = async ({ where, ...args }: Prisma.ToolFindManyArgs) => 
 }
 
 export const findToolSlugs = async ({ where, orderBy, ...args }: Prisma.ToolFindManyArgs) => {
-  return await prisma.tool.findMany({
+  return prisma.tool.findMany({
     ...args,
     orderBy: { name: "asc", ...orderBy },
     where: { publishedAt: { lte: new Date() }, ...where },
@@ -65,14 +65,14 @@ export const findToolSlugs = async ({ where, orderBy, ...args }: Prisma.ToolFind
 }
 
 export const countTools = async ({ where, ...args }: Prisma.ToolCountArgs) => {
-  return await prisma.tool.count({
+  return prisma.tool.count({
     ...args,
     where: { publishedAt: { lte: new Date() }, ...where },
   })
 }
 
 export const countUpcomingTools = async ({ where, ...args }: Prisma.ToolCountArgs) => {
-  return await prisma.tool.count({
+  return prisma.tool.count({
     ...args,
     where: { OR: [{ publishedAt: { gt: new Date() } }, { publishedAt: null }], ...where },
   })
@@ -81,7 +81,7 @@ export const countUpcomingTools = async ({ where, ...args }: Prisma.ToolCountArg
 export const findUniqueTool = async ({ where, ...args }: Prisma.ToolFindUniqueArgs) => {
   const session = await auth()
 
-  return await prisma.tool.findUnique({
+  return prisma.tool.findUnique({
     ...args,
     where: { publishedAt: session?.user ? undefined : { lte: new Date() }, ...where },
     include: toolOnePayload,
@@ -89,7 +89,7 @@ export const findUniqueTool = async ({ where, ...args }: Prisma.ToolFindUniqueAr
 }
 
 export const findFirstTool = async ({ where, ...args }: Prisma.ToolFindFirstArgs) => {
-  return await prisma.tool.findFirst({
+  return prisma.tool.findFirst({
     ...args,
     where: { publishedAt: { lte: new Date() }, ...where },
   })
