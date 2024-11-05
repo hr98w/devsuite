@@ -17,7 +17,7 @@ export const createStripeCheckout = createServerAction()
     const checkout = await stripe.checkout.sessions.create({
       mode,
       line_items: [{ price: priceId, quantity: 1 }],
-      success_url: `${env.NEXT_PUBLIC_SITE_URL}/submit/${tool}/thanks`,
+      success_url: `${env.NEXT_PUBLIC_SITE_URL}/submit/${tool}?success=true`,
       cancel_url: `${env.NEXT_PUBLIC_SITE_URL}/submit/${tool}?cancelled=true`,
       allow_promotion_codes: true,
       automatic_tax: { enabled: true },

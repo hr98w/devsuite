@@ -3,6 +3,8 @@ import { GiftIcon } from "lucide-react"
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
+import type { SearchParams } from "nuqs"
+import { createSearchParamsCache, parseAsBoolean, parseAsString } from "nuqs/server"
 import { Suspense, cache } from "react"
 import { SubmitProducts } from "~/app/(web)/submit/[slug]/products"
 import { Prose } from "~/components/common/prose"
@@ -18,9 +20,38 @@ import { parseMetadata } from "~/utils/metadata"
 
 type PageProps = {
   params: Promise<{ slug: string }>
+  searchParams: Promise<SearchParams>
 }
 
-const getMetadata = cache((tool: Tool, metadata?: Metadata): Metadata => {
+const searchParamsCache = createSearchParamsCache({
+  success: parseAsBoolean.withDefault(false),
+  cancelled: parseAsBoolean.withDefault(false),
+  discount: parseAsString.withDefault(""),
+})
+
+const getTool = cache(async ({ slug, success }: { slug: string; success: boolean }) => {
+  return findUniqueTool({
+    where: { slug, publishedAt: undefined, isFeatured: success ? undefined : false },
+  })
+})
+
+const getMetadata = cache((tool: Tool, success: boolean, metadata?: Metadata): Metadata => {
+  if (success) {
+    if (tool.isFeatured) {
+      return {
+        ...metadata,
+        title: "Thank you for your payment!",
+        description: `We've received your payment. ${tool.name} should be featured on ${config.site.name} shortly.`,
+      }
+    }
+
+    return {
+      ...metadata,
+      title: `Thank you for submitting ${tool.name}!`,
+      description: `We've received your submission. We'll review it shortly and get back to you.`,
+    }
+  }
+
   if (isToolPublished(tool)) {
     return {
       ...metadata,
@@ -41,9 +72,14 @@ export const generateStaticParams = async () => {
   return tools.map(({ slug }) => ({ slug }))
 }
 
-export const generateMetadata = async ({ params }: PageProps): Promise<Metadata | undefined> => {
+export const generateMetadata = async ({
+  params,
+  searchParams,
+}: PageProps): Promise<Metadata | undefined> => {
   const { slug } = await params
-  const tool = await findUniqueTool({ where: { slug, publishedAt: undefined, isFeatured: false } })
+  const { success } = searchParamsCache.parse(await searchParams)
+
+  const tool = await getTool({ slug, success })
   const url = `/submit/${slug}`
 
   if (!tool) {
@@ -51,22 +87,24 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata 
   }
 
   return parseMetadata(
-    getMetadata(tool, {
+    getMetadata(tool, success, {
       alternates: { canonical: url },
       openGraph: { url },
     }),
   )
 }
 
-export default async function SubmitPackages({ params }: PageProps) {
+export default async function SubmitPackages({ params, searchParams }: PageProps) {
   const { slug } = await params
-  const tool = await findUniqueTool({ where: { slug, publishedAt: undefined, isFeatured: false } })
+  const { success } = searchParamsCache.parse(await searchParams)
+
+  const tool = await getTool({ slug, success })
 
   if (!tool) {
     notFound()
   }
 
-  const { title, description } = getMetadata(tool)
+  const { title, description } = getMetadata(tool, success)
 
   return (
     <Wrapper>
@@ -74,22 +112,28 @@ export default async function SubmitPackages({ params }: PageProps) {
         <IntroTitle>{title?.toString()}</IntroTitle>
         <IntroDescription>{description}</IntroDescription>
 
-        <Badge
-          size="lg"
-          variant="success"
-          prefix={<GiftIcon />}
-          className="relative mt-1 gap-2 text-sm"
-        >
-          50% off — Early Bird offer
-          <Ping className="absolute -top-1 -left-1 text-yellow-500" />
-        </Badge>
+        {!success && (
+          <Badge
+            size="lg"
+            variant="success"
+            prefix={<GiftIcon />}
+            className="relative mt-1 gap-2 text-sm"
+          >
+            50% off — Early Bird offer
+            <Ping className="absolute -top-1 -left-1 text-yellow-500" />
+          </Badge>
+        )}
       </Intro>
 
-      <div className="flex flex-wrap justify-center gap-5">
-        <Suspense fallback={[...Array(3)].map((_, index) => <PlanSkeleton key={index} />)}>
-          <SubmitProducts tool={tool} />
-        </Suspense>
-      </div>
+      {success ? (
+        <img src="/_static/3d-heart.webp" alt="" className="max-w-64 w-2/3 h-auto mx-auto" />
+      ) : (
+        <div className="flex flex-wrap justify-center gap-5">
+          <Suspense fallback={[...Array(3)].map((_, index) => <PlanSkeleton key={index} />)}>
+            <SubmitProducts tool={tool} />
+          </Suspense>
+        </div>
+      )}
 
       <Intro alignment="center">
         <IntroTitle size="h3">Have questions?</IntroTitle>
