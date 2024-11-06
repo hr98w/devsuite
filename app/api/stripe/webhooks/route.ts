@@ -7,7 +7,7 @@ import { stripe } from "~/services/stripe"
 export async function POST(request: Request) {
   const body = await request.text()
   const signature = request.headers.get("stripe-signature") as string
-  const webhookSecret = env.STRIPE_WEBHOOK_SECRET
+  const webhookSecret = env.STRIPE_SIGNING_SECRET
   let event: Stripe.Event
 
   try {

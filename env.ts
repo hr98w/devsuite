@@ -30,7 +30,7 @@ export const env = createEnv({
     FIRECRAWL_API_KEY: z.string().min(1),
     RESEND_API_KEY: z.string().min(1),
     STRIPE_SECRET_KEY: z.string().min(1),
-    STRIPE_WEBHOOK_SECRET: z.string().min(1),
+    STRIPE_SIGNING_SECRET: z.string().min(1),
     S3_BUCKET: z.string().min(1),
     S3_REGION: z.string().min(1),
     S3_ACCESS_KEY: z.string().min(1),

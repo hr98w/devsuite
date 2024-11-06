@@ -11,20 +11,22 @@ export const createStripeCheckout = createServerAction()
       priceId: z.string(),
       tool: z.string(),
       mode: z.enum(["subscription", "payment"]),
+      coupon: z.string().optional(),
     }),
   )
-  .handler(async ({ input: { priceId, tool, mode } }) => {
+  .handler(async ({ input: { priceId, tool, mode, coupon } }) => {
     const checkout = await stripe.checkout.sessions.create({
       mode,
       line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${env.NEXT_PUBLIC_SITE_URL}/submit/${tool}?success=true`,
       cancel_url: `${env.NEXT_PUBLIC_SITE_URL}/submit/${tool}?cancelled=true`,
-      allow_promotion_codes: true,
       automatic_tax: { enabled: true },
       tax_id_collection: { enabled: true },
       invoice_creation: mode === "payment" ? { enabled: true } : undefined,
       metadata: mode === "payment" ? { tool } : undefined,
       subscription_data: mode === "subscription" ? { metadata: { tool } } : undefined,
+      allow_promotion_codes: coupon ? undefined : true,
+      discounts: coupon ? [{ coupon }] : undefined,
     })
 
     if (!checkout.url) {

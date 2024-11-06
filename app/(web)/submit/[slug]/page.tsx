@@ -1,5 +1,4 @@
 import type { Tool } from "@prisma/client"
-import { GiftIcon } from "lucide-react"
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -9,9 +8,7 @@ import { Suspense, cache } from "react"
 import { SubmitProducts } from "~/app/(web)/submit/[slug]/products"
 import { Prose } from "~/components/common/prose"
 import { PlanSkeleton } from "~/components/web/plan"
-import { Badge } from "~/components/web/ui/badge"
 import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
-import { Ping } from "~/components/web/ui/ping"
 import { Wrapper } from "~/components/web/ui/wrapper"
 import { config } from "~/config"
 import { isToolPublished } from "~/lib/tools"
@@ -108,18 +105,6 @@ export default async function SubmitPackages({ params, searchParams }: PageProps
       <Intro>
         <IntroTitle>{title?.toString()}</IntroTitle>
         <IntroDescription>{description}</IntroDescription>
-
-        {!success && (
-          <Badge
-            size="lg"
-            variant="success"
-            prefix={<GiftIcon />}
-            className="relative mt-1 gap-2 text-sm"
-          >
-            50% off — Early Bird offer
-            <Ping className="absolute -top-1 -left-1 text-yellow-500" />
-          </Badge>
-        )}
       </Intro>
 
       {success ? (

@@ -79,6 +79,11 @@ export type PlanProps = ComponentProps<"div"> &
     prices: Stripe.Price[]
 
     /**
+     * The discount coupon.
+     */
+    coupon?: Stripe.Coupon | null
+
+    /**
      * The slug of the tool.
      */
     tool: ToolOne
@@ -89,12 +94,13 @@ export const Plan = ({
   plan,
   features,
   prices,
+  coupon,
   tool,
   isFeatured,
   ...props
 }: PlanProps) => {
   const { isSubscription, currentPrice, price, fullPrice, discount, interval, setInterval } =
-    usePlanPrices(prices ?? [])
+    usePlanPrices(prices ?? [], coupon)
 
   const { execute, isPending } = useServerAction(createStripeCheckout, {
     onSuccess: ({ data }) => {
@@ -112,6 +118,7 @@ export const Plan = ({
       priceId: currentPrice.id,
       tool: tool.slug,
       mode: isSubscription ? "subscription" : "payment",
+      coupon: coupon?.id,
     })
   }
 
@@ -172,9 +179,17 @@ export const Plan = ({
           </div>
         )}
 
-        {discount && (
+        {!!discount && (
           <Badge variant="success" className="absolute -top-3.5 right-0">
             {discount}% off
+            {coupon?.max_redemptions && (
+              <span className="text-foreground/65">
+                (
+                {coupon.max_redemptions > coupon.max_redemptions - coupon.times_redeemed &&
+                  `${coupon.max_redemptions}/`}
+                {coupon.max_redemptions - coupon.times_redeemed} left)
+              </span>
+            )}
           </Badge>
         )}
       </div>
