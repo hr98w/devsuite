@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+![DevSuite](https://devsuite.co/_static/screenshot.png)
 
-## Getting Started
+<p align="center"></p>
 
-First, run the development server:
+<p align="center">
+  Build Better, Launch Faster 🚀 Your Go-To Dev Tools
+  <br>
+  <a href="https://devsuite.co"><strong>Learn more »</strong></a>
+  <br />
+  <br />
+  <a href="https://devsuite.co">Website</a>
+  ·
+  <a href="https://github.com/piotrkulpinski/devsuite/issues">Issues</a>
+</p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+<p align="center">
+   <a href="https://github.com/piotrkulpinski/devsuite/stargazers"><img src="https://img.shields.io/github/stars/piotrkulpinski/devsuite" alt="Github Stars"></a>
+   <a href="https://github.com/piotrkulpinski/devsuite/blob/main/LICENSE"><img src="https://img.shields.io/github/license/piotrkulpinski/devsuite" alt="License"></a>
+   <a href="https://github.com/piotrkulpinski/devsuite/pulse"><img src="https://img.shields.io/github/commit-activity/m/piotrkulpinski/devsuite" alt="Commits-per-month"></a>
+   <a href="https://vscode.dev/redirect?url=vscode://ms-vscode-remote.remote-containers/cloneInVolume?url=https://github.com/piotrkulpinski/devsuite">
+   <img alt="open in devcontainer" src="https://img.shields.io/static/v1?label=Dev%20Containers&message=Enabled&color=blue&logo=visualstudiocode" />
+   </a>
+</p>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+<p align="center">
+  <a href="https://www.producthunt.com/posts/devsuite?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-devsuite" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=443404&theme=light&period=daily" alt="DevSuite - Build Better, Launch Faster 🚀 Your Go-To Dev Tools | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+  <a href="https://www.producthunt.com/posts/devsuite?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-devsuite" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=443404&theme=light" alt="DevSuite - Build Better, Launch Faster 🚀 Your Go-To Dev Tools | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+</p>
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## About this project
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+DevSuite is a **free, curated collection of top-tier developer tools** designed to supercharge your productivity when building your next project.
 
-## Learn More
+In today's fast-paced tech world, it's challenging to keep up with the **constant stream of new software development tools**. That's where DevSuite comes in. The mission is simple: to help developers like you find the perfect tools to improve your workflow and bring your ideas to life more efficiently.
 
-To learn more about Next.js, take a look at the following resources:
+DevSuite is more than just a directory; it's **a community-driven resource**. Feel free to explore, discover, and contribute by submitting your favorite tools to the site. Your input is invaluable in helping to grow and maintain a comprehensive, up-to-date collection.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Development
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+This project uses [Bun](https://bun.sh/) as the package manager and runtime. Make sure you have Bun installed before proceeding.
 
-## Deploy on Vercel
+To set up the project for development:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Clone the repository
+2. Run `bun install` in the root directory to install all dependencies
+3. Set up the required environment variables (see below)
+4. Run `bun run db:push` to push the Prisma schema to the database
+5. Create symlinks for the .env file (see Environment Variables section)
+6. Run `bun run dev` to start the web application in development mode
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Environment Variables
+
+Refer to the `.env.example` file for a complete list of required variables.
+
+## 🧞 Commands
+
+All commands are run from the root of the project, from a terminal:
+
+| Command           | Action
+| :---------------- | :-------------------------------------------------------- 
+| `bun install`     | Installs dependencies
+| `bun run dev`     | Starts web app in development mode at `localhost:5175`
+| `bun run build`   | Build both apps for production
+| `bun run start`   | Preview production build locally
+| `bun run lint`    | Run linter
+| `bun run format`  | Format code
+| `bun run typecheck` | Run TypeScript type checking
+| `bun run db:generate` | Generate Prisma client
+| `bun run db:studio` | Start Prisma Studio
+| `bun run db:push` | Push Prisma schema to database
+| `bun run db:pull` | Pull Prisma schema from database
+| `bun run db:reset` | Reset Prisma schema
+
+## Third-Party Services
+
+DevSuite uses the following third-party services:
+
+- Database: [Neon](https://neon.tech)
+- Analytics: [Plausible](https://plausible.io), [PostHog](https://posthog.com)
+- Newsletter: [Beehiiv](https://go.devsuite.co/beehiiv)
+- Background Jobs: [Inngest](https://inngest.com)
+- File Storage: [AWS S3](https://aws.amazon.com/s3)
+- Payments: [Stripe](https://stripe.com)
+- Screenshots: [ScreenshotOne](https://go.devsuite.co/screenshotone)
+
+Make sure to set up accounts with these services and add the necessary environment variables to your `.env` file.
+
+## Deployment
+
+The project is set up for deployment on Vercel.
+
+To deploy manually:
+
+1. Build the project: `bun run build`
+2. Start the production server: `bun run start`
+
+Ensure all environment variables are properly set in your production environment.
+
+## License
+
+DevSuite is licensed under the [GPL-3.0 License](LICENSE).
