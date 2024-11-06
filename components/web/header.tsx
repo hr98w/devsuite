@@ -2,6 +2,7 @@
 
 import { SparkleIcon } from "lucide-react"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { type HTMLAttributes, Suspense, useEffect, useState } from "react"
 import { Box } from "~/components/common/box"
 import { Logo } from "~/components/common/logo"
@@ -16,6 +17,7 @@ import { config } from "~/config"
 import { cx } from "~/utils/cva"
 
 export const Header = ({ className, ...props }: HTMLAttributes<HTMLElement>) => {
+  const pathname = usePathname()
   const [isNavOpen, setNavOpen] = useState(false)
 
   // Close the mobile navigation when the user presses the "Escape" key
@@ -27,6 +29,10 @@ export const Header = ({ className, ...props }: HTMLAttributes<HTMLElement>) => 
     document.addEventListener("keydown", onKeyDown)
     return () => document.removeEventListener("keydown", onKeyDown)
   }, [])
+
+  useEffect(() => {
+    setNavOpen(false)
+  }, [pathname])
 
   return (
     <Container
@@ -121,14 +127,12 @@ export const Header = ({ className, ...props }: HTMLAttributes<HTMLElement>) => 
               "group-data-[state=open]/menu:opacity-100 group-data-[state=close]/menu:opacity-0",
             )}
           >
-            <NavigationLink href="/latest">Latest</NavigationLink>
+            <NavigationLink href="/tools">All Tools</NavigationLink>
             <NavigationLink href="/categories">Categories</NavigationLink>
-            <NavigationLink href="/alternatives">Alternatives</NavigationLink>
-            <NavigationLink href="/languages">Languages</NavigationLink>
-            <NavigationLink href="/topics">Topics</NavigationLink>
-            <NavigationLink href="/submit">Submit</NavigationLink>
-            <NavigationLink href="/sponsor">Sponsor</NavigationLink>
+            <NavigationLink href="/collections">Collections</NavigationLink>
+            <NavigationLink href="/tags">Tags</NavigationLink>
             <NavigationLink href="/about">About</NavigationLink>
+            <NavigationLink href="/submit">Submit</NavigationLink>
           </nav>
         </div>
       </Box>

@@ -16,6 +16,7 @@ export type GetCategoriesSchema = z.infer<typeof getCategoriesSchema>
 
 export const categorySchema = z.object({
   name: z.string().min(1, "Name is required"),
+  label: z.string().optional(),
   slug: z.string().optional(),
   description: z.string().optional(),
   tools: z.array(z.string()).optional(),

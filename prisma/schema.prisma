@@ -45,6 +45,7 @@ model Tool {
 model Category {
   id          String   @id @default(cuid())
   name        String   @db.Citext
+  label       String?  @db.Citext
   slug        String   @unique
   description String?
   updatedAt   DateTime @updatedAt

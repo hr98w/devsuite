@@ -1,11 +1,12 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import type { SearchParams } from "nuqs/server"
-import { Suspense } from "react"
+import { Suspense, cache } from "react"
 import { ToolsListing } from "~/app/(web)/tools/(tools)/listing"
 import { ToolListSkeleton } from "~/components/web/tool-list-skeleton"
 import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
+import type { CollectionOne } from "~/server/collections/payloads"
 import { findCollectionSlugs, findUniqueCollection } from "~/server/collections/queries"
 import { parseMetadata } from "~/utils/metadata"
 
@@ -19,6 +20,14 @@ export const generateStaticParams = async () => {
   return collections.map(({ slug }) => ({ slug }))
 }
 
+const getMetadata = cache((collection: CollectionOne, metadata?: Metadata): Metadata => {
+  return {
+    ...metadata,
+    title: `${collection.name} Developer Tools`,
+    description: collection.description,
+  }
+})
+
 export const generateMetadata = async ({ params }: PageProps): Promise<Metadata | undefined> => {
   const { slug } = await params
   const collection = await findUniqueCollection({ where: { slug } })
@@ -28,11 +37,12 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata 
     return
   }
 
-  return parseMetadata({
-    title: collection.name,
-    alternates: { canonical: url },
-    openGraph: { url },
-  })
+  return parseMetadata(
+    getMetadata(collection, {
+      alternates: { canonical: url },
+      openGraph: { url },
+    }),
+  )
 }
 
 export default async function CollectionPage({ params, searchParams }: PageProps) {
@@ -43,11 +53,13 @@ export default async function CollectionPage({ params, searchParams }: PageProps
     notFound()
   }
 
+  const { title, description } = getMetadata(collection)
+
   return (
     <Wrapper>
       <Intro>
-        <IntroTitle>{collection.name}</IntroTitle>
-        <IntroDescription>{collection.description}</IntroDescription>
+        <IntroTitle>{title?.toString()}</IntroTitle>
+        <IntroDescription>{description}</IntroDescription>
       </Intro>
 
       <Suspense fallback={<ToolListSkeleton />}>

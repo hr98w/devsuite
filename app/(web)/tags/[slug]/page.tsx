@@ -1,11 +1,12 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import type { SearchParams } from "nuqs/server"
-import { Suspense } from "react"
+import { Suspense, cache } from "react"
 import { ToolsListing } from "~/app/(web)/tools/(tools)/listing"
 import { ToolListSkeleton } from "~/components/web/tool-list-skeleton"
 import { Intro, IntroTitle } from "~/components/web/ui/intro"
 import { Wrapper } from "~/components/web/ui/wrapper"
+import type { TagOne } from "~/server/tags/payloads"
 import { findTagSlugs, findUniqueTag } from "~/server/tags/queries"
 import { parseMetadata } from "~/utils/metadata"
 
@@ -19,6 +20,13 @@ export const generateStaticParams = async () => {
   return tags.map(({ slug }) => ({ slug }))
 }
 
+const getMetadata = cache((tag: TagOne, metadata?: Metadata): Metadata => {
+  return {
+    ...metadata,
+    title: `Developer Tools tagged "${tag.name}"`,
+  }
+})
+
 export const generateMetadata = async ({ params }: PageProps): Promise<Metadata | undefined> => {
   const { slug } = await params
   const tag = await findUniqueTag({ where: { slug } })
@@ -28,11 +36,12 @@ export const generateMetadata = async ({ params }: PageProps): Promise<Metadata 
     return
   }
 
-  return parseMetadata({
-    title: tag.name,
-    alternates: { canonical: url },
-    openGraph: { url },
-  })
+  return parseMetadata(
+    getMetadata(tag, {
+      alternates: { canonical: url },
+      openGraph: { url },
+    }),
+  )
 }
 
 export default async function TagPage({ params, searchParams }: PageProps) {
@@ -43,10 +52,12 @@ export default async function TagPage({ params, searchParams }: PageProps) {
     notFound()
   }
 
+  const { title } = getMetadata(tag)
+
   return (
     <Wrapper>
       <Intro>
-        <IntroTitle>{tag.name}</IntroTitle>
+        <IntroTitle>{title?.toString()}</IntroTitle>
       </Intro>
 
       <Suspense fallback={<ToolListSkeleton />}>
