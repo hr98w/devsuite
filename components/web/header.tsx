@@ -2,7 +2,7 @@
 
 import { SparkleIcon } from "lucide-react"
 import Link from "next/link"
-import { type HTMLAttributes, useEffect, useState } from "react"
+import { type HTMLAttributes, Suspense, useEffect, useState } from "react"
 import { Box } from "~/components/common/box"
 import { Logo } from "~/components/common/logo"
 import { Stack } from "~/components/common/stack"
@@ -107,7 +107,9 @@ export const Header = ({ className, ...props }: HTMLAttributes<HTMLElement>) => 
             <NavigationLink href="/collections">Collections</NavigationLink>
           </nav>
 
-          <SearchForm className="lg:-mx-2" />
+          <Suspense>
+            <SearchForm className="lg:-mx-2" />
+          </Suspense>
 
           <Button size="md" variant="primary" suffix={<SparkleIcon />} className="-mr-1.5" asChild>
             <Link href="/submit">Submit</Link>
