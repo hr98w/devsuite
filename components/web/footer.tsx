@@ -31,7 +31,12 @@ export const Footer = ({ children, className, ...props }: HTMLAttributes<HTMLEle
           <Stack className="text-sm/normal">
             <TooltipProvider delayDuration={500} disableHoverableContent>
               <Tooltip tooltip="RSS Feed">
-                <NavigationLink href="/rss.xml" target="_blank" rel="noreferrer">
+                <NavigationLink
+                  href="/rss.xml"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="RSS Feed"
+                >
                   <RssIcon className="size-[1.44em]" />
                 </NavigationLink>
               </Tooltip>
@@ -41,6 +46,7 @@ export const Footer = ({ children, className, ...props }: HTMLAttributes<HTMLEle
                   href={`mailto:${config.site.email}`}
                   target="_blank"
                   rel="nofollow noreferrer"
+                  aria-label="Contact us"
                 >
                   <AtSignIcon className="size-[1.44em]" />
                 </NavigationLink>
@@ -51,6 +57,7 @@ export const Footer = ({ children, className, ...props }: HTMLAttributes<HTMLEle
                   href={config.links.twitter}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
+                  aria-label="Follow us on X/Twitter"
                 >
                   <BrandXIcon className="size-[1.44em]" />
                 </NavigationLink>
@@ -61,6 +68,7 @@ export const Footer = ({ children, className, ...props }: HTMLAttributes<HTMLEle
                   href={config.links.github}
                   target="_blank"
                   rel="noopener noreferrer nofollow"
+                  aria-label="View source code"
                 >
                   <BrandGitHubIcon className="size-[1.44em]" />
                 </NavigationLink>
@@ -111,7 +119,7 @@ export const Footer = ({ children, className, ...props }: HTMLAttributes<HTMLEle
           rel="noopener noreferrer nofollow"
         >
           <img
-            src="/_static/authors/piotrkulpinski.jpg"
+            src="/_static/authors/piotrkulpinski.webp"
             alt="Piotr Kulpinski"
             loading="lazy"
             width="16"

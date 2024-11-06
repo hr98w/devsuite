@@ -1,4 +1,4 @@
-![DevSuite](https://devsuite.co/_static/screenshot.png)
+![DevSuite](https://devsuite.co/_static/screenshot.webp)
 
 <p align="center"></p>
 
