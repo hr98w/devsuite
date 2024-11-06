@@ -1,0 +1,35 @@
+import { config } from "~/config"
+import { addUTMTracking } from "~/utils/helpers"
+import Link from "next/link"
+
+## What is {config.site.name}?
+
+{config.site.name} is a **free, curated collection of top-tier developer tools** designed to supercharge your productivity when building your next project.
+
+In today's fast-paced tech world, it's challenging to keep up with the **constant stream of new software development tools**. That's where {config.site.name} comes in. The mission is simple: to help developers like you find the perfect tools to improve your workflow and bring your ideas to life more efficiently.
+
+{config.site.name} is more than just a directory; it's **a community-driven resource**. Feel free to explore, discover, and contribute by submitting your favorite tools to the site. Your input is invaluable in helping to grow and maintain a comprehensive, up-to-date collection.
+
+## Contribute
+
+If you have any suggestions for useful developer tools, feel free to contribute to the list. You can also contribute by suggesting new categories or improving the website. The source code is available on <Link href={config.links.github} rel="nofollow noreferrer">GitHub</Link>.
+
+Enjoy and feel free to contribute!
+
+## About the Author
+
+I’m a software developer and entrepreneur. I’ve been building web applications for over 15 years. I’m passionate about software development and I love to contribute to the community in any way I can.
+
+Some of my other projects:
+
+{config.links.family.map(link => (
+  <li key={link.title}>
+    <Link href={addUTMTracking(link.href, { source: config.site.name.toLowerCase() })} title={link.description}>
+      {link.title}
+    </Link> – {link.description}
+  </li>
+))}
+
+I’m always looking for new projects to work on and new people to collaborate with. Feel free to reach out to me if you have any questions or suggestions.
+
+– <Link href={config.links.author} rel="nofollow noreferrer">Piotr Kulpinski</Link>

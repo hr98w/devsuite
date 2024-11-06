@@ -72,8 +72,8 @@ export const Footer = ({ children, className, ...props }: HTMLAttributes<HTMLEle
         <Stack className="gap-x-4 text-sm/normal flex-col items-start md:col-span-3 md:col-start-8">
           <H6 as="strong">Quick Links:</H6>
 
-          <NavigationLink href="/about">About</NavigationLink>
-          <NavigationLink href="/submit">Submit</NavigationLink>
+          <NavigationLink href="/submit">Add a Free Listing</NavigationLink>
+          <NavigationLink href="/about">About Us</NavigationLink>
           <NavigationLink href={`mailto:${config.site.email}`}>Contact</NavigationLink>
         </Stack>
 

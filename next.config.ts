@@ -1,6 +1,9 @@
+import createMDX from "@next/mdx"
 import type { NextConfig } from "next"
 
 const nextConfig: NextConfig = {
+  pageExtensions: ["md", "mdx", "ts", "tsx"],
+
   images: {
     remotePatterns: [{ hostname: "*.google.com" }, { hostname: "*.amazonaws.com" }],
   },
@@ -29,4 +32,4 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default nextConfig
+export default createMDX({})(nextConfig)
