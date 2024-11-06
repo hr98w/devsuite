@@ -31,6 +31,10 @@ export const ToolListFilters = ({ placeholder }: ToolListFiltersProps) => {
     }))
   }, [q])
 
+  useEffect(() => {
+    setInputValue(filters.q || "")
+  }, [filters])
+
   const sortOptions = [
     { value: "publishedAt.desc", label: "Newest" },
     { value: "publishedAt.asc", label: "Oldest" },
