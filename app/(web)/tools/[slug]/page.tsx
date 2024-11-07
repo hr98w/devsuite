@@ -3,7 +3,6 @@ import { ArrowUpRightIcon, DollarSignIcon, HashIcon, SparkleIcon, TagIcon } from
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import posthog from "posthog-js"
 import { Suspense } from "react"
 import { z } from "zod"
 import { RelatedTools } from "~/app/(web)/tools/[slug]/related-tools"
@@ -100,13 +99,7 @@ export default async function ToolPage({ params }: PageProps) {
             </Stack>
 
             <Stack size="sm" className="items-stretch">
-              <Button
-                size="md"
-                variant="primary"
-                suffix={<ArrowUpRightIcon />}
-                onClick={() => posthog.capture("website_clicked", { url: tool.websiteUrl })}
-                asChild
-              >
+              <Button size="md" variant="primary" suffix={<ArrowUpRightIcon />} asChild>
                 <a
                   href={websiteUrl}
                   target="_blank"
