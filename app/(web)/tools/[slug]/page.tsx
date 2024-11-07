@@ -101,7 +101,8 @@ export default async function ToolPage({ params }: PageProps) {
             <Stack size="sm" className="items-stretch">
               <Button size="md" variant="primary" suffix={<ArrowUpRightIcon />} asChild>
                 <a href={websiteUrl} target="_blank" rel="nofollow noreferrer noopener">
-                  {getUrlHostname(websiteUrl)}
+                  <span className="sm:hidden">Visit</span>
+                  <span className="max-sm:hidden">{getUrlHostname(websiteUrl)}</span>
                 </a>
               </Button>
             </Stack>

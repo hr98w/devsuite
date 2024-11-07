@@ -50,7 +50,7 @@ export const SearchForm = ({ className, ...props }: HTMLAttributes<HTMLFormEleme
           onBlur={handleCollapse}
           ref={inputRef}
           className={cx(
-            "transition-[width,opacity,transform] duration-200 ease-in-out",
+            "transition-[width,opacity,transform] duration-200 ease-in-out max-sm:max-w-24",
             isExpanded ? "w-32 opacity-100" : "w-0 opacity-0",
           )}
         />

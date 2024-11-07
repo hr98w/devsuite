@@ -13,7 +13,7 @@ import { BrandRedditIcon } from "~/components/common/icons/brand-reddit"
 import { BrandWhatsAppIcon } from "~/components/common/icons/brand-whatsapp"
 import { BrandXIcon } from "~/components/common/icons/brand-x"
 import { NavItem, type NavItemProps } from "~/components/web/nav-item"
-import { Dock } from "~/components/web/ui/dock"
+import { Dock, DockItem, DockSeparator } from "~/components/web/ui/dock"
 import { Tooltip, TooltipProvider } from "~/components/web/ui/tooltip"
 import { config } from "~/config"
 import type { ToolOne } from "~/server/tools/payloads"
@@ -117,20 +117,20 @@ export const Nav = ({ tool, previous, next, ...props }: NavProps) => {
       <Dock {...props}>
         {actions.map((action, i) => (
           <Fragment key={i}>
-            {!action && <Dock.Separator />}
+            {!action && <DockSeparator />}
             {action && <NavItem {...action} />}
           </Fragment>
         ))}
 
-        <Dock.Separator />
+        <DockSeparator />
 
         {shareOptions.map(({ platform, url, icon }) => (
           <Tooltip key={platform} tooltip={`Share on ${platform}`} sideOffset={0}>
-            <Dock.Item asChild>
+            <DockItem asChild>
               <Link href={url} target="_blank" rel="noopener noreferrer nofollow">
                 <Slot className="size-4">{icon}</Slot>
               </Link>
-            </Dock.Item>
+            </DockItem>
           </Tooltip>
         ))}
       </Dock>

@@ -3,7 +3,7 @@
 import { Slot } from "@radix-ui/react-slot"
 import hotkeys from "hotkeys-js"
 import { type ReactNode, useEffect } from "react"
-import { Dock } from "~/components/web/ui/dock"
+import { DockItem } from "~/components/web/ui/dock"
 import { Shortcut } from "~/components/web/ui/shortcut"
 import { Tooltip } from "~/components/web/ui/tooltip"
 
@@ -43,11 +43,11 @@ export const NavItem = ({ ...props }: NavItemProps) => {
       }
       sideOffset={0}
     >
-      <Dock.Item isActive={isActive} asChild>
+      <DockItem isActive={isActive} asChild>
         <button type="button" onClick={onClick} disabled={isDisabled}>
           <Slot className="size-4">{icon}</Slot>
         </button>
-      </Dock.Item>
+      </DockItem>
     </Tooltip>
   )
 }

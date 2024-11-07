@@ -3,7 +3,7 @@
 <p align="center"></p>
 
 <p align="center">
-  Build Better, Launch Faster 🚀 Your Go-To Dev Tools
+  Find the Perfect Developer Tools for Your Next Project
   <br>
   <a href="https://devsuite.co"><strong>Learn more »</strong></a>
   <br />
@@ -23,7 +23,7 @@
 </p>
 
 <p align="center">
-  <a href="https://www.producthunt.com/posts/devsuite?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-devsuite" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=579017&theme=light" alt="DevSuite - Build Better, Launch Faster 🚀 Your Go-To Dev Tools | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+  <a href="https://www.producthunt.com/posts/devsuite?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-devsuite" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=579017&theme=light" alt="DevSuite - Find the Perfect Developer Tools for Your Next Project | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 </p>
 
 ## About this project

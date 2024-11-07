@@ -5,6 +5,20 @@ import { type ComponentProps, isValidElement } from "react"
 import { Box } from "~/components/common/box"
 import { type VariantProps, cva, cx } from "~/utils/cva"
 
+const Dock = ({ className, ...props }: ComponentProps<"div">) => {
+  return (
+    <Box>
+      <div
+        className={cx(
+          "flex flex-wrap items-center bg-background/50 shadow-foreground/10 shadow-[0_0_25px_0_var(--tw-shadow-color)] backdrop-blur-xl rounded-xl py-1.5 px-2 isolate",
+          className,
+        )}
+        {...props}
+      />
+    </Box>
+  )
+}
+
 const dockItemVariants = cva({
   base: [
     "relative p-1.5 rounded transition-all duration-150 ease-in-out",
@@ -44,19 +58,4 @@ const DockSeparator = ({ className, ...props }: ComponentProps<"div">) => {
   return <div className={cx("w-[1px] h-4 -my-2 mx-1.5 bg-foreground/15", className)} {...props} />
 }
 
-export const Dock = ({ className, ...props }: ComponentProps<"div">) => {
-  return (
-    <Box>
-      <div
-        className={cx(
-          "flex items-center bg-background/50 shadow-foreground/10 shadow-[0_0_25px_0_var(--tw-shadow-color)] backdrop-blur-xl rounded-xl py-1.5 px-2 isolate",
-          className,
-        )}
-        {...props}
-      />
-    </Box>
-  )
-}
-
-Dock.Item = DockItem
-Dock.Separator = DockSeparator
+export { Dock, DockItem, DockSeparator }
