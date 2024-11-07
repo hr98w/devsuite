@@ -1,5 +1,6 @@
 "use client"
 
+import { isToday } from "date-fns"
 import { SparkleIcon } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -89,7 +90,7 @@ export const Header = ({ className, ...props }: HTMLAttributes<HTMLElement>) => 
           <Stack size="lg" className="mr-auto">
             <Logo />
 
-            {false && (
+            {isToday("2024-11-08") && (
               <Badge
                 size="lg"
                 variant="outline"

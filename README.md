@@ -28,9 +28,9 @@
 
 ## About this project
 
-DevSuite is a **free, curated collection of top-tier developer tools** designed to supercharge your productivity when building your next project.
+DevSuite is a **free, curated collection of the best developer tools** designed to improve your productivity when building your next project.
 
-In today's fast-paced tech world, it's challenging to keep up with the **constant stream of new software development tools**. That's where DevSuite comes in. The mission is simple: to help developers like you find the perfect tools to improve your workflow and bring your ideas to life more efficiently.
+In today's fast-paced tech world, keeping up with the **constant stream of new software development tools** can be challenging. That's where DevSuite comes in. The mission is simple: to help developers like you find the perfect tools to improve your workflow and bring your ideas to life more efficiently.
 
 DevSuite is more than just a directory; it's **a community-driven resource**. Feel free to explore, discover, and contribute by submitting your favorite tools to the site. Your input is invaluable in helping to grow and maintain a comprehensive, up-to-date collection.
 
