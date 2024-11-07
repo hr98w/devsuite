@@ -3,16 +3,16 @@ import { type ComponentProps, type ElementType, isValidElement } from "react"
 import { type VariantProps, cva, cx } from "~/utils/cva"
 
 const headingVariants = cva({
-  base: "font-display font-semibold",
+  base: "font-display font-semibold bg-gradient-to-b from-foreground to-foreground/75 bg-clip-text text-transparent",
 
   variants: {
     size: {
       h1: "text-3xl tracking-micro sm:text-4xl md:text-5xl",
       h2: "text-2xl tracking-micro md:text-3xl lg:text-4xl",
       h3: "text-2xl tracking-micro lg:text-3xl",
-      h4: "text-xl tracking-micro md:text-2xl",
-      h5: "text-base font-medium tracking-micro md:text-lg",
-      h6: "text-sm font-medium",
+      h4: "text-xl tracking-micro md:text-2xl !to-foreground",
+      h5: "text-base font-medium tracking-micro md:text-lg !to-foreground",
+      h6: "text-sm font-medium !to-foreground",
     },
   },
 
