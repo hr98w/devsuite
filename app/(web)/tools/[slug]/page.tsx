@@ -3,7 +3,7 @@ import { ArrowUpRightIcon, DollarSignIcon, HashIcon, SparkleIcon, TagIcon } from
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import { posthog } from "posthog-js"
+import posthog from "posthog-js"
 import { Suspense } from "react"
 import { z } from "zod"
 import { RelatedTools } from "~/app/(web)/tools/[slug]/related-tools"
