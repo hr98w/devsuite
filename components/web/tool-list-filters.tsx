@@ -7,13 +7,15 @@ import { Stack } from "~/components/common/stack"
 import { Input } from "~/components/web/ui/input"
 import { Select } from "~/components/web/ui/select"
 import { useDebounce } from "~/hooks/use-debounce"
+import type { CategoryMany } from "~/server/categories/payloads"
 import { searchParams } from "~/server/tools/search-params"
 
 export type ToolListFiltersProps = {
+  categories: CategoryMany[]
   placeholder?: string
 }
 
-export const ToolListFilters = ({ placeholder }: ToolListFiltersProps) => {
+export const ToolListFilters = ({ categories, placeholder }: ToolListFiltersProps) => {
   const [isLoading, startTransition] = useTransition()
   const [filters, setFilters] = useQueryStates(searchParams, { shallow: false, startTransition })
   const [inputValue, setInputValue] = useState(filters.q || "")
@@ -43,14 +45,13 @@ export const ToolListFilters = ({ placeholder }: ToolListFiltersProps) => {
   ]
 
   return (
-    <Stack className="w-full flex-nowrap">
-      <div className="relative w-full min-w-0">
+    <Stack className="w-full">
+      <div className="relative grow min-w-0">
         <div className="absolute left-4 top-1/2 -translate-y-1/2 opacity-50 pointer-events-none">
           {isLoading ? <LoaderIcon className="animate-spin" /> : <SearchIcon />}
         </div>
 
         <Input
-          name="q"
           size="lg"
           value={inputValue}
           onChange={e => setInputValue(e.target.value)}
@@ -60,9 +61,23 @@ export const ToolListFilters = ({ placeholder }: ToolListFiltersProps) => {
       </div>
 
       <Select
-        name="sort"
         size="lg"
-        className="min-w-36"
+        className="min-w-40 max-sm:flex-1"
+        value={filters.category}
+        onChange={e => updateFilters({ category: e.target.value })}
+      >
+        <option value="">All categories</option>
+
+        {categories.map(category => (
+          <option key={category.slug} value={category.slug}>
+            {category.name}
+          </option>
+        ))}
+      </Select>
+
+      <Select
+        size="lg"
+        className="min-w-36 max-sm:flex-1"
         value={filters.sort}
         onChange={e => updateFilters({ sort: e.target.value })}
       >

@@ -184,10 +184,10 @@ export const Plan = ({
             {discount}% off
             {coupon?.max_redemptions && (
               <span className="text-foreground/65">
-                (
+                ({coupon.max_redemptions - coupon.times_redeemed}
                 {coupon.max_redemptions > coupon.max_redemptions - coupon.times_redeemed &&
-                  `${coupon.max_redemptions}/`}
-                {coupon.max_redemptions - coupon.times_redeemed} left)
+                  `/${coupon.max_redemptions}`}{" "}
+                left)
               </span>
             )}
           </Badge>

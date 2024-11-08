@@ -20,7 +20,7 @@ export const TagCard = ({ className, tag, ...props }: TagCardProps) => {
         {tag.name}
       </H5>
 
-      <hr className="min-w-2 flex-1" />
+      <hr className="min-w-2 flex-1 group-hover:opacity-35" />
 
       <span className="shrink-0 text-xs text-foreground/50">
         {tag._count.tools} {plur("tool", tag._count.tools)}

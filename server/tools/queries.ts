@@ -9,7 +9,7 @@ export const searchTools = async (
   searchParams: SearchParams,
   { where, ...args }: Prisma.ToolFindManyArgs,
 ) => {
-  const { q, page, sort, perPage } = searchParamsCache.parse(searchParams)
+  const { q, category, page, sort, perPage } = searchParamsCache.parse(searchParams)
 
   // Values to paginate the results
   const skip = (page - 1) * perPage
@@ -20,14 +20,17 @@ export const searchTools = async (
   // Example: "title.desc" => ["title", "desc"]
   const [sortBy, sortOrder] = sort.split(".")
 
-  const whereQuery: Prisma.ToolWhereInput = q
-    ? {
-        OR: [
-          { name: { contains: q, mode: "insensitive" } },
-          { description: { contains: q, mode: "insensitive" } },
-        ],
-      }
-    : {}
+  const whereQuery: Prisma.ToolWhereInput = {
+    ...(category && { categories: { some: { slug: category } } }),
+    ...(q && {
+      OR: [
+        { name: { contains: q, mode: "insensitive" } },
+        { description: { contains: q, mode: "insensitive" } },
+      ],
+    }),
+  }
+
+  console.log(whereQuery)
 
   const [tools, totalCount] = await prisma.$transaction([
     prisma.tool.findMany({

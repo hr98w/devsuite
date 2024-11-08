@@ -4,7 +4,7 @@ import { type VariantProps, cva, cx } from "~/utils/cva"
 
 export const inputVariants = cva({
   base: [
-    "appearance-none min-h-0 bg-transparent text-foreground rounded-lg break-words transition duration-150 placeholder:text-inherit placeholder:opacity-50 disabled:opacity-25",
+    "appearance-none min-h-0 bg-transparent text-foreground rounded-lg break-words truncate transition duration-150 placeholder:text-inherit placeholder:opacity-50 disabled:opacity-25",
     "resize-none [field-sizing:content]",
   ],
 
