@@ -30,6 +30,7 @@ import {
   FormLabel,
   FormMessage,
 } from "~/components/common/form"
+import { siteConfig } from "~/config/site"
 import { cx } from "~/utils/cva"
 import { nullsToUndefined } from "~/utils/helpers"
 
@@ -136,7 +137,7 @@ export function ToolForm({
           name="websiteUrl"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Website</FormLabel>
+              <FormLabel>Website URL</FormLabel>
               <FormControl>
                 <Input placeholder="https://posthog.com" {...field} />
               </FormControl>
@@ -147,9 +148,23 @@ export function ToolForm({
 
         <FormField
           control={form.control}
-          name="tagline"
+          name="affiliateUrl"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Affiliate URL</FormLabel>
+              <FormControl>
+                <Input placeholder={siteConfig.url} {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="tagline"
+          render={({ field }) => (
+            <FormItem className="col-span-full">
               <FormLabel>Tagline</FormLabel>
               <FormControl>
                 <Input placeholder="How developers build successful products" {...field} />
