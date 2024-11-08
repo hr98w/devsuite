@@ -19,5 +19,12 @@ export const ToolsListing = async ({ searchParams, where, ...props }: ToolsListi
     findCategories({}),
   ])
 
-  return <ToolList tools={tools} totalCount={totalCount} categories={categories} {...props} />
+  return (
+    <ToolList
+      tools={tools}
+      totalCount={totalCount}
+      categories={where?.categories ? categories : undefined}
+      {...props}
+    />
+  )
 }

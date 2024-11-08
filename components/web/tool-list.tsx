@@ -12,7 +12,7 @@ import { searchParams } from "~/server/tools/search-params"
 
 type ToolListProps = ToolListFiltersProps & {
   tools: ToolMany[]
-  categories: CategoryMany[]
+  categories?: CategoryMany[]
   totalCount: number
 }
 

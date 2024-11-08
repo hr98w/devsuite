@@ -11,7 +11,7 @@ import type { CategoryMany } from "~/server/categories/payloads"
 import { searchParams } from "~/server/tools/search-params"
 
 export type ToolListFiltersProps = {
-  categories: CategoryMany[]
+  categories?: CategoryMany[]
   placeholder?: string
 }
 
@@ -60,20 +60,22 @@ export const ToolListFilters = ({ categories, placeholder }: ToolListFiltersProp
         />
       </div>
 
-      <Select
-        size="lg"
-        className="min-w-40 max-sm:flex-1"
-        value={filters.category}
-        onChange={e => updateFilters({ category: e.target.value })}
-      >
-        <option value="">All categories</option>
+      {categories && (
+        <Select
+          size="lg"
+          className="min-w-40 max-sm:flex-1"
+          value={filters.category}
+          onChange={e => updateFilters({ category: e.target.value })}
+        >
+          <option value="">All categories</option>
 
-        {categories.map(category => (
-          <option key={category.slug} value={category.slug}>
-            {category.name}
-          </option>
-        ))}
-      </Select>
+          {categories.map(category => (
+            <option key={category.slug} value={category.slug}>
+              {category.name}
+            </option>
+          ))}
+        </Select>
+      )}
 
       <Select
         size="lg"
