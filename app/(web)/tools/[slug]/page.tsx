@@ -1,5 +1,4 @@
-import { getUrlHostname } from "@curiousleaf/utils"
-import { ArrowUpRightIcon, DollarSignIcon, HashIcon, SparkleIcon, TagIcon } from "lucide-react"
+import { DollarSignIcon, HashIcon, SparkleIcon, TagIcon } from "lucide-react"
 import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
@@ -7,12 +6,12 @@ import { Suspense } from "react"
 import { z } from "zod"
 import { RelatedTools } from "~/app/(web)/tools/[slug]/related-tools"
 import { RelatedToolsSkeleton } from "~/app/(web)/tools/[slug]/related-tools-skeleton"
+import { ToolLink } from "~/app/(web)/tools/[slug]/tool-link"
 import { H2, H6 } from "~/components/common/heading"
 import { Markdown } from "~/components/common/markdown"
 import { Stack } from "~/components/common/stack"
 import { Nav } from "~/components/web/nav"
 import { Badge } from "~/components/web/ui/badge"
-import { Button } from "~/components/web/ui/button"
 import { FaviconImage } from "~/components/web/ui/favicon"
 import { Gallery } from "~/components/web/ui/gallery"
 import { IntroDescription } from "~/components/web/ui/intro"
@@ -72,8 +71,6 @@ export default async function ToolPage({ params }: PageProps) {
     }),
   ])
 
-  const websiteUrl = tool.affiliateUrl || tool.websiteUrl
-
   const socials = z
     .array(z.object({ url: z.string(), name: z.string() }))
     .nullable()
@@ -99,16 +96,7 @@ export default async function ToolPage({ params }: PageProps) {
             </Stack>
 
             <Stack size="sm" className="items-stretch">
-              <Button size="md" variant="primary" suffix={<ArrowUpRightIcon />} asChild>
-                <a
-                  href={websiteUrl}
-                  target="_blank"
-                  rel={`noreferrer noopener ${tool.isFeatured ? "" : "nofollow"}`}
-                >
-                  <span className="sm:hidden">Visit</span>
-                  <span className="max-sm:hidden">{getUrlHostname(websiteUrl)}</span>
-                </a>
-              </Button>
+              <ToolLink size="md" variant="primary" tool={tool} />
             </Stack>
           </Stack>
 
