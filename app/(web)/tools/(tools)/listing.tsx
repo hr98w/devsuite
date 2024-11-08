@@ -23,7 +23,7 @@ export const ToolsListing = async ({ searchParams, where, ...props }: ToolsListi
     <ToolList
       tools={tools}
       totalCount={totalCount}
-      categories={where?.categories ? categories : undefined}
+      categories={where?.categories ? undefined : categories}
       {...props}
     />
   )

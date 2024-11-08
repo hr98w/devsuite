@@ -30,8 +30,6 @@ export const searchTools = async (
     }),
   }
 
-  console.log(whereQuery)
-
   const [tools, totalCount] = await prisma.$transaction([
     prisma.tool.findMany({
       ...args,

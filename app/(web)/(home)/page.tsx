@@ -44,7 +44,7 @@ export default function Home() {
 
       <Suspense
         fallback={
-          <Listing title="Featured Tools">
+          <Listing>
             {[...Array(6)].map((_, i) => (
               <ToolSkeleton key={i} />
             ))}

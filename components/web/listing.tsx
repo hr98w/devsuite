@@ -5,10 +5,12 @@ import { cx } from "~/utils/cva"
 
 export const Listing = ({ children, className, title, ...props }: ComponentProps<"div">) => {
   return (
-    <div className={cx("flex flex-col gap-6 lg:gap-8", className)} {...props}>
-      <H4 as="h4" className="text-center">
-        {title}
-      </H4>
+    <div className={cx("w-full flex flex-col gap-6 lg:gap-8", className)} {...props}>
+      {title && (
+        <H4 as="h4" className="text-center">
+          {title}
+        </H4>
+      )}
 
       <Grid>{children}</Grid>
     </div>
