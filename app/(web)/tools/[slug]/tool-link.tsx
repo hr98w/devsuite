@@ -15,7 +15,13 @@ export const ToolLink = ({ tool, ...props }: ToolLinkProps) => {
   return (
     <Button
       suffix={<ArrowUpRightIcon />}
-      onClick={() => posthog.capture("tool_clicked", { url: tool.websiteUrl })}
+      onClick={() =>
+        posthog.capture("tool_clicked", {
+          slug: tool.slug,
+          websiteUrl: tool.websiteUrl,
+          isFeatured: tool.isFeatured,
+        })
+      }
       asChild
       {...props}
     >
