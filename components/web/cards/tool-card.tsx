@@ -10,9 +10,10 @@ import type { ToolMany } from "~/server/tools/payloads"
 
 type ToolCardProps = HTMLAttributes<HTMLElement> & {
   tool: ToolMany
+  showBadges?: boolean
 }
 
-export const ToolCard = ({ tool, ...props }: ToolCardProps) => {
+export const ToolCard = ({ tool, showBadges = true, ...props }: ToolCardProps) => {
   return (
     <Card isFeatured={tool.isFeatured} asChild>
       <Link href={`/tools/${tool.slug}`} prefetch {...props}>
@@ -23,11 +24,12 @@ export const ToolCard = ({ tool, ...props }: ToolCardProps) => {
             </Badge>
           )}
 
-          {tool.collections.map(collection => (
-            <Badge key={collection.id} variant="outline">
-              {collection.name}
-            </Badge>
-          ))}
+          {showBadges &&
+            tool.collections.map(collection => (
+              <Badge key={collection.id} variant="outline">
+                {collection.name}
+              </Badge>
+            ))}
         </Stack>
 
         {tool.isFeatured && <CardStars className="brightness-125" />}

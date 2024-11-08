@@ -12,7 +12,7 @@ export const ListingTools = async () => {
   return (
     <Listing title="Featured Tools">
       {tools.map((tool, i) => (
-        <ToolCard key={i} tool={tool} />
+        <ToolCard key={i} tool={tool} showBadges={false} />
       ))}
     </Listing>
   )

@@ -89,7 +89,7 @@ export const Header = ({ className, ...props }: HTMLAttributes<HTMLElement>) => 
           <Stack size="lg" className="mr-auto">
             <Logo />
 
-            {false && (
+            {true && (
               <Badge
                 size="lg"
                 variant="outline"
