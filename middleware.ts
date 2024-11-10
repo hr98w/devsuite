@@ -17,9 +17,10 @@ export const config = {
 }
 
 export default auth(({ nextUrl, auth }) => {
-  if (!auth && nextUrl.pathname.startsWith("/admin")) {
-    return NextResponse.redirect(new URL("/login", nextUrl))
-  }
+  // disable auth
+  // if (!auth && nextUrl.pathname.startsWith("/admin")) {
+  //   return NextResponse.redirect(new URL("/login", nextUrl))
+  // }
 
   return NextResponse.next()
 })

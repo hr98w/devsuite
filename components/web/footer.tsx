@@ -112,7 +112,7 @@ export const Footer = ({ children, className, ...props }: HTMLAttributes<HTMLEle
       </div>
 
       <div className="flex flex-row flex-wrap items-end justify-between gap-x-4 gap-y-2 w-full">
-        <NavigationLink
+        {/* <NavigationLink
           href={config.links.author}
           className="text-xs"
           target="_blank"
@@ -128,7 +128,7 @@ export const Footer = ({ children, className, ...props }: HTMLAttributes<HTMLEle
             className="max-sm:hidden size-4 rounded-full"
           />
           Made by Piotr Kulpinski
-        </NavigationLink>
+        </NavigationLink> */}
 
         <p className="text-xs text-foreground/50">This website may contain affiliate links</p>
       </div>

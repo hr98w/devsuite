@@ -6,6 +6,13 @@ import wretch from "wretch"
 import { env } from "~/env"
 import { s3Client } from "~/services/aws-s3"
 
+const transformFaviconUrl = (url: string ): string  => {  
+  return url.replace(
+    'directory.995fe370bbd6d82dfd2770ffa51a2748.r2.cloudflarestorage.com',
+    'pub-fd21b23bbcfa43efaafff07a4c5961fa.r2.dev'
+  )
+}
+
 /**
  * Uploads a file to S3 and returns the S3 location.
  * @param file - The file to upload.
@@ -32,7 +39,7 @@ export const uploadToS3Storage = async (file: Buffer, key: string) => {
     throw new Error("Failed to upload")
   }
 
-  return result.Location
+  return transformFaviconUrl(result.Location)
 }
 
 /**
@@ -128,6 +135,7 @@ export const uploadScreenshot = async (url: string, s3Key: string): Promise<stri
 
     // Storage options
     store: "true",
+    storage_endpoint: `https://${env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
     storage_path: s3Key,
     storage_bucket: env.S3_BUCKET,
     storage_access_key_id: env.S3_ACCESS_KEY,
@@ -139,7 +147,7 @@ export const uploadScreenshot = async (url: string, s3Key: string): Promise<stri
     const endpointUrl = `https://api.screenshotone.com/take?${queryParams.toString()}`
     const { store } = await wretch(endpointUrl).get().json<{ store: { location: string } }>()
 
-    return store.location
+    return transformFaviconUrl(store.location)
   } catch (error) {
     console.error("Error fetching screenshot:", error)
     throw error

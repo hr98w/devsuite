@@ -1,5 +1,6 @@
 import "server-only"
-import { createAnthropic } from "@ai-sdk/anthropic"
+// import { createAnthropic } from "@ai-sdk/anthropic"
+import { createOpenAI } from "@ai-sdk/openai"
 import { openai } from "@ai-sdk/openai"
 import { slugify } from "@curiousleaf/utils"
 import type { Tool } from "@prisma/client"
@@ -17,8 +18,15 @@ import { prisma } from "~/services/prisma"
  * @returns The generated content.
  */
 export const generateContent = async (tool: Tool | Jsonify<Tool>) => {
-  const model = createAnthropic()("claude-3-5-sonnet-20240620")
-  const categories = await prisma.category.findMany()
+  // const model = createAnthropic()("claude-3-5-sonnet-20240620")
+  // const model = groq("llama-3.1-8b-instant")
+
+  const model = createOpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+    baseURL: process.env.OPENAI_ENDPOINT,
+    })("meta-llama/Meta-Llama-3.1-8B-Instruct")
+
+  // const categories = await prisma.category.findMany()
 
   try {
     const scrapedData = await firecrawlClient.scrapeUrl(tool.websiteUrl, {
@@ -52,9 +60,9 @@ export const generateContent = async (tool: Tool | Jsonify<Tool>) => {
       //   .describe("A list of categories for the tool."),
       tags: z
         .array(z.string().transform(name => slugify(name)))
-        .max(10)
+        .max(5)
         .describe(
-          "A list (max 10) of tags for the tool. Should be short, descriptive and related to software development",
+          "A list (max 5) of tags for the tool. Should be short, descriptive and related to software development",
         ),
     })
 
@@ -76,10 +84,18 @@ export const generateContent = async (tool: Tool | Jsonify<Tool>) => {
         description: ${scrapedData.metadata?.description}
         content: ${scrapedData.markdown}
       `,
+      // prompt: `
+      //   Provide me details for the following data:
+      //   title: "discordts"
+      //   description: "this is a tool"
+      //   content: "this is a discord tool"
+      // `,
       //   Here is the list of categories to assign to the tool:
       //   ${categories.map(({ name }) => name).join("\n")}
       // `,
       temperature: 0.3,
+      // this field is needed to disbale tool_choice when using siliconflow
+      mode: 'json', 
     })
 
     return object

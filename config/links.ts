@@ -3,7 +3,7 @@ import { env } from "~/env"
 export const linksConfig = {
   feed: `${env.NEXT_PUBLIC_SITE_URL}/rss.xml`,
   author: "https://kulpinski.pl",
-  twitter: "https://x.com/devsuiteco",
+  twitter: "https://x.com/hr98w",
   github: "https://github.com/piotrkulpinski/devsuite",
   producthunt: "https://www.producthunt.com/posts/devsuite",
   family: [

@@ -45,15 +45,16 @@ export const toolScheduled = inngest.createFunction(
         })
       }),
 
-      step.run("upload-screenshot", async () => {
-        const { id, slug, websiteUrl } = tool
-        const screenshotUrl = await uploadScreenshot(websiteUrl, `tools/${slug}/screenshot`)
+      // disable screenshot
+      // step.run("upload-screenshot", async () => {
+      //   const { id, slug, websiteUrl } = tool
+      //   const screenshotUrl = await uploadScreenshot(websiteUrl, `tools/${slug}/screenshot`)
 
-        return prisma.tool.update({
-          where: { id },
-          data: { screenshotUrl },
-        })
-      }),
+      //   return prisma.tool.update({
+      //     where: { id },
+      //     data: { screenshotUrl },
+      //   })
+      // }),
 
       step.run("get-socials", async () => {
         const socials = await getSocialsFromUrl(tool.websiteUrl)

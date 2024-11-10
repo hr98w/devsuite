@@ -76,7 +76,7 @@ export const SubmitForm = ({ className, ...props }: HTMLAttributes<HTMLFormEleme
             <FormItem>
               <FormLabel isRequired>Your Name:</FormLabel>
               <FormControl>
-                <Input size="lg" placeholder="John Doe" data-1p-ignore {...field} />
+                <Input size="lg" placeholder="Haoran" data-1p-ignore {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -93,7 +93,7 @@ export const SubmitForm = ({ className, ...props }: HTMLAttributes<HTMLFormEleme
                 <Input
                   type="email"
                   size="lg"
-                  placeholder="john@doe.com"
+                  placeholder="haorandev@gmail.com"
                   data-1p-ignore
                   {...field}
                 />
@@ -110,7 +110,7 @@ export const SubmitForm = ({ className, ...props }: HTMLAttributes<HTMLFormEleme
             <FormItem>
               <FormLabel isRequired>Name:</FormLabel>
               <FormControl>
-                <Input size="lg" placeholder="PostHog" data-1p-ignore {...field} />
+                <Input size="lg" placeholder="ChatGPT" data-1p-ignore {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -124,7 +124,7 @@ export const SubmitForm = ({ className, ...props }: HTMLAttributes<HTMLFormEleme
             <FormItem>
               <FormLabel isRequired>Website URL:</FormLabel>
               <FormControl>
-                <Input type="url" size="lg" placeholder="https://posthog.com" {...field} />
+                <Input type="url" size="lg" placeholder="https://chat.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

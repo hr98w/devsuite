@@ -125,6 +125,7 @@ export const reuploadToolAssets = authedProcedure
   .handler(async ({ input: { id } }) => {
     const tool = await prisma.tool.findUniqueOrThrow({ where: { id } })
 
+    // disable screenshot when reupload asset
     const [faviconUrl, screenshotUrl] = await Promise.all([
       uploadFavicon(tool.websiteUrl, `tools/${tool.slug}/favicon`),
       uploadScreenshot(tool.websiteUrl, `tools/${tool.slug}/screenshot`),
@@ -134,4 +135,12 @@ export const reuploadToolAssets = authedProcedure
       where: { id: tool.id },
       data: { faviconUrl, screenshotUrl },
     })
+    // const [faviconUrl] = await Promise.all([
+    //   uploadFavicon(tool.websiteUrl, `tools/${tool.slug}/favicon`),
+    // ])
+
+    // await prisma.tool.update({
+    //   where: { id: tool.id },
+    //   data: { faviconUrl },
+    // })
   })

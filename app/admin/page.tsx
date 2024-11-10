@@ -28,9 +28,9 @@ export default function DashboardPage() {
           <StatsCard />
         </Suspense>
 
-        <Suspense fallback={<AnalyticsCardSkeleton className="col-span-full lg:col-span-2" />}>
+        {/* <Suspense fallback={<AnalyticsCardSkeleton className="col-span-full lg:col-span-2" />}>
           <AnalyticsCard className="col-span-full lg:col-span-2" />
-        </Suspense>
+        </Suspense> */}
 
         <Suspense fallback={<ScheduledToolsCardSkeleton className="col-span-full lg:col-span-2" />}>
           <ScheduledToolsCard className="col-span-full lg:col-span-2" />
