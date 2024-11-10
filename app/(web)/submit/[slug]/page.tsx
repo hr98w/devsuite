@@ -5,7 +5,7 @@ import { notFound } from "next/navigation"
 import type { SearchParams } from "nuqs"
 import { createSearchParamsCache, parseAsBoolean, parseAsString } from "nuqs/server"
 import { Suspense, cache } from "react"
-import { SubmitProducts } from "~/app/(web)/submit/[slug]/products"
+import { SubmitProductsSimple } from "~/app/(web)/submit/[slug]/simple-products"
 import { Prose } from "~/components/common/prose"
 import { PlanSkeleton } from "~/components/web/plan"
 import { Intro, IntroDescription, IntroTitle } from "~/components/web/ui/intro"
@@ -112,7 +112,7 @@ export default async function SubmitPackages({ params, searchParams }: PageProps
       ) : (
         <div className="flex flex-wrap justify-center gap-5">
           <Suspense fallback={[...Array(3)].map((_, index) => <PlanSkeleton key={index} />)}>
-            <SubmitProducts tool={tool} />
+            <SubmitProductsSimple tool={tool} />
           </Suspense>
         </div>
       )}
